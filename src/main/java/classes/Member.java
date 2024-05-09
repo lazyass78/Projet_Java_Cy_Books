@@ -18,6 +18,28 @@ public class Member {
         this.birthDate = birthDate;
         this.mail = mail;
     }
-    public register(Me)
 
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public List<Document> getBorrowedBooks() {
+        return borrowedBooks;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setBorrowedBooks(List<Document> borrowedBooks) {
+        this.borrowedBooks = borrowedBooks;
+    }
 }
