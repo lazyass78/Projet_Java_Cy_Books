@@ -15,6 +15,15 @@ public abstract class Document {
     private int stock;
     private List<Topic> topics;
 
+    public Document(String name, String author, int year, String editor, String ISBN, int stock, List<Topic> topics) {
+        this.name = name;
+        this.ISBN = ISBN;
+        this.author = author;
+        this.stock = stock;
+        this.year = year;
+        this.topics = topics;
+    }
+
     public String getName() {
         return this.name;
     }
