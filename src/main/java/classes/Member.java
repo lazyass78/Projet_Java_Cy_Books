@@ -39,7 +39,7 @@ public class Member {
         return name;
     }
 
-    public void setBorrowedBooks(List<Document> borrowedBooks) {
-        this.borrowedBooks = borrowedBooks;
+    public void addBorrowedBooks(Document document) {
+        this.borrowedBooks.add(document);
     }
 }
