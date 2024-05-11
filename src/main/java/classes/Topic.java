@@ -1,6 +1,6 @@
 package classes;
 
-public class Sujet {
+public class Topic {
     public String keyword;
 
 }

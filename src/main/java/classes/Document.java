@@ -13,7 +13,7 @@ public abstract class Document {
     public String editor;
     public String ISBN;
     public int stock;
-    public List<Sujet> topics;
+    public List<Topic> topics;
 
     public String getName() {
         return this.name;
@@ -38,7 +38,7 @@ public abstract class Document {
         return this.stock;
     }
 
-    public List<Sujet> getTopics() {
+    public List<Topic> getTopics() {
         return this.topics;
     }
 
@@ -66,7 +66,7 @@ public abstract class Document {
         this.year = year;
     }
 
-    public void setTopics(List<Sujet> topics) {
+    public void setTopics(List<Topic> topics) {
         this.topics = topics;
     }
 }
