@@ -19,7 +19,6 @@ public class Borrowing {
     }
 
     public boolean extendDate(Date extendDate) {
-        // vérifier si la date donné est plus loin que celle qu'on a
         if(extendDate.after(this.returnDate)) {
             this.returnDate = extendDate;
             return true;
