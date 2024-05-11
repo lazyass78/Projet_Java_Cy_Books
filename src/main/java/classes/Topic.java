@@ -1,6 +1,9 @@
 package classes;
 
 public class Topic {
-    public String keyword;
+    private String keyword;
 
+    public String getKeyword() {
+        return keyword;
+    }
 }

@@ -7,13 +7,13 @@ import java.util.List;
  * a document from the library, it's an abstract class because we are going to make more precise document, like a novel ...
  */
 public abstract class Document {
-    public String name;
-    public String author;
-    public int year;
-    public String editor;
-    public String ISBN;
-    public int stock;
-    public List<Topic> topics;
+    private String name;
+    private String author;
+    private int year;
+    private String editor;
+    private String ISBN;
+    private int stock;
+    private List<Topic> topics;
 
     public String getName() {
         return this.name;
