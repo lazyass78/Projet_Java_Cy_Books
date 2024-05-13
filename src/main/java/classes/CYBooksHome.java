@@ -11,7 +11,7 @@ public class CYBooksHome extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(CYBooksHome.class.getResource("classes/CYBooks_Home.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(CYBooksHome.class.getResource("CYBooks_Home.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Hello!");
         stage.setScene(scene);
