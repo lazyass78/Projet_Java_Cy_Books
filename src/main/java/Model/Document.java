@@ -1,5 +1,4 @@
-package classes;
-
+package Model;
 
 import java.util.List;
 
