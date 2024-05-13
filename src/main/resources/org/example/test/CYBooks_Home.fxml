@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.test.CYBooksHome">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.test.CYBooksHome" stylesheets="@style.css">
    <children>
       <ButtonBar layoutX="78.0" layoutY="58.0" prefHeight="40.0" prefWidth="444.0">
          <buttons>
