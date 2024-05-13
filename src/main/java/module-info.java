@@ -4,4 +4,6 @@ module org.example.test {
 
     opens classes to javafx.fxml;
     exports classes;
+    exports applications;
+    opens applications to javafx.fxml;
 }

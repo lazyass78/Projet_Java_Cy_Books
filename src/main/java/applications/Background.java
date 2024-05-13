@@ -1,4 +1,4 @@
-package classes;
+package applications;
 
 import javafx.application.Application;
 import javafx.scene.Group;
