@@ -9,13 +9,13 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksHome">
+<AnchorPane fx:id="mainContainer" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksHomeController">
    <children>
       <ButtonBar layoutX="78.0" layoutY="58.0" prefHeight="40.0" prefWidth="444.0">
          <buttons>
-            <Button mnemonicParsing="false" text="Gestion des Emprunts" />
-            <Button mnemonicParsing="false" text="Gestion des adhérents" />
-            <Button mnemonicParsing="false" text="Gestion des livres" />
+            <Button fx:id="Borrowing" mnemonicParsing="false" onAction="#Page_borrowing" text="Gestion des Emprunts" />
+            <Button fx:id="Member" mnemonicParsing="false" onAction="#Page_member" text="Gestion des adhérents" />
+            <Button fx:id="Document" mnemonicParsing="false" onAction="#Page_document" text="Gestion des livres" />
          </buttons>
       </ButtonBar>
       <Line endX="361.0" endY="-1.52587890625E-5" layoutX="239.0" layoutY="49.0" startX="-238.99998474121094" startY="-1.52587890625E-5" />
