@@ -27,6 +27,9 @@ public class CYBooksHomeController {
         loadView("CYBooks_Document.fxml");
     }
 
+    public void AddBorrowing(){
+        loadView("CYBooks_NewBorrowing.fxml");
+    }
     private void loadView(String fxmlFileName) {
         try {
             // Charge le fichier FXML de la vue spécifiée
