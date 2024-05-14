@@ -1,7 +1,8 @@
-module org.example.test {
+module Controller {
     requires javafx.controls;
     requires javafx.fxml;
 
-    opens classes to javafx.fxml;
-    exports classes;
+    opens Controller to javafx.fxml;
+
+    exports Controller;
 }
