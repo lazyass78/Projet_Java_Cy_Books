@@ -26,7 +26,7 @@
       </ImageView>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="204.0" layoutY="5.0" prefHeight="32.0" prefWidth="189.0" text="CY Books" textFill="#4da6ff">
          <font>
-            <Font size="29.0" />
+            <Font name="System Bold" size="29.0" />
          </font>
       </Label>
    </children>
