@@ -1,5 +1,6 @@
 package Controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,32 +23,37 @@ public class CYBooksHomeController {
 
 
 
-    public void Page_borrowing() {
+    @FXML public void Page_borrowing() {
         loadView("CYBooks_Borrowing.fxml");
     }
 
-    public void Page_member(){
+    @FXML public void Page_member(){
         loadView("CYBooks_Member.fxml");
     }
 
-    public void Page_document(){
+    @FXML public void Page_document(){
         loadView("CYBooks_Document.fxml");
     }
 
-    public void AddBorrowing(){
+    @FXML public void AddBorrowing(){
         loadView("CYBooks_NewBorrowing.fxml");
     }
 
-    public void SaveBorrowing(){
+    @FXML public void SaveBorrowing(){
         loadView("CYBooks_Borrowing.fxml");
     }
 
-    public void CancelBorrowing(){
+    @FXML public void CancelBorrowing(){
         loadView("CYBooks_Borrowing.fxml");
     }
 
-    private void loadView(String fxmlFileName) {
+    @FXML private void loadView(String fxmlFileName) {
         try {
+            if (mainContainer == null) {
+                System.err.println("Erreur : mainContainer n'a pas été correctement initialisé.");
+                return;
+            }
+
             // Charge le fichier FXML de la vue spécifiée
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent view = fxmlLoader.load();
@@ -58,5 +64,13 @@ public class CYBooksHomeController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void SearchMember() {
+    }
+
+    public void returnMain() {
+        loadView("CYBooks_Home.fxml");
     }
 }
