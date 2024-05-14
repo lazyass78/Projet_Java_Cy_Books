@@ -7,7 +7,6 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksHomeController">
    <children>
       <Label layoutX="186.0" prefHeight="43.0" prefWidth="227.0" text="Nouvel emprunt" textFill="#4da6ff">
@@ -28,7 +27,7 @@
       </Label>
       <TextField layoutX="303.0" layoutY="90.0" />
       <TextField layoutX="303.0" layoutY="128.0" />
-      <Button fx:id="SaveBorrowing" layoutX="368.0" layoutY="231.0" mnemonicParsing="false" onAction="#SaveBorrowing" text="Enregister" />
+      <Button fx:id="SaveBorrowing" layoutX="368.0" layoutY="231.0" mnemonicParsing="false" onAction="#SaveBorrowing" text="Enregistrer" />
       <Button fx:id="CancelBorrowing" layoutX="193.0" layoutY="231.0" mnemonicParsing="false" onAction="#CancelBorrowing" text="Annuler" />
    </children>
 </AnchorPane>
