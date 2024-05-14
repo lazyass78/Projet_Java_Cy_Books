@@ -21,6 +21,10 @@ public class CYBooksHomeController {
     @FXML private Button SaveBorrowing;
     @FXML private Button CancelBorrowing;
 
+    @FXML private Button BackHomePage;
+
+    @FXML private Button Search;
+    @FXML private Button BackHomePage2;
 
 
     @FXML public void Page_borrowing() {
