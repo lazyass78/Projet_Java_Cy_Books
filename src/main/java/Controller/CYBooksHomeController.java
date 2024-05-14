@@ -11,9 +11,16 @@ import java.io.IOException;
 public class CYBooksHomeController {
 
     @FXML private AnchorPane mainContainer;
-    @FXML private Button Emprunts;
-    @FXML private Button Adhérents;
-    @FXML private Button Livres;
+    @FXML private Button Borrowing;
+    @FXML private Button Member;
+    @FXML private Button Document;
+
+    @FXML private Button NewBorrowing;
+
+    @FXML private Button SaveBorrowing;
+    @FXML private Button CancelBorrowing;
+
+
 
     public void Page_borrowing() {
         loadView("CYBooks_Borrowing.fxml");
@@ -30,6 +37,15 @@ public class CYBooksHomeController {
     public void AddBorrowing(){
         loadView("CYBooks_NewBorrowing.fxml");
     }
+
+    public void SaveBorrowing(){
+        loadView("CYBooks_Borrowing.fxml");
+    }
+
+    public void CancelBorrowing(){
+        loadView("CYBooks_Borrowing.fxml");
+    }
+
     private void loadView(String fxmlFileName) {
         try {
             // Charge le fichier FXML de la vue spécifiée
