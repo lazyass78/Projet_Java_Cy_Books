@@ -20,6 +20,6 @@
       </Label>
       <TextField layoutX="185.0" layoutY="136.0" prefHeight="26.0" prefWidth="269.0" />
       <Button fx:id="Search" layoutX="469.0" layoutY="139.0" mnemonicParsing="false" onAction="#SearchMember" text="Rechercher" />
-      <Button fx:id="ReturnMain2" layoutX="14.0" layoutY="73.0" mnemonicParsing="false" onAction="#returnMain" text="Retour à l'accueil" />
+      <Button fx:id="BackHomePage2" layoutX="14.0" layoutY="73.0" mnemonicParsing="false" onAction="#returnMain" text="Retour à l'accueil" />
    </children>
 </AnchorPane>
