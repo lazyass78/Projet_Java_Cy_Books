@@ -26,11 +26,12 @@ public class CYBooksHomeController {
     @FXML private Button Search;
     @FXML private Button BackHomePage2;
 
-
+    /**
+     *
+     */
     @FXML public void Page_borrowing() {
         loadView("CYBooks_Borrowing.fxml");
     }
-
     @FXML public void Page_member(){
         loadView("CYBooks_Member.fxml");
     }
