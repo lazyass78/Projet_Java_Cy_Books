@@ -1,25 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- This is the FXML file for the "CYBooks_Member" view -->
+<!-- It defines the layout and components of the borrowing management page -->
+
+<!-- Import statements for JavaFX components -->
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
+<!-- AnchorPane serves as the root container -->
 <AnchorPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksHomeController">
    <children>
+      <!-- Label for the main title -->
       <Label layoutX="145.0" layoutY="14.0" prefHeight="43.0" prefWidth="309.0" text="Gestion des adhérents" textFill="#4da6ff">
+         <!-- Font style -->
          <font>
             <Font name="System Bold" size="29.0" />
          </font>
       </Label>
+
+      <!-- Line shape -->
       <Line endX="291.0" endY="-1.1444091796875E-5" layoutX="309.0" layoutY="60.0" startX="-309.0" startY="-1.1444091796875E-5" />
+
+      <!-- Label for displaying text -->
       <Label layoutX="39.0" layoutY="136.0" text="ID adhérent">
+         <!-- Font style -->
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
+
+      <!-- TextField for user input -->
       <TextField layoutX="185.0" layoutY="136.0" prefHeight="26.0" prefWidth="269.0" />
-      <Button fx:id="Search" layoutX="469.0" layoutY="139.0" mnemonicParsing="false" onAction="#SearchMember" text="Rechercher" />
-      <Button fx:id="BackHomePage2" layoutX="14.0" layoutY="73.0" mnemonicParsing="false" onAction="#returnMain" text="Retour à l'accueil" />
+
+      <!-- Button for search a member -->
+      <Button fx:id="Search" layoutX="469.0" layoutY="139.0" mnemonicParsing="false" onAction="#SearchMember" text="Rechercher" /> <!-- launch the method "SearchMember" when the button is clicked -->
+
+      <!-- Button for return at homepage -->
+      <Button fx:id="BackHomePage2" layoutX="14.0" layoutY="73.0" mnemonicParsing="false" onAction="#returnMain" text="Retour à l'accueil" /> <!-- launch the method "returnMain" when the button is clicked -->
    </children>
 </AnchorPane>
