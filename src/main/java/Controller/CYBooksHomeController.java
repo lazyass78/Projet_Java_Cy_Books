@@ -16,12 +16,10 @@ public class CYBooksHomeController {
     @FXML private Button Member;
     @FXML private Button Document;
 
-    @FXML private Button NewBorrowing;
 
     @FXML private Button SaveBorrowing;
     @FXML private Button CancelBorrowing;
 
-    @FXML private Button BackHomePage;
 
     @FXML private Button Search;
     @FXML private Button BackHomePage2;
@@ -39,9 +37,6 @@ public class CYBooksHomeController {
         loadView("CYBooks_Document.fxml");
     }
 
-    @FXML public void AddBorrowing(){
-        loadView("CYBooks_NewBorrowing.fxml");
-    }
 
     @FXML public void SaveBorrowing(){
         loadView("CYBooks_Borrowing.fxml");
