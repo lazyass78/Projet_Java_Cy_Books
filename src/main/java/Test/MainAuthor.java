@@ -24,7 +24,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class Main extends Application {
+public class MainAuthor extends Application {
     private TextField searchField;
     private VBox bookContainer;
     private Label pageInfo;
