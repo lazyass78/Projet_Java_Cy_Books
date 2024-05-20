@@ -9,9 +9,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksHomeController">
+<AnchorPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksMemberController">
    <children>
-      <Label layoutX="145.0" layoutY="14.0" prefHeight="43.0" prefWidth="309.0" text="Member management" textFill="#4da6ff">
+      <Label layoutX="145.0" layoutY="7.0" prefHeight="43.0" prefWidth="309.0" text="Member management" textFill="#4da6ff">
          <font>
             <Font name="System Bold" size="29.0" />
          </font>
@@ -24,15 +24,15 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="202.0" layoutY="109.0" text="Name">
+      <Label layoutX="202.0" layoutY="109.0" text="First Name">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField layoutX="353.0" layoutY="74.0" />
-      <TextField layoutX="353.0" layoutY="112.0" />
-      <Button layoutX="29.0" layoutY="353.0" mnemonicParsing="false" text="+ Add member" />
-      <Button layoutX="462.0" layoutY="353.0" mnemonicParsing="false" text="- Delete member" />
+      <TextField fx:id="memberId" layoutX="353.0" layoutY="74.0" />
+      <TextField fx:id="name" layoutX="353.0" layoutY="112.0" />
+      <Button fx:id="Add" layoutX="29.0" layoutY="353.0" mnemonicParsing="false" onAction="#AddMember" text="+ Add member" />
+      <Button fx:id="Delete" layoutX="462.0" layoutY="353.0" mnemonicParsing="false" onAction="#DeleteMember" text="- Delete member" />
       <TableView fx:id="borrowingTableView" layoutX="38.0" layoutY="212.0" prefHeight="118.0" prefWidth="540.0">
          <columns>
             <TableColumn fx:id="memberIdColumn" prefWidth="100.79998779296875" text="ID member" />

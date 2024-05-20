@@ -5,46 +5,25 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
-public class CYBooksHomeController {
-
+public class CYBooksDocumentController {
     @FXML private AnchorPane mainContainer;
 
-    @FXML private Button Borrowing;
-    @FXML private Button Member;
-    @FXML private Button Document;
-
-
-    @FXML private Button SaveBorrowing;
-    @FXML private Button CancelBorrowing;
-
+    @FXML private TextField dataBook;
 
     @FXML private Button Search;
-    @FXML private Button BackHomePage2;
+    @FXML private Button BackHomePage;
 
-
-    @FXML public void Page_borrowing() {
-        loadView("CYBooks_Borrowing.fxml");
+    public void SearchDocument(ActionEvent actionEvent) {
+        // APi pour rechercher les documents
     }
 
-    @FXML public void Page_member(){
-        loadView("CYBooks_Member.fxml");
-    }
-
-    @FXML public void Page_document(){
-        loadView("CYBooks_Document.fxml");
-    }
-
-
-    @FXML public void SaveBorrowing(){
-        loadView("CYBooks_Borrowing.fxml");
-    }
-
-    @FXML public void CancelBorrowing(){
-        loadView("CYBooks_Borrowing.fxml");
+    public void returnMain() {
+        loadView("CYBooks_Home.fxml");
     }
 
     @FXML private void loadView(String fxmlFileName) {
@@ -64,13 +43,5 @@ public class CYBooksHomeController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    public void SearchMember() {
-    }
-
-    public void returnMain() {
-        loadView("CYBooks_Home.fxml");
     }
 }

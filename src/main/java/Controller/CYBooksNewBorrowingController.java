@@ -9,41 +9,21 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
-public class CYBooksHomeController {
+public class CYBooksNewBorrowingController {
 
-    @FXML private AnchorPane mainContainer;
-
-    @FXML private Button Borrowing;
-    @FXML private Button Member;
-    @FXML private Button Document;
-
+    @FXML
+    private AnchorPane mainContainer;
 
     @FXML private Button SaveBorrowing;
-    @FXML private Button CancelBorrowing;
+    @FXML private Button Cancel;
 
 
-    @FXML private Button Search;
-    @FXML private Button BackHomePage2;
-
-
-    @FXML public void Page_borrowing() {
+    public void SaveNewBorrowing(ActionEvent actionEvent) {
+        // ajouter l'emprunt dans la bdd ...
         loadView("CYBooks_Borrowing.fxml");
     }
 
-    @FXML public void Page_member(){
-        loadView("CYBooks_Member.fxml");
-    }
-
-    @FXML public void Page_document(){
-        loadView("CYBooks_Document.fxml");
-    }
-
-
-    @FXML public void SaveBorrowing(){
-        loadView("CYBooks_Borrowing.fxml");
-    }
-
-    @FXML public void CancelBorrowing(){
+    public void CancelBorrowing() {
         loadView("CYBooks_Borrowing.fxml");
     }
 
@@ -64,13 +44,5 @@ public class CYBooksHomeController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    public void SearchMember() {
-    }
-
-    public void returnMain() {
-        loadView("CYBooks_Home.fxml");
     }
 }

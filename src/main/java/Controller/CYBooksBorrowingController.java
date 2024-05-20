@@ -3,6 +3,7 @@ package Controller;
 import Utils.DatabaseUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,8 +20,10 @@ import java.sql.Statement;
 
 public class CYBooksBorrowingController {
     @FXML private AnchorPane mainContainer;
+
     @FXML private Button NewBorrowing;
     @FXML private Button BackHomePage;
+    @FXML private Button Search;
 
     @FXML private TableView<BorrowingRecord> borrowingTableView;
     @FXML private TableColumn<BorrowingRecord, String> isbnColumn;
@@ -71,10 +74,6 @@ public class CYBooksBorrowingController {
         borrowingTableView.setItems(borrowingData);
     }
 
-    public void AddBorrowing() {
-        loadView("CYBooks_NewBorrowing.fxml");
-    }
-
     private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
@@ -94,9 +93,19 @@ public class CYBooksBorrowingController {
         }
     }
 
+    public void AddBorrowing() {
+        loadView("CYBooks_NewBorrowing.fxml");
+    }
+
     public void returnMain() {
         loadView("CYBooks_Home.fxml");
     }
+
+    public void SearchDocument(ActionEvent actionEvent) {
+        // a completer API tout ça
+    }
+
+    // est ce vraiment utile de faire cette classe ??
 
     // Classe pour représenter une ligne de l'historique des emprunts
     public static class BorrowingRecord {

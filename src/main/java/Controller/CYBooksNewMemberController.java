@@ -9,45 +9,15 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
-public class CYBooksHomeController {
+public class CYBooksNewMemberController {
 
     @FXML private AnchorPane mainContainer;
 
-    @FXML private Button Borrowing;
-    @FXML private Button Member;
-    @FXML private Button Document;
+    @FXML private Button SaveMember;
+    @FXML private Button Cancel;
 
-
-    @FXML private Button SaveBorrowing;
-    @FXML private Button CancelBorrowing;
-
-
-    @FXML private Button Search;
-    @FXML private Button BackHomePage2;
-
-
-    @FXML public void Page_borrowing() {
-        loadView("CYBooks_Borrowing.fxml");
-    }
-
-    @FXML public void Page_member(){
-        loadView("CYBooks_Member.fxml");
-    }
-
-    @FXML public void Page_document(){
-        loadView("CYBooks_Document.fxml");
-    }
-
-
-    @FXML public void SaveBorrowing(){
-        loadView("CYBooks_Borrowing.fxml");
-    }
-
-    @FXML public void CancelBorrowing(){
-        loadView("CYBooks_Borrowing.fxml");
-    }
-
-    @FXML private void loadView(String fxmlFileName) {
+    @FXML
+    private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
                 System.err.println("Erreur : mainContainer n'a pas été correctement initialisé.");
@@ -66,11 +36,14 @@ public class CYBooksHomeController {
         }
     }
 
-
-    public void SearchMember() {
+    public void CancelMember() {
+        loadView("CYBooks_Member.fxml");
     }
 
-    public void returnMain() {
-        loadView("CYBooks_Home.fxml");
+    public void SaveNewMember(ActionEvent actionEvent) {
+        // tout bdd pour enregister le membre dans la base...
+        loadView("CYBooks_Member.fxml");
     }
+
+
 }
