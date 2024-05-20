@@ -9,25 +9,31 @@
 
 <AnchorPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksHomeController">
    <children>
-      <Label layoutX="186.0" prefHeight="43.0" prefWidth="227.0" text="Nouvel emprunt" textFill="#4da6ff">
+      <Label layoutX="186.0" layoutY="6.0" prefHeight="43.0" prefWidth="227.0" text="Nouvel emprunt" textFill="#4da6ff">
          <font>
             <Font name="System Bold" size="29.0" />
          </font>
       </Label>
-      <Label layoutX="173.0" layoutY="87.0" text="ID adhérent">
+      <Label layoutX="152.0" layoutY="87.0" text="ID adhérent">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
       <Line endX="300.0" endY="-1.1444091796875E-5" layoutX="299.0" layoutY="50.0" startX="-300.0" startY="-1.1444091796875E-5" />
-      <Label layoutX="173.0" layoutY="125.0" text="ISBN livre">
+      <Label layoutX="152.0" layoutY="125.0" text="ISBN livre">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
       <TextField layoutX="303.0" layoutY="90.0" />
       <TextField layoutX="303.0" layoutY="128.0" />
-      <Button fx:id="SaveBorrowing" layoutX="368.0" layoutY="231.0" mnemonicParsing="false" onAction="#SaveBorrowing" text="Enregistrer" />
+      <Button fx:id="SaveBorrowing" layoutX="368.0" layoutY="231.0" mnemonicParsing="false" onAction="#SaveBorrowingMethod" text="Enregistrer" />
       <Button fx:id="CancelBorrowing" layoutX="193.0" layoutY="231.0" mnemonicParsing="false" onAction="#CancelBorrowing" text="Annuler" />
+      <Label layoutX="152.0" layoutY="168.0" text="Datte emprunt">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <TextField layoutX="303.0" layoutY="170.0" />
    </children>
 </AnchorPane>
