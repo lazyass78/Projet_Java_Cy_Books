@@ -21,12 +21,13 @@ public class CYBooksNewMemberController {
 
     @FXML private AnchorPane mainContainer;
 
+    @FXML private TextField lastName;
+    @FXML private TextField name;
+    @FXML private TextField birthDate;
+    @FXML private TextField mail;
+
     @FXML private Button SaveMember;
     @FXML private Button Cancel;
-
-
-
-    private Stage stage;
 
     @FXML
     private void loadView(String fxmlFileName) {
@@ -47,11 +48,6 @@ public class CYBooksNewMemberController {
             e.printStackTrace();
         }
     }
-    @FXML
-    private void cancelBorrowing() {
-        stage = (Stage) lastName.getScene().getWindow();
-        stage.close();
-    }
 
     private void showAlert(AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
@@ -61,13 +57,11 @@ public class CYBooksNewMemberController {
         alert.showAndWait();
     }
 
-    
-
     @FXML public void SaveNewMember(ActionEvent actionEvent) {
             String lastNameText = lastName.getText();
-            String firstNameText = firstName.getText();
+            String firstNameText = name.getText();
             String birthDateText = birthDate.getText();
-            String emailText = email.getText();
+            String emailText = mail.getText();
 
             if (lastNameText.isEmpty() || firstNameText.isEmpty() || birthDateText.isEmpty() || emailText.isEmpty()) {
                 showAlert(Alert.AlertType.ERROR, "Form Error!", "Please fill in all fields");
@@ -100,10 +94,9 @@ public class CYBooksNewMemberController {
                     e.printStackTrace();
                 }
             }
-        // tout bdd pour enregister le membre dans la base...
-        loadView("CYBooks_Member.fxml");
     }
 
     public void CancelMember(ActionEvent actionEvent) {
+        loadView("CYBooks_Member.fxml");
     }
 }
