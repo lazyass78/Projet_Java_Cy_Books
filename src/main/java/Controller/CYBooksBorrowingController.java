@@ -15,8 +15,10 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class CYBooksBorrowingController {
     @FXML private AnchorPane mainContainer;
@@ -25,46 +27,54 @@ public class CYBooksBorrowingController {
     @FXML private Button BackHomePage;
     @FXML private Button Search;
 
-    @FXML private TableView<BorrowingRecord> borrowingTableView;
-    @FXML private TableColumn<BorrowingRecord, String> isbnColumn;
-    @FXML private TableColumn<BorrowingRecord, String> nameColumn;
-    @FXML private TableColumn<BorrowingRecord, String> authorColumn;
-    @FXML private TableColumn<BorrowingRecord, Integer> yearColumn;
-    @FXML private TableColumn<BorrowingRecord, String> editorColumn;
-    @FXML private TableColumn<BorrowingRecord, Integer> stockColumn;
-    @FXML private TableColumn<BorrowingRecord, String> genreColumn;
+    @FXML private TableView<CYBooksBorrowingRecord> borrowingTableView;
+    @FXML private TableColumn<CYBooksBorrowingRecord, String> isbnColumn;
+    @FXML private TableColumn<CYBooksBorrowingRecord, String> memberIdColumn;
+    @FXML private TableColumn<CYBooksBorrowingRecord, String> titleColumn;
+    @FXML private TableColumn<CYBooksBorrowingRecord, String> authorColumn;
+    @FXML private TableColumn<CYBooksBorrowingRecord, Integer> yearColumn;
+    @FXML private TableColumn<CYBooksBorrowingRecord, String> editorColumn;
+    @FXML private TableColumn<CYBooksBorrowingRecord, Integer> stockColumn;
+    @FXML private TableColumn<CYBooksBorrowingRecord, String> topicsColumn;
+    @FXML private TableColumn<CYBooksBorrowingRecord, String> borrowingDateColumn;
+    @FXML private TableColumn<CYBooksBorrowingRecord, String> returnDateColumn;
 
     @FXML
     public void initialize() {
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        memberIdColumn.setCellValueFactory(new PropertyValueFactory<>("memberId"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
         editorColumn.setCellValueFactory(new PropertyValueFactory<>("editor"));
         stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
-
+        topicsColumn.setCellValueFactory(new PropertyValueFactory<>("topics"));
+        borrowingDateColumn.setCellValueFactory(new PropertyValueFactory<>("borrowingDate"));
+        returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
         loadBorrowingData();
     }
 
     private void loadBorrowingData() {
-        ObservableList<BorrowingRecord> borrowingData = FXCollections.observableArrayList();
+        ObservableList<CYBooksBorrowingRecord> borrowingData = FXCollections.observableArrayList();
 
         try (Connection connection = DatabaseUtil.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM livres_empruntes")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM books")) {
 
             while (resultSet.next()) {
                 String isbn = resultSet.getString("isbn");
-                String name = resultSet.getString("titre_livre");
+                String memberId = resultSet.getString("user_id");
                 // Vous pouvez ajouter d'autres champs si nécessaire
+                String title = "Unknown"; // Remplacer par le champ approprié
                 String author = "Unknown"; // Remplacer par le champ approprié
                 int year = 0; // Remplacer par le champ approprié
                 String editor = "Unknown"; // Remplacer par le champ approprié
-                int stock = resultSet.getInt("quantite_disponible");
-                String genre = "Unknown"; // Remplacer par le champ approprié
+                int stock = resultSet.getInt("quantity_available");
+                String topics = "Unknown"; // Remplacer par le champ approprié
+                LocalDate borrowingDate = resultSet.getDate("loan_date").toLocalDate();
+                LocalDate returnDate = resultSet.getDate("return_date").toLocalDate();
 
-                BorrowingRecord record = new BorrowingRecord(isbn, name, author, year, editor, stock, genre);
+                CYBooksBorrowingRecord record = new CYBooksBorrowingRecord(isbn, memberId,title,author,year, editor, stock,topics,borrowingDate,returnDate);
                 borrowingData.add(record);
             }
         } catch (Exception e) {
@@ -108,51 +118,4 @@ public class CYBooksBorrowingController {
     // est ce vraiment utile de faire cette classe ??
 
     // Classe pour représenter une ligne de l'historique des emprunts
-    public static class BorrowingRecord {
-        private String isbn;
-        private String name;
-        private String author;
-        private int year;
-        private String editor;
-        private int stock;
-        private String genre;
-
-        public BorrowingRecord(String isbn, String name, String author, int year, String editor, int stock, String genre) {
-            this.isbn = isbn;
-            this.name = name;
-            this.author = author;
-            this.year = year;
-            this.editor = editor;
-            this.stock = stock;
-            this.genre = genre;
-        }
-
-        public String getIsbn() {
-            return isbn;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getAuthor() {
-            return author;
-        }
-
-        public int getYear() {
-            return year;
-        }
-
-        public String getEditor() {
-            return editor;
-        }
-
-        public int getStock() {
-            return stock;
-        }
-
-        public String getGenre() {
-            return genre;
-        }
-    }
 }
