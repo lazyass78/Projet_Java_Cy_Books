@@ -110,7 +110,7 @@ public class MainBook extends Application {
 
         try {
             String apiUrl = "https://gallica.bnf.fr/SRU?operation=searchRetrieve&version=1.2";
-            String encodedQuery = URLEncoder.encode("\"" + query + "%20Auteur%20du%20texte\"", "UTF-8");
+            String encodedQuery = URLEncoder.encode("\"" + query + "\"", "UTF-8");
             String searchQuery = "query=dc.title%20all%20" + encodedQuery;
             String url = apiUrl + "&" + searchQuery + "&startRecord=" + ((currentPage - 1) * recordsPerPage + 1) + "&maximumRecords=" + recordsPerPage;
 
