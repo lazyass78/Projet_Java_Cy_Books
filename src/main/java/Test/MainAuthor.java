@@ -3,9 +3,7 @@ package Test;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -25,11 +23,15 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class MainAuthor extends Application {
-    private TextField searchField;
+    private TextField authorField;
     private VBox bookContainer;
     private Label pageInfo;
     private Button prevButton;
     private Button nextButton;
+
+    private TextField dateField;
+    private TextField languageField;
+    private TextField titleField;
 
     private String currentQuery;
     private int currentPage;
@@ -39,8 +41,17 @@ public class MainAuthor extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Création des éléments de l'interface utilisateur
-        searchField = new TextField();
-        searchField.setPromptText("Entrez le nom de l'auteur...");
+        authorField = new TextField();
+        authorField.setPromptText("Entrez le nom de l'auteur...");
+
+        dateField = new TextField();
+        dateField.setPromptText("Date de parution");
+
+        languageField = new TextField();
+        languageField.setPromptText("Langue");
+
+        titleField = new TextField();
+        titleField.setPromptText("Entrez le titre du livre...");
 
         Button searchButton = new Button("Rechercher");
         searchButton.setOnAction(e -> {
@@ -78,7 +89,15 @@ public class MainAuthor extends Application {
 
         // Assemblage des éléments dans la disposition
         VBox topContainer = new VBox(10);
-        topContainer.getChildren().addAll(new Label("Recherche de Livres"), searchField, searchButton, new Label("Résultats de la recherche :"));
+        topContainer.getChildren().addAll(
+                new Label("Recherche de Livres"),
+                authorField,
+                dateField,
+                languageField,
+                titleField,
+                searchButton,
+                new Label("Résultats de la recherche :")
+        );
 
         BorderPane root = new BorderPane();
         root.setTop(topContainer);
@@ -96,24 +115,59 @@ public class MainAuthor extends Application {
     }
 
     private void searchBooks() {
-        String query = searchField.getText().trim();
-        if (query.isEmpty()) {
+        String author = authorField.getText().trim();
+        String date = dateField.getText().trim();
+        String language = languageField.getText().trim();
+        String title = titleField.getText().trim();
+
+        if (author.isEmpty() && date.isEmpty() && language.isEmpty() && title.isEmpty()) {
             return;
         }
 
-        if (!query.equals(currentQuery)) {
-            currentQuery = query;
+        if (!author.equals(currentQuery)) {
+            currentQuery = author;
             currentPage = 1;
         }
 
         bookContainer.getChildren().clear();
 
         try {
-            String apiUrl = "https://gallica.bnf.fr/SRU?operation=searchRetrieve&version=1.2";
-            String encodedQuery = URLEncoder.encode("\"" + query + "%20Auteur%20du%20texte\"", "UTF-8");
-            String searchQuery = "query=dc.creator%20all%20" + encodedQuery;
-            String url = apiUrl + "&" + searchQuery + "&startRecord=" + ((currentPage - 1) * recordsPerPage + 1) + "&maximumRecords=" + recordsPerPage;
+            String apiUrl = "https://gallica.bnf.fr/SRU?operation=searchRetrieve&version=1.2&query=";
+            String searchQuery = "";
 
+
+            String encodedQuery = URLEncoder.encode("\"" + author + "%20Auteur%20du%20texte\"", "UTF-8");
+            searchQuery = "dc.creator%20all%20" + encodedQuery;
+
+            if (!date.isEmpty()) {
+                if (!searchQuery.equals("")){
+                    searchQuery += "%20and%20dc.date%20all" + URLEncoder.encode("\"" + date + "\"", "UTF-8");
+                }
+                else{
+                    searchQuery += "%20dc.date%20all" + URLEncoder.encode("\"" + date + "\"", "UTF-8");
+                }
+            }
+
+            if (!language.isEmpty()) {
+                if (!searchQuery.equals("")){
+                    searchQuery += "%20and%20dc.language%20any" + URLEncoder.encode("\"" + language + "\"", "UTF-8");
+                }
+                else{
+                    searchQuery += "%20dc.language%20any" + URLEncoder.encode("\"" + language + "\"", "UTF-8");
+                }
+            }
+
+            if (!title.isEmpty()) {
+                if (!searchQuery.equals("")){
+                    searchQuery += "%20and%20dc.title%20all" + URLEncoder.encode("\"" + title + "\"", "UTF-8");
+                }
+                else{
+                    searchQuery += "%20dc.title%20all" + URLEncoder.encode("\"" + title + "\"", "UTF-8");
+                }
+            }
+
+            String url = apiUrl + searchQuery + "&startRecord=" + ((currentPage - 1) * recordsPerPage + 1) + "&maximumRecords=" + recordsPerPage;
+            System.out.println(url);
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI(url))
@@ -129,8 +183,8 @@ public class MainAuthor extends Application {
             NodeList titleNodes = doc.getElementsByTagName("dc:title");
             for (int i = 0; i < titleNodes.getLength(); i++) {
                 Element titleElement = (Element) titleNodes.item(i);
-                String title = titleElement.getTextContent();
-                bookContainer.getChildren().add(new Label("Titre : " + title));
+                String titles = titleElement.getTextContent();
+                bookContainer.getChildren().add(new Label("Titre : " + titles));
             }
 
             NodeList numberOfRecordsNodes = doc.getElementsByTagName("srw:numberOfRecords");
@@ -153,5 +207,6 @@ public class MainAuthor extends Application {
         launch(args);
     }
 }
+
 
 
