@@ -1,22 +1,82 @@
 package Controller;
 
+
+import Utils.DatabaseUtil;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDate;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CYBooksMemberController {
     @FXML private AnchorPane mainContainer;
-
     @FXML private Button BackHomePage2;
     @FXML private Button Search;
     @FXML private Button Add;
     @FXML private Button Delete;
+    @FXML private TableView<CYBooksMemberRecord> borrowingTableView;
+    @FXML private TableColumn<CYBooksMemberRecord, Integer> memberIdColumn;
+    @FXML private TableColumn<CYBooksMemberRecord, String> lastNameColumn;
+    @FXML private TableColumn<CYBooksMemberRecord, String> nameColumn;
+    @FXML private TableColumn<CYBooksMemberRecord, LocalDate> birthDateColumn;
+    @FXML private TableColumn<CYBooksMemberRecord, String> mailColumn;
+    @FXML private TableColumn<CYBooksMemberRecord, Boolean> inOrderColumn;
+    @FXML private TableColumn<CYBooksMemberRecord, String> borrowedBooksColumn;
 
+    public void initialize() {
+        memberIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        birthDateColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+        mailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        inOrderColumn.setCellValueFactory(new PropertyValueFactory<>("inOrder"));
+        borrowedBooksColumn.setCellValueFactory(new PropertyValueFactory<>("borrowedBooks"));
+
+        loadMemberData();
+    }
+
+    private void loadMemberData() {
+        ObservableList<CYBooksMemberRecord> memberData = FXCollections.observableArrayList();
+
+        try (Connection connection = DatabaseUtil.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT users.id, users.firstname, users.lastname, users.member_in_good_standing, users.email, users.birth_date, GROUP_CONCAT(books.isbn) AS borrowed_books FROM users LEFT JOIN books ON users.id = books.user_id GROUP BY users.id")) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String firstName = resultSet.getString("firstname");
+                String lastName = resultSet.getString("lastname");
+                boolean inOrder = resultSet.getBoolean("member_in_good_standing");
+                String email = resultSet.getString("email");
+                LocalDate birthDate = resultSet.getDate("birth_date").toLocalDate();
+                // Récupérer les ISBN des livres empruntés pour ce membre
+                String borrowedBooks = resultSet.getString("borrowed_books");
+
+                CYBooksMemberRecord record = new CYBooksMemberRecord(id, firstName, lastName, inOrder, email, birthDate, borrowedBooks);
+                memberData.add(record);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        borrowingTableView.setItems(memberData);
+    }
     @FXML private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
@@ -51,4 +111,10 @@ public class CYBooksMemberController {
     public void DeleteMember() {
         loadView("CYBooks_DeleteMember.fxml");
     }
+
+
+
+
+
+
 }
