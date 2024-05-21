@@ -101,7 +101,8 @@ public class CYBooksNewBorrowingController {
     private boolean isDateValid(String dateStr) {
         try {
             java.sql.Date date = java.sql.Date.valueOf(dateStr);
-            return !date.before(new java.sql.Date(System.currentTimeMillis()));
+            // Allow today's date or a future date
+            return !date.before(new java.sql.Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000));
         } catch (IllegalArgumentException e) {
             return false;
         }
