@@ -9,43 +9,13 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
-public class CYBooksHomeController {
-
+public class CYBooksMemberController {
     @FXML private AnchorPane mainContainer;
 
-    @FXML private Button Borrowing;
-    @FXML private Button Member;
-    @FXML private Button Document;
-
-
-    @FXML private Button SaveBorrowing;
-    @FXML private Button CancelBorrowing;
-
-
-    @FXML private Button Search;
     @FXML private Button BackHomePage2;
-
-
-    @FXML public void Page_borrowing() {
-        loadView("CYBooks_Borrowing.fxml");
-    }
-
-    @FXML public void Page_member(){
-        loadView("CYBooks_Member.fxml");
-    }
-
-    @FXML public void Page_document(){
-        loadView("CYBooks_Document.fxml");
-    }
-
-
-    @FXML public void SaveBorrowing(){
-        loadView("CYBooks_Borrowing.fxml");
-    }
-
-    @FXML public void CancelBorrowing(){
-        loadView("CYBooks_Borrowing.fxml");
-    }
+    @FXML private Button Search;
+    @FXML private Button Add;
+    @FXML private Button Delete;
 
     @FXML private void loadView(String fxmlFileName) {
         try {
@@ -66,11 +36,19 @@ public class CYBooksHomeController {
         }
     }
 
-
-    public void SearchMember() {
+    public void SearchMember(ActionEvent actionEvent) {
+        // API tt ça
     }
 
     public void returnMain() {
         loadView("CYBooks_Home.fxml");
+    }
+
+    public void AddMember() {
+        loadView("CYBooks_NewMember.fxml");
+    }
+
+    public void DeleteMember() {
+        loadView("CYBooks_DeleteMember.fxml");
     }
 }
