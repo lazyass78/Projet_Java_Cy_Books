@@ -3,6 +3,7 @@ package Controller;
 import Utils.DatabaseUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import org.w3c.dom.Document;
@@ -51,6 +53,11 @@ public class CYBooksBorrowingController {
     @FXML private TableColumn<CYBooksBorrowingRecord, String> borrowingDateColumn;
     @FXML private TableColumn<CYBooksBorrowingRecord, String> returnDateColumn;
 
+    @FXML private TextField dataBook;
+    private ObservableList<CYBooksBorrowingRecord> borrowingData = FXCollections.observableArrayList();
+    private FilteredList<CYBooksBorrowingRecord> filteredData;
+
+
     @FXML
     public void initialize() {
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
@@ -64,11 +71,10 @@ public class CYBooksBorrowingController {
         borrowingDateColumn.setCellValueFactory(new PropertyValueFactory<>("borrowingDate"));
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
         loadBorrowingData();
+        setupFiltering();
     }
 
     private void loadBorrowingData() {
-        ObservableList<CYBooksBorrowingRecord> borrowingData = FXCollections.observableArrayList();
-
         try (Connection connection = DatabaseUtil.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM books")) {
@@ -121,6 +127,24 @@ public class CYBooksBorrowingController {
 
         borrowingTableView.setItems(borrowingData);
     }
+    private void setupFiltering() {
+        filteredData = new FilteredList<>(borrowingData, p -> true);
+        borrowingTableView.setItems(filteredData);
+
+        dataBook.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(record -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+                return record.getTitle().toLowerCase().contains(lowerCaseFilter)
+                        || record.getAuthor().toLowerCase().contains(lowerCaseFilter)
+                        || record.getIsbn().toLowerCase().contains(lowerCaseFilter)
+                        || record.getMemberId().toLowerCase().contains(lowerCaseFilter);
+            });
+        });
+    }
 
     private void loadView(String fxmlFileName) {
         try {
@@ -149,11 +173,4 @@ public class CYBooksBorrowingController {
         loadView("CYBooks_Home.fxml");
     }
 
-    public void SearchDocument(ActionEvent actionEvent) {
-        // a completer API tout ça
-    }
-
-    // est ce vraiment utile de faire cette classe ??
-
-    // Classe pour représenter une ligne de l'historique des emprunts
 }
