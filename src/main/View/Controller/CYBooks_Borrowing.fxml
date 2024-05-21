@@ -22,21 +22,20 @@
         <columns>
           <TableColumn fx:id="isbnColumn" prefWidth="44.79998779296875" text="ISBN" />
             <TableColumn fx:id="memberIdColumn" prefWidth="68.00006103515625" text="ID member" />
-          <TableColumn fx:id="titleColumn" prefWidth="52.0" text="Title" />
-            <TableColumn fx:id="authorColumn" prefWidth="56.79998779296875" text="Author" />
+          <TableColumn fx:id="titleColumn" prefWidth="45.60003662109375" text="Title" />
+            <TableColumn fx:id="authorColumn" prefWidth="63.20001220703125" text="Author" />
             <TableColumn fx:id="yearColumn" prefWidth="51.199951171875" text="Year" />
             <TableColumn fx:id="editorColumn" prefWidth="53.60003662109375" text="Editor" />
             <TableColumn fx:id="stockColumn" minWidth="0.79998779296875" prefWidth="49.60003662109375" text="Stock" />
             <TableColumn fx:id="topicsColumn" minWidth="0.0" prefWidth="46.4000244140625" text="Topics" />
             <TableColumn fx:id="borrowingDateColumn" prefWidth="68.0" text="Borrowing date" />
-            <TableColumn fx:id="returnDateColumn" minWidth="5.599853515625" prefWidth="77.5999755859375" text="Return date" />
+            <TableColumn fx:id="returnDateColumn" minWidth="5.599853515625" prefWidth="76.0" text="Return date" />
         </columns>
       </TableView>
       <Button fx:id="BackHomePage" layoutX="504.0" layoutY="66.0" mnemonicParsing="false" onAction="#returnMain" text="Return home" />
       <Line endX="351.00006103515625" endY="-1.52587890625E-5" layoutX="249.0" layoutY="59.0" startX="-249.00001525878906" startY="-1.1444091796875E-5" />
-      <TextField fx:id="dataBook" layoutX="242.0" layoutY="66.0" prefHeight="26.0" prefWidth="148.0" />
-      <Button fx:id="Search" layoutX="400.0" layoutY="66.0" mnemonicParsing="false" onAction="#SearchDocument" text="Search" />
-      <Label layoutX="134.0" layoutY="64.0" text="ISBN book">
+      <TextField fx:id="dataBook" layoutX="242.0" layoutY="66.0" prefHeight="26.0" prefWidth="232.0" />
+      <Label layoutX="153.0" layoutY="64.0" text="Search :">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
