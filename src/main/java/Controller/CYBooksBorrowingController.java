@@ -12,8 +12,20 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
+import java.io.StringReader;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -62,11 +74,37 @@ public class CYBooksBorrowingController {
              ResultSet resultSet = statement.executeQuery("SELECT * FROM books")) {
 
             while (resultSet.next()) {
-                String isbn = resultSet.getString("isbn");
                 String memberId = resultSet.getString("user_id");
+
                 // Vous pouvez ajouter d'autres champs si nécessaire
-                String title = "Unknown"; // Remplacer par le champ approprié
-                String author = "Unknown"; // Remplacer par le champ approprié
+                String isbn = resultSet.getString("isbn");
+
+
+                String apiUrl = "https://gallica.bnf.fr/SRU?operation=searchRetrieve&version=1.2";
+                String encodedQuery = URLEncoder.encode(isbn, "UTF-8");
+                String searchQuery = "query=dc.identifier%20all%20" + encodedQuery;
+                String url = apiUrl + "&" + searchQuery;
+
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(new URI(url))
+                        .build();
+
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                String responseBody = response.body();
+
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document doc = builder.parse(new InputSource(new StringReader(responseBody)));
+
+
+                NodeList titleNodes = doc.getElementsByTagName("dc:title");
+                Element titleElement = (Element) titleNodes.item(0);
+                String title = titleElement.getTextContent();
+                // Vous pouvez ajouter d'autres champs si nécessaire
+                NodeList authorNodes = doc.getElementsByTagName("dc:creator");
+                Element authorElement = (Element) authorNodes.item(0);
+                String author = authorElement.getTextContent();
                 int year = 0; // Remplacer par le champ approprié
                 String editor = "Unknown"; // Remplacer par le champ approprié
                 int stock = resultSet.getInt("quantity_available");
