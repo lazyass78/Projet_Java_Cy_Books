@@ -118,19 +118,24 @@ public class MainAuthorController {
             Document doc = builder.parse(new InputSource(new StringReader(responseBody)));
 
             NodeList titleNodes = doc.getElementsByTagName("dc:title");
+            NodeList idNodes = doc.getElementsByTagName("uri");
             for (int i = 0; i < titleNodes.getLength(); i++) {
                 Element titleElement = (Element) titleNodes.item(i);
                 String titles = titleElement.getTextContent();
 
+                Element idElement = (Element) idNodes.item(i);
+                String id = idElement.getTextContent();
+
                 HBox bookItem = new HBox(10);
                 bookItem.setAlignment(Pos.CENTER_LEFT);
-                Label titleLabel = new Label("Title: " + titles);
+                Label idLabel = new Label("Id : " + id);
+                Label titleLabel = new Label("Title : " + titles);
                 Button borrowButton = new Button("Borrow");
                 borrowButton.setOnAction(e -> {
                     // Handle borrow action here
                     System.out.println("Borrowed: " + titles);
                 });
-                bookItem.getChildren().addAll(titleLabel, borrowButton);
+                bookItem.getChildren().addAll(idLabel, titleLabel, borrowButton);
                 bookContainer.getChildren().add(bookItem);
             }
 

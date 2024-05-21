@@ -10,9 +10,9 @@ public class CYBooksMemberRecord {
     private boolean inOrder;
     private String email;
     private LocalDate birthDate;
-    private String borrowedBooks;
+    private List<String> borrowedBooks;
 
-    public CYBooksMemberRecord(int id, String firstName, String lastName, boolean inOrder, String email, LocalDate birthDate, String borrowedBooks) {
+    public CYBooksMemberRecord(int id, String firstName, String lastName, boolean inOrder, String email, LocalDate birthDate, List<String> borrowedBooks) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -70,11 +70,11 @@ public class CYBooksMemberRecord {
         this.birthDate = birthDate;
     }
 
-    public String getBorrowedBooks() {
+    public List<String> getBorrowedBooks() {
         return borrowedBooks;
     }
 
-    public void setBorrowedBooks(String borrowedBooks) {
+    public void setBorrowedBooks(List<String> borrowedBooks) {
         this.borrowedBooks = borrowedBooks;
     }
 }

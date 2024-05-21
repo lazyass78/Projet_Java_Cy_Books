@@ -56,8 +56,10 @@ public class CYBooksMemberController {
         ObservableList<CYBooksMemberRecord> memberData = FXCollections.observableArrayList();
 
         try (Connection connection = DatabaseUtil.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT users.id, users.firstname, users.lastname, users.member_in_good_standing, users.email, users.birth_date, GROUP_CONCAT(books.isbn) AS borrowed_books FROM users LEFT JOIN books ON users.id = books.user_id GROUP BY users.id")) {
+             Statement statement1 = connection.createStatement();
+             Statement statement2 = connection.createStatement();
+             ResultSet resultSet = statement1.executeQuery("SELECT * FROM users")) {
+
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String firstName = resultSet.getString("firstname");
@@ -65,8 +67,15 @@ public class CYBooksMemberController {
                 boolean inOrder = resultSet.getBoolean("member_in_good_standing");
                 String email = resultSet.getString("email");
                 LocalDate birthDate = resultSet.getDate("birth_date").toLocalDate();
+
                 // Récupérer les ISBN des livres empruntés pour ce membre
-                String borrowedBooks = resultSet.getString("borrowed_books");
+                List<String> borrowedBooks = new ArrayList<>();
+                String getBooksQuery = "SELECT books.isbn FROM books WHERE user_id = " + id;
+                try (ResultSet booksResultSet = statement2.executeQuery(getBooksQuery)) {
+                    while (booksResultSet.next()) {
+                        borrowedBooks.add(booksResultSet.getString("isbn"));
+                    }
+                }
 
                 CYBooksMemberRecord record = new CYBooksMemberRecord(id, firstName, lastName, inOrder, email, birthDate, borrowedBooks);
                 memberData.add(record);
