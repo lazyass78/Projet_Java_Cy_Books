@@ -4,6 +4,7 @@ package Controller;
 import Utils.DatabaseUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
@@ -39,6 +41,10 @@ public class CYBooksMemberController {
     @FXML private TableColumn<CYBooksMemberRecord, String> mailColumn;
     @FXML private TableColumn<CYBooksMemberRecord, Boolean> inOrderColumn;
     @FXML private TableColumn<CYBooksMemberRecord, String> borrowedBooksColumn;
+    @FXML private TextField searchMember;
+
+    private ObservableList<CYBooksMemberRecord> memberData = FXCollections.observableArrayList();
+    private FilteredList<CYBooksMemberRecord> filteredData = new FilteredList<>(memberData, p -> true);
 
     public void initialize() {
         memberIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -48,13 +54,12 @@ public class CYBooksMemberController {
         mailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         inOrderColumn.setCellValueFactory(new PropertyValueFactory<>("inOrder"));
         borrowedBooksColumn.setCellValueFactory(new PropertyValueFactory<>("borrowedBooks"));
-
+        borrowingTableView.setItems(filteredData);
         loadMemberData();
+        setupFiltering();
     }
 
     private void loadMemberData() {
-        ObservableList<CYBooksMemberRecord> memberData = FXCollections.observableArrayList();
-
         try (Connection connection = DatabaseUtil.getConnection();
              Statement statement1 = connection.createStatement();
              Statement statement2 = connection.createStatement();
@@ -84,7 +89,23 @@ public class CYBooksMemberController {
             e.printStackTrace();
         }
 
-        borrowingTableView.setItems(memberData);
+    }
+
+    private void setupFiltering() {
+        searchMember.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(record -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+                return record.getFirstName().toLowerCase().contains(lowerCaseFilter)
+                        || record.getLastName().toLowerCase().contains(lowerCaseFilter)
+                        || record.getEmail().toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(record.getId()).contains(lowerCaseFilter)
+                        || record.getBorrowedBooks().toString().toLowerCase().contains(lowerCaseFilter);
+            });
+        });
     }
     @FXML private void loadView(String fxmlFileName) {
         try {
@@ -105,9 +126,6 @@ public class CYBooksMemberController {
         }
     }
 
-    public void SearchMember(ActionEvent actionEvent) {
-        // API tt ça
-    }
 
     public void returnMain() {
         loadView("CYBooks_Home.fxml");
