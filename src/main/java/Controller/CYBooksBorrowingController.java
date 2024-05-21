@@ -61,7 +61,7 @@ public class CYBooksBorrowingController {
 
         try (Connection connection = DatabaseUtil.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM livres_empruntes")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM books")) {
 
             while (resultSet.next()) {
                 String isbn = resultSet.getString("isbn");
@@ -71,7 +71,6 @@ public class CYBooksBorrowingController {
                 String encodedQuery = URLEncoder.encode(isbn, "UTF-8");
                 String searchQuery = "query=dc.identifier%20all%20" + encodedQuery;
                 String url = apiUrl + "&" + searchQuery;
-                System.out.println(url);
 
                 HttpClient client = HttpClient.newHttpClient();
                 HttpRequest request = HttpRequest.newBuilder()
@@ -95,7 +94,7 @@ public class CYBooksBorrowingController {
                 String author = authorElement.getTextContent();
                 int year = 0; // Remplacer par le champ approprié
                 String editor = "Unknown"; // Remplacer par le champ approprié
-                int stock = resultSet.getInt("quantite_disponible");
+                int stock = resultSet.getInt("quantity_available");
                 String genre = "Unknown"; // Remplacer par le champ approprié
 
                 BorrowingRecord record = new BorrowingRecord(isbn, name, author, year, editor, stock, genre);
