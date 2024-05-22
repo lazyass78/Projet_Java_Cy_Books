@@ -84,7 +84,7 @@ public class MainAuthorController {
 
             // Charge le fichier FXML de la vue spécifiée
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
-            AnchorPane view = fxmlLoader.load(); // Charger en tant qu'AnchorPane
+            BorderPane view = fxmlLoader.load(); // Charger en tant qu'AnchorPane
 
             // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
             mainContainer.setCenter(view); // Ajouter l'AnchorPane au centre du BorderPane existant
@@ -158,8 +158,8 @@ public class MainAuthorController {
                 Label titleLabel = new Label("Title : " + titles);
                 borrowButton = new Button("Borrow");
                 borrowButton.setOnAction(e -> {
-                    loadView("CYBooks_NewBorrowing");
                     System.out.println("Borrowed: " + titles);
+                    loadView("CYBooks_NewBorrowing");
                 });
                 bookItem.getChildren().addAll(idLabel, titleLabel, borrowButton);
                 bookContainer.getChildren().add(bookItem);
