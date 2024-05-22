@@ -17,12 +17,12 @@
          </font>
       </Label>
       <Line endX="291.0" endY="-1.1444091796875E-5" layoutX="309.0" layoutY="60.0" startX="-309.0" startY="-1.1444091796875E-5" />
-      <Label alignment="CENTER" layoutX="110.0" layoutY="74.0" prefHeight="30.0" prefWidth="132.0" text="Put information" textAlignment="CENTER" textFill="LIGHTGRAY">
+      <Label alignment="CENTER" layoutX="135.0" layoutY="74.0" prefHeight="30.0" prefWidth="86.0" text="Search :" textAlignment="CENTER" textFill="LIGHTGRAY">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <TextField fx:id="dataBook" layoutX="250.0" layoutY="76.0" prefHeight="26.0" prefWidth="269.0" />
+      <TextField fx:id="dataBook" layoutX="218.0" layoutY="76.0" prefHeight="26.0" prefWidth="302.0" />
       <Button fx:id="Search" layoutX="540.0" layoutY="76.0" mnemonicParsing="false" onAction="#SearchDocument" text="Search" />
       <TableView fx:id="borrowingTableView" layoutX="11.0" layoutY="121.0" prefHeight="255.0" prefWidth="538.0">
          <columns>

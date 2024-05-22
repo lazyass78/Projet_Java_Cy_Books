@@ -14,12 +14,12 @@
             <Font name="System Bold" size="29.0" />
          </font>
       </Label>
-      <Label layoutX="152.0" layoutY="87.0" text="ID member" textFill="LIGHTGRAY">
+      <Label layoutX="152.0" layoutY="87.0" text="ID member :" textFill="LIGHTGRAY">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="152.0" layoutY="125.0" text="ISBN book" textFill="LIGHTGRAY">
+      <Label layoutX="152.0" layoutY="125.0" text="ISBN book :" textFill="LIGHTGRAY">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
@@ -28,7 +28,7 @@
       <TextField fx:id="isbnDocument" layoutX="322.0" layoutY="127.0" />
       <Button fx:id="SaveBorrowing" layoutX="393.0" layoutY="231.0" mnemonicParsing="false" onAction="#SaveNewBorrowing" text="Save" />
       <Button fx:id="Cancel" layoutX="193.0" layoutY="231.0" mnemonicParsing="false" onAction="#CancelBorrowing" text="Cancel" />
-      <Label layoutX="152.0" layoutY="168.0" text="Borrowing date" textFill="LIGHTGRAY">
+      <Label layoutX="152.0" layoutY="168.0" text="Borrowing date :" textFill="LIGHTGRAY">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
