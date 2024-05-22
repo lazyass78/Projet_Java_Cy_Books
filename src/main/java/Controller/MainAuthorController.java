@@ -74,8 +74,7 @@ public class MainAuthorController {
         }
     }
 
-    @FXML
-    private void loadView(String fxmlFileName) {
+    @FXML private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
                 System.err.println("Erreur : mainContainer n'a pas été correctement initialisé.");
@@ -84,10 +83,11 @@ public class MainAuthorController {
 
             // Charge le fichier FXML de la vue spécifiée
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
-            BorderPane view = fxmlLoader.load(); // Charger en tant qu'AnchorPane
+            Parent view = fxmlLoader.load();
 
             // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
-            mainContainer.setCenter(view); // Ajouter l'AnchorPane au centre du BorderPane existant
+            mainContainer.getChildren().clear();
+            mainContainer.getChildren().add(view);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -159,7 +159,7 @@ public class MainAuthorController {
                 borrowButton = new Button("Borrow");
                 borrowButton.setOnAction(e -> {
                     System.out.println("Borrowed: " + titles);
-                    loadView("CYBooks_NewBorrowing");
+                    loadView("CYBooks_NewBorrowing.fxml");
                 });
                 bookItem.getChildren().addAll(idLabel, titleLabel, borrowButton);
                 bookContainer.getChildren().add(bookItem);

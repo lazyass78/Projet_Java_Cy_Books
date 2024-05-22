@@ -1,5 +1,6 @@
 package Controller;
 
+import Utils.DatabaseUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -57,7 +58,7 @@ public class CYBooksNewMemberController {
         alert.showAndWait();
     }
 
-    @FXML public void SaveNewMember(ActionEvent actionEvent) {
+    @FXML public void SaveNewMember(ActionEvent actionEvent) throws SQLException {
             String lastNameText = lastName.getText();
             String firstNameText = name.getText();
             String birthDateText = birthDate.getText();
@@ -68,9 +69,8 @@ public class CYBooksNewMemberController {
                 return;
             }
 
-            Connection connection = null;
+            Connection connection = DatabaseUtil.getConnection();
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Library", "root", "cytech0001");
                 String query = "INSERT INTO users (firstname, lastname, member_in_good_standing, email, birth_date) VALUES (?, ?, TRUE, ?, ?)";
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, firstNameText);

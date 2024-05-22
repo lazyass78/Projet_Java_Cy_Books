@@ -86,8 +86,8 @@ public class CYBooksBorrowingController {
                 String isbn = resultSet.getString("isbn");
 
                 // Initialise les variables title et author à null
-                String title = null;
-                String author = null;
+                String title = "";
+                String author = "";
 
                 if (!isbn.isEmpty()) {
                     String apiUrl = "https://gallica.bnf.fr/SRU?operation=searchRetrieve&version=1.2";
@@ -151,10 +151,17 @@ public class CYBooksBorrowingController {
                 return record.getTitle().toLowerCase().contains(lowerCaseFilter)
                         || record.getAuthor().toLowerCase().contains(lowerCaseFilter)
                         || record.getIsbn().toLowerCase().contains(lowerCaseFilter)
-                        || record.getMemberId().toLowerCase().contains(lowerCaseFilter);
+                        || record.getMemberId().toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(record.getYear()).contains(lowerCaseFilter)
+                        || record.getEditor().toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(record.getStock()).contains(lowerCaseFilter)
+                        || record.getTopics().toLowerCase().contains(lowerCaseFilter)
+                        || record.getBorrowingDate().toString().contains(lowerCaseFilter)
+                        || record.getReturnDate().toString().contains(lowerCaseFilter);
             });
         });
     }
+
 
     private void loadView(String fxmlFileName) {
         try {

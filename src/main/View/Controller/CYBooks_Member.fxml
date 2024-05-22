@@ -14,20 +14,15 @@
       </Label>
       <Line endX="291.0" endY="-1.1444091796875E-5" layoutX="309.0" layoutY="60.0" startX="-309.0" startY="-1.1444091796875E-5" />
       <Button fx:id="BackHomePage2" layoutX="29.0" layoutY="73.0" mnemonicParsing="false" onAction="#returnMain" text="Return home" />
-      <Label layoutX="202.0" layoutY="71.0" text="ID member">
+      <Label layoutX="127.0" layoutY="105.0" text="Search :">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="202.0" layoutY="109.0" text="First Name">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
-      <TextField fx:id="searchMember" layoutX="353.0" layoutY="74.0" />
+      <TextField fx:id="searchMember" layoutX="238.0" layoutY="107.0" prefHeight="26.0" prefWidth="268.0" />
       <Button fx:id="Add" layoutX="29.0" layoutY="353.0" mnemonicParsing="false" onAction="#AddMember" text="+ Add member" />
       <Button fx:id="Delete" layoutX="462.0" layoutY="353.0" mnemonicParsing="false" onAction="#DeleteMember" text="- Delete member" />
-      <TableView fx:id="borrowingTableView" layoutX="11.0" layoutY="212.0" prefHeight="118.0" prefWidth="582.0">
+      <TableView fx:id="borrowingTableView" layoutX="9.0" layoutY="165.0" prefHeight="169.0" prefWidth="582.0">
          <columns>
             <TableColumn fx:id="memberIdColumn" prefWidth="73.79998779296875" text="ID member" />
             <TableColumn fx:id="lastNameColumn" prefWidth="87.19998931884766" text="First name" />
