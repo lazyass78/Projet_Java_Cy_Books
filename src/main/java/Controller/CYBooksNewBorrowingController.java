@@ -66,6 +66,7 @@ public class CYBooksNewBorrowingController {
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Borrowing registered successfully");
+                loadView("CYBooks_Borrowing.fxml");
             }
 
         } catch (SQLException e) {
