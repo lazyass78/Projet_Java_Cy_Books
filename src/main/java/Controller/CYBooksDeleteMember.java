@@ -22,41 +22,41 @@ public class CYBooksDeleteMember {
 
     @FXML private Button Delete;
     @FXML private Button Cancel;
-    @FXML private TextField memberId;
-    @FXML private TextField name;
+    @FXML private TextField memberMail;
+    @FXML private TextField memberLastName;
 
     public void DeleteMember(ActionEvent actionEvent) {
-        String id = memberId.getText().trim();
-        String firstName = name.getText().trim();
+        String mail = memberMail.getText().trim();
+        String lastName = memberLastName.getText().trim();
 
         // Vérifier que les deux champs sont renseignés
-        if (id.isEmpty() || firstName.isEmpty()) {
+        if (mail.isEmpty() || lastName.isEmpty()) {
             showError("Both fields must be filled out.");
             return;
         }
 
         try (Connection connection = DatabaseUtil.getConnection()) {
             // Vérifier l'existence de l'utilisateur et correspondance du prénom
-            String selectQuery = "SELECT firstname FROM users WHERE id = ?";
+            String selectQuery = "SELECT lastname FROM users WHERE email = ?";
             PreparedStatement selectStmt = connection.prepareStatement(selectQuery);
-            selectStmt.setString(1, id);
+            selectStmt.setString(1, mail);
             ResultSet resultSet = selectStmt.executeQuery();
 
             if (resultSet.next()) {
-                String dbFirstName = resultSet.getString("firstname");
-                if (!dbFirstName.equals(firstName)) {
-                    showError("ID and first name do not match.");
+                String dbLastName = resultSet.getString("lastname");
+                if (!dbLastName.equals(lastName)) {
+                    showError("Mail and last name do not match.");
                     return;
                 }
             } else {
-                showError("User ID not found in the database.");
+                showError("User mail not found in the database.");
                 return;
             }
 
             // Supprimer l'utilisateur
-            String deleteQuery = "DELETE FROM users WHERE id = ?";
+            String deleteQuery = "DELETE FROM users WHERE email = ?";
             PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
-            deleteStmt.setString(1, id);
+            deleteStmt.setString(1, mail);
             int rowsAffected = deleteStmt.executeUpdate();
 
             if (rowsAffected > 0) {

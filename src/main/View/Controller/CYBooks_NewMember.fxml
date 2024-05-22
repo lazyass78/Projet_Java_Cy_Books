@@ -14,13 +14,13 @@
             <Font name="System Bold" size="29.0" />
          </font>
       </Label>
-      <Label layoutX="162.0" layoutY="97.0" text="Last name">
+      <Label layoutX="162.0" layoutY="97.0" text="Last name :" textFill="LIGHTGRAY">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
       <Line endX="300.0" endY="-1.1444091796875E-5" layoutX="309.0" layoutY="60.0" startX="-309.0" startY="-1.1444091796875E-5" />
-      <Label layoutX="162.0" layoutY="135.0" text="First name">
+      <Label layoutX="162.0" layoutY="135.0" text="First name :" textFill="LIGHTGRAY">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
@@ -29,13 +29,13 @@
       <TextField fx:id="name" layoutX="313.0" layoutY="138.0" />
       <Button fx:id="SaveMember" layoutX="371.0" layoutY="346.0" mnemonicParsing="false" onAction="#SaveNewMember" text="Save" />
       <Button fx:id="Cancel" layoutX="196.0" layoutY="346.0" mnemonicParsing="false" onAction="#CancelMember" text="Cancel" />
-      <Label layoutX="162.0" layoutY="178.0" text="Birth date">
+      <Label layoutX="162.0" layoutY="178.0" text="Birth date :" textFill="LIGHTGRAY">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
       <TextField fx:id="birthDate" layoutX="313.0" layoutY="180.0" />
-      <Label layoutX="163.0" layoutY="222.0" text="Mail">
+      <Label layoutX="163.0" layoutY="222.0" text="Mail :" textFill="LIGHTGRAY">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
