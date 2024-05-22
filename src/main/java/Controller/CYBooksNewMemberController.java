@@ -81,6 +81,7 @@ public class CYBooksNewMemberController {
                 int rowsAffected = preparedStatement.executeUpdate();
                 if (rowsAffected > 0) {
                     showAlert(AlertType.INFORMATION, "Success", "Member added successfully");
+                    loadView("CYBooks_Member.fxml");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
