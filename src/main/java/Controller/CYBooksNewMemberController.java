@@ -96,7 +96,7 @@ public class CYBooksNewMemberController {
             }
     }
 
-    public void CancelMember(ActionEvent actionEvent) {
+    public void CancelMember() {
         loadView("CYBooks_Member.fxml");
     }
 }
