@@ -25,8 +25,8 @@
       <TableView fx:id="borrowingTableView" layoutX="9.0" layoutY="165.0" prefHeight="169.0" prefWidth="582.0">
          <columns>
             <TableColumn fx:id="memberIdColumn" prefWidth="73.79998779296875" text="ID member" />
-            <TableColumn fx:id="lastNameColumn" prefWidth="87.19998931884766" text="First name" />
-            <TableColumn fx:id="nameColumn" prefWidth="66.4000244140625" text="Last name" />
+            <TableColumn fx:id="nameColumn" prefWidth="87.19998931884766" text="First name" />
+            <TableColumn fx:id="lastNameColumn" prefWidth="66.4000244140625" text="Last name" />
             <TableColumn fx:id="birthDateColumn" prefWidth="92.0" text="Date of birth" />
             <TableColumn fx:id="mailColumn" prefWidth="72.0" text="Mail" />
             <TableColumn fx:id="inOrderColumn" prefWidth="74.39999389648438" text="in Order" />
