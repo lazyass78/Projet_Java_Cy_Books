@@ -3,8 +3,12 @@ package Controller;
 
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.w3c.dom.Document;
@@ -14,6 +18,7 @@ import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -22,7 +27,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class MainAuthorController {
-
+    @FXML
+    private BorderPane mainContainer;
     @FXML
     private TextField authorField;
     @FXML
@@ -40,6 +46,7 @@ public class MainAuthorController {
     @FXML
     private Button nextButton;
 
+    private Button borrowButton;
     private String currentQuery;
     private int currentPage;
     private int totalRecords;
@@ -64,6 +71,25 @@ public class MainAuthorController {
         if (currentPage * recordsPerPage < totalRecords) {
             currentPage++;
             searchBooks();
+        }
+    }
+
+    @FXML private void loadView(String fxmlFileName) {
+        try {
+            if (mainContainer == null) {
+                System.err.println("Erreur : mainContainer n'a pas été correctement initialisé.");
+                return;
+            }
+
+            // Charge le fichier FXML de la vue spécifiée
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
+            Parent view = fxmlLoader.load();
+
+            // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            mainContainer.getChildren().clear();
+            mainContainer.getChildren().add(view);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -130,10 +156,10 @@ public class MainAuthorController {
                 bookItem.setAlignment(Pos.CENTER_LEFT);
                 Label idLabel = new Label("Id : " + id);
                 Label titleLabel = new Label("Title : " + titles);
-                Button borrowButton = new Button("Borrow");
+                borrowButton = new Button("Borrow");
                 borrowButton.setOnAction(e -> {
-                    // Handle borrow action here
                     System.out.println("Borrowed: " + titles);
+                    loadView("CYBooks_NewBorrowing.fxml");
                 });
                 bookItem.getChildren().addAll(idLabel, titleLabel, borrowButton);
                 bookContainer.getChildren().add(bookItem);

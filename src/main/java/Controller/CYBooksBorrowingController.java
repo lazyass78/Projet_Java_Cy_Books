@@ -85,32 +85,42 @@ public class CYBooksBorrowingController {
                 // Vous pouvez ajouter d'autres champs si nécessaire
                 String isbn = resultSet.getString("isbn");
 
+                // Initialise les variables title et author à null
+                String title = "";
+                String author = "";
 
-                String apiUrl = "https://gallica.bnf.fr/SRU?operation=searchRetrieve&version=1.2";
-                String encodedQuery = URLEncoder.encode(isbn, "UTF-8");
-                String searchQuery = "query=dc.identifier%20all%20" + encodedQuery;
-                String url = apiUrl + "&" + searchQuery;
+                if (!isbn.isEmpty()) {
+                    String apiUrl = "https://gallica.bnf.fr/SRU?operation=searchRetrieve&version=1.2";
+                    String encodedQuery = URLEncoder.encode(isbn, "UTF-8");
+                    String searchQuery = "query=dc.identifier%20all%20" + encodedQuery;
+                    String url = apiUrl + "&" + searchQuery;
 
-                HttpClient client = HttpClient.newHttpClient();
-                HttpRequest request = HttpRequest.newBuilder()
-                        .uri(new URI(url))
-                        .build();
+                    HttpClient client = HttpClient.newHttpClient();
+                    HttpRequest request = HttpRequest.newBuilder()
+                            .uri(new URI(url))
+                            .build();
 
-                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                String responseBody = response.body();
+                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                    String responseBody = response.body();
 
-                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder builder = factory.newDocumentBuilder();
-                Document doc = builder.parse(new InputSource(new StringReader(responseBody)));
+                    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder builder = factory.newDocumentBuilder();
+                    Document doc = builder.parse(new InputSource(new StringReader(responseBody)));
 
 
-                NodeList titleNodes = doc.getElementsByTagName("dc:title");
-                Element titleElement = (Element) titleNodes.item(0);
-                String title = titleElement.getTextContent();
-                // Vous pouvez ajouter d'autres champs si nécessaire
-                NodeList authorNodes = doc.getElementsByTagName("dc:creator");
-                Element authorElement = (Element) authorNodes.item(0);
-                String author = authorElement.getTextContent();
+                    NodeList titleNodes = doc.getElementsByTagName("dc:title");
+                    if (titleNodes.getLength() > 0) {
+                        Element titleElement = (Element) titleNodes.item(0);
+                        title = titleElement.getTextContent();
+                    }
+                    // Vous pouvez ajouter d'autres champs si nécessaire
+                    NodeList authorNodes = doc.getElementsByTagName("dc:creator");
+                    if (authorNodes.getLength() > 0) {
+                        Element authorElement = (Element) authorNodes.item(0);
+                        author = authorElement.getTextContent();
+                    }
+                }
+
                 int year = 0; // Remplacer par le champ approprié
                 String editor = "Unknown"; // Remplacer par le champ approprié
                 int stock = resultSet.getInt("quantity_available");
@@ -141,10 +151,17 @@ public class CYBooksBorrowingController {
                 return record.getTitle().toLowerCase().contains(lowerCaseFilter)
                         || record.getAuthor().toLowerCase().contains(lowerCaseFilter)
                         || record.getIsbn().toLowerCase().contains(lowerCaseFilter)
-                        || record.getMemberId().toLowerCase().contains(lowerCaseFilter);
+                        || record.getMemberId().toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(record.getYear()).contains(lowerCaseFilter)
+                        || record.getEditor().toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(record.getStock()).contains(lowerCaseFilter)
+                        || record.getTopics().toLowerCase().contains(lowerCaseFilter)
+                        || record.getBorrowingDate().toString().contains(lowerCaseFilter)
+                        || record.getReturnDate().toString().contains(lowerCaseFilter);
             });
         });
     }
+
 
     private void loadView(String fxmlFileName) {
         try {
@@ -166,7 +183,7 @@ public class CYBooksBorrowingController {
     }
 
     public void AddBorrowing() {
-        loadView("CYBooks_NewBorrowing.fxml");
+        loadView("MainAuthor.fxml");
     }
 
     public void returnMain() {
