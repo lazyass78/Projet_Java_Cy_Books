@@ -35,7 +35,7 @@
       <Button fx:id="BackHomePage" layoutX="504.0" layoutY="66.0" mnemonicParsing="false" onAction="#returnMain" text="Return home" />
       <Line endX="351.00006103515625" endY="-1.52587890625E-5" layoutX="249.0" layoutY="59.0" startX="-249.00001525878906" startY="-1.1444091796875E-5" />
       <TextField fx:id="dataBook" layoutX="242.0" layoutY="66.0" prefHeight="26.0" prefWidth="232.0" />
-      <Label layoutX="153.0" layoutY="64.0" text="Search :">
+      <Label layoutX="153.0" layoutY="64.0" text="Search :" textFill="LIGHTGRAY">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
