@@ -166,7 +166,7 @@ public class CYBooksBorrowingController {
     }
 
     public void AddBorrowing() {
-        loadView("CYBooks_NewBorrowing.fxml");
+        loadView("MainAuthor.fxml");
     }
 
     public void returnMain() {
