@@ -4,7 +4,6 @@ import Utils.DatabaseUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,7 +28,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -43,7 +41,7 @@ public class CYBooksBorrowingController {
 
     @FXML private TableView<CYBooksBorrowingRecord> borrowingTableView;
     @FXML private TableColumn<CYBooksBorrowingRecord, String> isbnColumn;
-    @FXML private TableColumn<CYBooksBorrowingRecord, String> memberIdColumn;
+    @FXML private TableColumn<CYBooksBorrowingRecord, String> memberMailColumn;
     @FXML private TableColumn<CYBooksBorrowingRecord, String> titleColumn;
     @FXML private TableColumn<CYBooksBorrowingRecord, String> authorColumn;
     @FXML private TableColumn<CYBooksBorrowingRecord, Integer> yearColumn;
@@ -61,7 +59,7 @@ public class CYBooksBorrowingController {
     @FXML
     public void initialize() {
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
-        memberIdColumn.setCellValueFactory(new PropertyValueFactory<>("memberId"));
+        memberMailColumn.setCellValueFactory(new PropertyValueFactory<>("memberMail"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
@@ -77,10 +75,10 @@ public class CYBooksBorrowingController {
     private void loadBorrowingData() {
         try (Connection connection = DatabaseUtil.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM books")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM books JOIN users ON users.id = books.user_id")) {
 
             while (resultSet.next()) {
-                String memberId = resultSet.getString("user_id");
+                String memberMail = resultSet.getString("email");
 
                 // Vous pouvez ajouter d'autres champs si nécessaire
                 String isbn = resultSet.getString("isbn");
@@ -128,7 +126,7 @@ public class CYBooksBorrowingController {
                 LocalDate borrowingDate = resultSet.getDate("loan_date").toLocalDate();
                 LocalDate returnDate = resultSet.getDate("return_date").toLocalDate();
 
-                CYBooksBorrowingRecord record = new CYBooksBorrowingRecord(isbn, memberId,title,author,year, editor, stock,topics,borrowingDate,returnDate);
+                CYBooksBorrowingRecord record = new CYBooksBorrowingRecord(isbn, memberMail,title,author,year, editor, stock,topics,borrowingDate,returnDate);
                 borrowingData.add(record);
             }
         } catch (Exception e) {
@@ -151,7 +149,7 @@ public class CYBooksBorrowingController {
                 return record.getTitle().toLowerCase().contains(lowerCaseFilter)
                         || record.getAuthor().toLowerCase().contains(lowerCaseFilter)
                         || record.getIsbn().toLowerCase().contains(lowerCaseFilter)
-                        || record.getMemberId().toLowerCase().contains(lowerCaseFilter)
+                        || record.getMemberMail().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(record.getYear()).contains(lowerCaseFilter)
                         || record.getEditor().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(record.getStock()).contains(lowerCaseFilter)
@@ -183,7 +181,7 @@ public class CYBooksBorrowingController {
     }
 
     public void AddBorrowing() {
-        loadView("MainAuthor.fxml");
+        loadView("CYBooks_NewBorrowing.fxml");
     }
 
     public void returnMain() {
