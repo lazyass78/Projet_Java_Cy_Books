@@ -80,7 +80,9 @@ public class MainAuthorController {
 
             {
                 borrowButton.setOnAction(event -> {
-                    loadView("CYBooks_NewBorrowing.fxml");
+                    Model.Document document = getTableView().getItems().get(getIndex());
+                    String isbn = document.getId();
+                    loadNewBorrowingView(isbn);
                 });
             }
             {
@@ -101,6 +103,26 @@ public class MainAuthorController {
         });
         searchBooks();
     }
+
+    @FXML private void loadNewBorrowingView(String isbn) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CYBooks_NewBorrowing.fxml"));
+            Parent view = loader.load();
+
+            // Récupérer le contrôleur cible
+            CYBooksNewBorrowingController controller = loader.getController();
+
+            // Passer les données au contrôleur cible
+            controller.setDocumentIsbn(isbn);
+
+            // Remplacer le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            mainContainer.getChildren().clear();
+            mainContainer.getChildren().add(view);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     private void handleSearch() {

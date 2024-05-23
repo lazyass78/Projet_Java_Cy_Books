@@ -7,7 +7,7 @@ public class MemberManager {
         return true; // a compléter
     }
 
-    public boolean searchMember(MemberInutile member) {
+    public boolean searchMember(Member member) {
         return true; // a completer
     }
 
