@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class CYBooksBorrowingRecord {
     private String isbn;
-    private String memberId;
+    private String memberMail;
     private String title;
     private String author;
     private int year;
@@ -14,9 +14,9 @@ public class CYBooksBorrowingRecord {
     private LocalDate borrowingDate;
     private LocalDate returnDate;
 
-        public CYBooksBorrowingRecord(String isbn,String memberId, String title, String author, int year, String editor, int stock, String topics,LocalDate borrowingDate,LocalDate returnDate) {
+        public CYBooksBorrowingRecord(String isbn,String memberMail, String title, String author, int year, String editor, int stock, String topics,LocalDate borrowingDate,LocalDate returnDate) {
         this.isbn = isbn;
-        this.memberId = memberId;
+        this.memberMail = memberMail;
         this.title=title;
         this.author = author;
         this.year = year;
@@ -35,12 +35,12 @@ public class CYBooksBorrowingRecord {
         this.isbn = isbn;
     }
 
-    public String getMemberId() {
-        return memberId;
+    public String getMemberMail() {
+        return memberMail;
     }
 
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
+    public void setMemberMail(String memberMail) {
+        this.memberMail = memberMail;
     }
 
     public String getTitle() {
