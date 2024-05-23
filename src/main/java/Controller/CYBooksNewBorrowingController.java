@@ -52,6 +52,7 @@ public class CYBooksNewBorrowingController {
                 showAlert(Alert.AlertType.ERROR, "Date Error", "Borrowing date is not valid");
                 return;
             }
+            
 
             // Save borrowing record
             String query = "INSERT INTO books (isbn, user_id, loan_date, return_date, quantity_available, total_quantity) VALUES (?, ?, ?, DATE_ADD(?, INTERVAL 2 WEEK), ?, ?)";
