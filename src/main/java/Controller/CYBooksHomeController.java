@@ -35,7 +35,7 @@ public class CYBooksHomeController {
     }
 
     @FXML public void Page_statistics(){
-        loadView("CYBooksStatistics.fxml");
+        loadView("CYBooks_Statistics.fxml");
     }
 
     @FXML public void SaveBorrowing(){
