@@ -7,7 +7,8 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainContainer" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksNewMemberController">
+<?import javafx.scene.control.DatePicker?>
+<AnchorPane fx:id="mainContainer" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksNewMemberController">
    <children>
       <Label layoutX="218.0" layoutY="14.0" prefHeight="43.0" prefWidth="190.0" text="New member" textFill="#4da6ff">
          <font>
@@ -34,7 +35,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="birthDate" layoutX="313.0" layoutY="180.0" />
+      <DatePicker fx:id="birthDate" layoutX="313.0" layoutY="180.0" />
       <Label layoutX="163.0" layoutY="222.0" text="Mail :" textFill="LIGHTGRAY">
          <font>
             <Font name="System Bold" size="20.0" />
