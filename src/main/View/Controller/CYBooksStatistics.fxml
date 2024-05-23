@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="mainContainer" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksStatisticsController">
+    <TextArea fx:id="statisticsTextArea" layoutX="20.0" layoutY="20.0" prefHeight="400.0" prefWidth="600.0"/>
+    <BarChart fx:id="borrowingBooksChart" layoutX="20.0" layoutY="20.0" prefHeight="400.0" prefWidth="600.0">
+        <xAxis>
+            <CategoryAxis label="Book Title"/>
+        </xAxis>
+        <yAxis>
+            <NumberAxis label="Number of Borrowings" upperBound="10"/>
+        </yAxis>
+    </BarChart>
+    <Button layoutX="20.0" layoutY="440.0" text="Show Statistics" onAction="#showStatistics"/>
+</AnchorPane>
+
+
