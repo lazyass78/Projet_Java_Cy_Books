@@ -25,6 +25,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CYBooksNewBorrowingController {
 
@@ -34,6 +36,8 @@ public class CYBooksNewBorrowingController {
     @FXML private TextField borrowingDate;
     @FXML private Button SaveBorrowing;
     @FXML private Button CancelBorrowing;
+
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9.]+@(.+)$");
 
     @FXML
     private void initialize() {
@@ -52,7 +56,10 @@ public class CYBooksNewBorrowingController {
             showAlert(Alert.AlertType.ERROR, "Form Error!", "Please fill in all fields");
             return;
         }
-
+        if (!isValidEmail(memberMailText)) {
+            showAlert(Alert.AlertType.ERROR, "Email Error", "Invalid email format");
+            return;
+        }
         Connection connection = null;
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Library", "root", "cytech0001");
@@ -170,6 +177,11 @@ public class CYBooksNewBorrowingController {
         } catch (IllegalArgumentException e) {
             return false;
         }
+    }
+
+    private boolean isValidEmail(String email) {
+        Matcher matcher = EMAIL_PATTERN.matcher(email);
+        return matcher.matches();
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {

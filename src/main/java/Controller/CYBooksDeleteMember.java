@@ -15,6 +15,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CYBooksDeleteMember {
 
@@ -25,6 +27,8 @@ public class CYBooksDeleteMember {
     @FXML private TextField memberMail;
     @FXML private TextField memberLastName;
 
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9.]+@(.+)$");
+
     public void DeleteMember(ActionEvent actionEvent) {
         String mail = memberMail.getText().trim();
         String lastName = memberLastName.getText().trim();
@@ -32,6 +36,11 @@ public class CYBooksDeleteMember {
         // Vérifier que les deux champs sont renseignés
         if (mail.isEmpty() || lastName.isEmpty()) {
             showError("Both fields must be filled out.");
+            return;
+        }
+
+        if (!isValidEmail(mail)) {
+            showAlert(Alert.AlertType.ERROR, "Email Error", "Invalid email format");
             return;
         }
 
@@ -95,6 +104,14 @@ public class CYBooksDeleteMember {
         }
     }
 
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -109,5 +126,10 @@ public class CYBooksDeleteMember {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private boolean isValidEmail(String email) {
+        Matcher matcher = EMAIL_PATTERN.matcher(email);
+        return matcher.matches();
     }
 }
