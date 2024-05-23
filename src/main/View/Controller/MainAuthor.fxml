@@ -35,9 +35,7 @@
     </center>
     <bottom>
         <HBox alignment="CENTER" prefHeight="0.0" prefWidth="2662.0" spacing="10">
-            <Button fx:id="prevButton" disable="true" onAction="#handlePrev" text="Previous" />
             <Label fx:id="pageInfo" />
-            <Button fx:id="nextButton" disable="true" onAction="#handleNext" text="Next" />
         </HBox>
     </bottom>
 </BorderPane>

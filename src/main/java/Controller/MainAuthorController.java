@@ -55,10 +55,7 @@ public class MainAuthorController {
     private VBox bookContainer;
     @FXML
     private Label pageInfo;
-    @FXML
-    private Button prevButton;
-    @FXML
-    private Button nextButton;
+
 
     private ObservableList<Model.Document> bookData = FXCollections.observableArrayList();
 
@@ -84,21 +81,7 @@ public class MainAuthorController {
         searchBooks();
     }
 
-    @FXML
-    private void handlePrev() {
-        if (currentPage > 1) {
-            currentPage--;
-            searchBooks();
-        }
-    }
 
-    @FXML
-    private void handleNext() {
-        if (currentPage * recordsPerPage < totalRecords) {
-            currentPage++;
-            searchBooks();
-        }
-    }
 
     @FXML private void loadView(String fxmlFileName) {
         try {
@@ -233,8 +216,7 @@ public class MainAuthorController {
             }
 
             pageInfo.setText("Page " + currentPage + " / " + ((totalRecords + recordsPerPage - 1) / recordsPerPage));
-            prevButton.setDisable(currentPage == 1);
-            nextButton.setDisable(currentPage * recordsPerPage >= totalRecords);
+
 
         } catch (Exception e) {
             e.printStackTrace();
