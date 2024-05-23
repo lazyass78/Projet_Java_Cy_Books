@@ -103,7 +103,9 @@ public class CYBooksMemberController {
                         || record.getLastName().toLowerCase().contains(lowerCaseFilter)
                         || record.getEmail().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(record.getId()).contains(lowerCaseFilter)
-                        || record.getBorrowedBooks().toString().toLowerCase().contains(lowerCaseFilter);
+                        || record.getBorrowedBooks().toString().toLowerCase().contains(lowerCaseFilter)
+                        || record.getBirthDate().toString().contains(lowerCaseFilter)
+                        || (record.isInOrder() ? "true" : "false").contains(lowerCaseFilter);
             });
         });
     }
