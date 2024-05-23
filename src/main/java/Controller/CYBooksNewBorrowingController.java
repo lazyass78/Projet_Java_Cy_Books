@@ -92,6 +92,11 @@ public class CYBooksNewBorrowingController {
         }
     }
 
+    public void setDocumentIsbn(String isbn) {
+        isbnDocument.setText(isbn);
+    }
+
+
     private boolean checkMemberExists(Connection connection, String memberId) throws SQLException {
         String query = "SELECT email FROM users WHERE email  = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
