@@ -13,7 +13,6 @@ public class Document {
     private String year;
     private String id;
 
-    private Button borrowButton;
 
     /**
      * Constructs a Document object with the specified attributes.
@@ -28,7 +27,6 @@ public class Document {
         this.id = id;
         this.author = author;
         this.year = year;
-        this.borrowButton = new Button("Borrow");
     }
     /**
      * Returns the name of the document.
@@ -62,7 +60,4 @@ public class Document {
         return this.id;
     }
 
-    public void setBorrowButton(Button borrowButton) {
-        this.borrowButton = borrowButton;
-    }
 }

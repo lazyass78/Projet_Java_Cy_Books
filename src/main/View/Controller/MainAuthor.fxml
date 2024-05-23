@@ -12,7 +12,7 @@
 <BorderPane fx:id="mainContainer" prefWidth="1080.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainAuthorController">
     <top>
         <VBox prefHeight="397.0" prefWidth="3218.0" spacing="10">
-            <Label text="Book Search" />
+            <Label text="Book Search" textFill="WHITE" />
             <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="1080.0" spacing="10">
                 <Button fx:id="homeButton" onAction="#handleHome" text="Return home" />
             </HBox>
@@ -21,16 +21,16 @@
             <TextField fx:id="languageField" promptText="Language" />
             <TextField fx:id="titleField" promptText="Enter book title..." />
             <Button onAction="#handleSearch" text="Search" />
-            <Label text="Search Results:" />
-            <TableView fx:id="documentTable">
-                <columns>
-                    <TableColumn fx:id="idColumn" prefWidth="75.0" text="Id" />
-                    <TableColumn fx:id="titleColumn" prefWidth="75.0" text="Title" />
-                    <TableColumn fx:id="authorColumn" prefWidth="75.0" text="Author" />
-                    <TableColumn fx:id="yearColumn" prefWidth="75.0" text="Date" />
-                    <TableColumn fx:id="borrowColumn" prefWidth="75.0" text="Borrow" />
-                </columns>
-            </TableView>
+            <Label text="Search Results:" textFill="WHITE" />
+         <TableView fx:id="documentTable" minHeight="-Infinity" minWidth="-Infinity">
+           <columns>
+             <TableColumn fx:id="idColumn" prefWidth="85.60000306367874" text="Id" />
+             <TableColumn fx:id="titleColumn" prefWidth="532.7999954223633" text="Title" />
+               <TableColumn fx:id="authorColumn" minWidth="0.0" prefWidth="227.20001220703125" text="Author" />
+               <TableColumn fx:id="yearColumn" prefWidth="117.60003662109375" text="Date" />
+               <TableColumn fx:id="borrowColumn" prefWidth="123.99993896484375" text="Borrow" />
+           </columns>
+         </TableView>
         </VBox>
     </top>
     <center>
@@ -39,6 +39,7 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="0.0" prefWidth="2662.0" spacing="10">
             <Label fx:id="pageInfo" />
+            <Button fx:id="moreButton" disable="true" onAction="#loadMoreBooks" text="Load more books" />
         </HBox>
     </bottom>
 </BorderPane>

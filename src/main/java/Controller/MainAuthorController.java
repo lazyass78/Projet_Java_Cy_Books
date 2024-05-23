@@ -4,6 +4,7 @@ package Controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -30,7 +31,11 @@ import java.net.http.HttpResponse;
 
 public class MainAuthorController {
     @FXML
-    private TableColumn<Model.Document, Button> borrowColumn;
+    private Button homeButton;
+    @FXML
+    private Button moreButton;
+    @FXML
+    private TableColumn<Model.Document, Void> borrowColumn;
     @FXML
     private TableColumn<Model.Document, Integer> yearColumn;
     @FXML
@@ -55,17 +60,13 @@ public class MainAuthorController {
     private VBox bookContainer;
     @FXML
     private Label pageInfo;
-    @FXML
-    private Button homeButton;
-
 
     private ObservableList<Model.Document> bookData = FXCollections.observableArrayList();
 
-    private Button borrowButton;
     private String currentQuery;
     private int currentPage;
     private int totalRecords;
-    private final int recordsPerPage = 50;
+    private final int recordsPerPage = 20;
 
     @FXML
     public void initialize() {
@@ -73,52 +74,48 @@ public class MainAuthorController {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
-        borrowColumn.setCellValueFactory(new PropertyValueFactory<>("borrowButton"));
-
-        // Crée une cellule personnalisée pour la colonne "Borrow"
-        borrowColumn.setCellFactory(column -> new TableCell<Model.Document, Button>() {
+        // Configure the borrowColumn with buttons
+        borrowColumn.setCellFactory(param -> new TableCell<Model.Document, Void>() {
             private final Button borrowButton = new Button("Borrow");
 
             {
-                // Définit l'action à effectuer lorsque le bouton est cliqué
                 borrowButton.setOnAction(event -> {
-                    Model.Document document = getTableView().getItems().get(getIndex());
-                    // Ajoutez ici le code pour l'action "Borrow" souhaitée
-                    // Par exemple, ouvrir une nouvelle vue
                     loadView("CYBooks_NewBorrowing.fxml");
+                });
+            }
+            {
+                moreButton.setOnAction(event -> {
+                    loadMoreBooks();
                 });
             }
 
             @Override
-            protected void updateItem(Button item, boolean empty) {
+            protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                // Efface le contenu de la cellule
-                setGraphic(null);
-                setText(null);
-
-                // Si la ligne n'est pas vide, ajoute le bouton "Borrow"
-                if (!empty) {
+                if (empty) {
+                    setGraphic(null);
+                } else {
                     setGraphic(borrowButton);
                 }
             }
         });
-
         searchBooks();
     }
 
-
-
     @FXML
     private void handleSearch() {
+        bookData.clear();
         currentPage = 1;
         searchBooks();
     }
 
     @FXML
-    private void handleHome() {
-        loadView("CYBooks_Home.fxml");
+    private void loadMoreBooks() {
+        if (currentPage * recordsPerPage < totalRecords) {
+            currentPage++;
+            searchBooks();
+        }
     }
-
 
     @FXML private void loadView(String fxmlFileName) {
         try {
@@ -153,7 +150,6 @@ public class MainAuthorController {
             currentQuery = author;
             currentPage = 1;
         }
-
 
 
         try {
@@ -191,15 +187,24 @@ public class MainAuthorController {
 
             NodeList idNodes = doc.getElementsByTagName("uri");
             NodeList identifierNodes = doc.getElementsByTagName("dc:identifier");
-            for (int i = 0; i < idNodes.getLength(); i++) {
-                String titles = "";
-                String authors = "";
-                String years = "";
+            int i = 0;
+            while (i < idNodes.getLength()) {
                 Element identifierElement = (Element) identifierNodes.item(i);
                 String identifiers = identifierElement.getTextContent();
 
                 Element idElement = (Element) idNodes.item(i);
                 String ids = idElement.getTextContent();
+                int i1 = i + 1;
+
+                while (!identifiers.contains(ids)) {
+                    identifierElement = (Element) identifierNodes.item(i1);
+                    identifiers = identifierElement.getTextContent();
+                    i1++;
+                }
+                String titles = "";
+                String authors = "";
+                String years = "";
+
 
                 String url1 = apiUrl + "dc.identifier%20all%20" + URLEncoder.encode(identifiers, "UTF-8");
                 System.out.println(url1);
@@ -237,12 +242,8 @@ public class MainAuthorController {
                 bookItem.setAlignment(Pos.CENTER_LEFT);
                 Model.Document document = new Model.Document(titles, authors, years, ids);
                 bookData.add(document);
-                borrowButton = new Button("Borrow");
-                document.setBorrowButton(borrowButton);
-                borrowButton.setOnAction(e -> {
-                    loadView("CYBooks_NewBorrowing.fxml");
-                });
                 documentTable.setItems(bookData);
+                i++;
             }
             NodeList numberOfRecordsNodes = doc.getElementsByTagName("srw:numberOfRecords");
             if (numberOfRecordsNodes != null && numberOfRecordsNodes.getLength() > 0) {
@@ -251,13 +252,14 @@ public class MainAuthorController {
             } else {
                 totalRecords = 0; // Initialize totalRecords if no number is found
             }
-
-            pageInfo.setText("Page " + currentPage + " / " + ((totalRecords + recordsPerPage - 1) / recordsPerPage));
-
+            moreButton.setDisable(currentPage * recordsPerPage >= totalRecords);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    @FXML private void handleHome(){
+        loadView("CYBooks_Home.fxml");
     }
 }
 
