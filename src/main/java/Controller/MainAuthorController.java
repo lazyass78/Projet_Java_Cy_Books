@@ -55,6 +55,8 @@ public class MainAuthorController {
     private VBox bookContainer;
     @FXML
     private Label pageInfo;
+    @FXML
+    private Button homeButton;
 
 
     private ObservableList<Model.Document> bookData = FXCollections.observableArrayList();
@@ -72,8 +74,39 @@ public class MainAuthorController {
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
         borrowColumn.setCellValueFactory(new PropertyValueFactory<>("borrowButton"));
+
+        // Crée une cellule personnalisée pour la colonne "Borrow"
+        borrowColumn.setCellFactory(column -> new TableCell<Model.Document, Button>() {
+            private final Button borrowButton = new Button("Borrow");
+
+            {
+                // Définit l'action à effectuer lorsque le bouton est cliqué
+                borrowButton.setOnAction(event -> {
+                    Model.Document document = getTableView().getItems().get(getIndex());
+                    // Ajoutez ici le code pour l'action "Borrow" souhaitée
+                    // Par exemple, ouvrir une nouvelle vue
+                    loadView("CYBooks_NewBorrowing.fxml");
+                });
+            }
+
+            @Override
+            protected void updateItem(Button item, boolean empty) {
+                super.updateItem(item, empty);
+                // Efface le contenu de la cellule
+                setGraphic(null);
+                setText(null);
+
+                // Si la ligne n'est pas vide, ajoute le bouton "Borrow"
+                if (!empty) {
+                    setGraphic(borrowButton);
+                }
+            }
+        });
+
         searchBooks();
     }
+
+
 
     @FXML
     private void handleSearch() {
@@ -81,6 +114,10 @@ public class MainAuthorController {
         searchBooks();
     }
 
+    @FXML
+    private void handleHome() {
+        loadView("CYBooks_Home.fxml");
+    }
 
 
     @FXML private void loadView(String fxmlFileName) {

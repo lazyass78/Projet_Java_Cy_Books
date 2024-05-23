@@ -13,21 +13,24 @@
     <top>
         <VBox prefHeight="397.0" prefWidth="3218.0" spacing="10">
             <Label text="Book Search" />
+            <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="1080.0" spacing="10">
+                <Button fx:id="homeButton" onAction="#handleHome" text="Return home" />
+            </HBox>
             <TextField fx:id="authorField" promptText="Enter author's name..." />
             <TextField fx:id="yearField" promptText="Publication date" />
             <TextField fx:id="languageField" promptText="Language" />
             <TextField fx:id="titleField" promptText="Enter book title..." />
             <Button onAction="#handleSearch" text="Search" />
             <Label text="Search Results:" />
-         <TableView fx:id="documentTable">
-           <columns>
-             <TableColumn fx:id="idColumn" prefWidth="75.0" text="Id" />
-             <TableColumn fx:id="titleColumn" prefWidth="75.0" text="Title" />
-               <TableColumn fx:id="authorColumn" prefWidth="75.0" text="Author" />
-               <TableColumn fx:id="yearColumn" prefWidth="75.0" text="Date" />
-               <TableColumn fx:id="borrowColumn" prefWidth="75.0" text="Borrow" />
-           </columns>
-         </TableView>
+            <TableView fx:id="documentTable">
+                <columns>
+                    <TableColumn fx:id="idColumn" prefWidth="75.0" text="Id" />
+                    <TableColumn fx:id="titleColumn" prefWidth="75.0" text="Title" />
+                    <TableColumn fx:id="authorColumn" prefWidth="75.0" text="Author" />
+                    <TableColumn fx:id="yearColumn" prefWidth="75.0" text="Date" />
+                    <TableColumn fx:id="borrowColumn" prefWidth="75.0" text="Borrow" />
+                </columns>
+            </TableView>
         </VBox>
     </top>
     <center>
