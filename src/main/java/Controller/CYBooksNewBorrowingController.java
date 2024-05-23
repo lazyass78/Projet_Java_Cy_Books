@@ -8,8 +8,21 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -62,6 +75,12 @@ public class CYBooksNewBorrowingController {
                 return;
             }
 
+            // Check if id is valid
+            if (!checkIdExists(isbnText)) {
+                showAlert(Alert.AlertType.ERROR, "Id Error", "Id is not valid");
+                return;
+            }
+
             // Save borrowing record
             String query = "INSERT INTO books (isbn, user_id, loan_date, return_date, quantity_available, total_quantity) VALUES (?, (SELECT id FROM users WHERE email = ?), ?, DATE_ADD(?, INTERVAL 2 WEEK), ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -103,6 +122,36 @@ public class CYBooksNewBorrowingController {
         preparedStatement.setString(1, memberMail.getText());
         ResultSet resultSet = preparedStatement.executeQuery();
         return resultSet.next();
+    }
+    private boolean checkIdExists(String id){
+        try {
+            String apiUrl = "https://gallica.bnf.fr/SRU?operation=searchRetrieve&version=1.2";
+            String encodedQuery = URLEncoder.encode(id, "UTF-8");
+            String searchQuery = "query=dc.identifier%20all%20" + encodedQuery;
+            String url = apiUrl + "&" + searchQuery;
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(url))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseBody = response.body();
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(new InputSource(new StringReader(responseBody)));
+
+
+            NodeList identifierNodes = doc.getElementsByTagName("dc:identifier");
+            if (identifierNodes.getLength() == 0) {
+                return false;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     private boolean checkBookNotBorrowed(Connection connection, String isbn) throws SQLException {
