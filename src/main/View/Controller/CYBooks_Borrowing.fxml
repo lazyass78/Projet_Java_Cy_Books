@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksBorrowingController">
+<AnchorPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksBorrowingController">
    <children>
       <Label layoutX="153.0" layoutY="10.0" text="Borrowing management" textFill="#4da6ff">
          <font>
@@ -40,5 +40,6 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
+      <Button fx:id="returnBorrow" layoutX="254.0" layoutY="410.0" mnemonicParsing="false" onAction="#deleteBorrow" text="Return borrow" />
    </children>
 </AnchorPane>
