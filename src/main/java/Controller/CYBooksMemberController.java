@@ -1,11 +1,11 @@
 package Controller;
 
 
+import Model.Member;
 import Utils.DatabaseUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,12 +18,10 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,18 +31,18 @@ public class CYBooksMemberController {
     @FXML private Button Search;
     @FXML private Button Add;
     @FXML private Button Delete;
-    @FXML private TableView<CYBooksMemberRecord> borrowingTableView;
-    @FXML private TableColumn<CYBooksMemberRecord, Integer> memberIdColumn;
-    @FXML private TableColumn<CYBooksMemberRecord, String> lastNameColumn;
-    @FXML private TableColumn<CYBooksMemberRecord, String> nameColumn;
-    @FXML private TableColumn<CYBooksMemberRecord, LocalDate> birthDateColumn;
-    @FXML private TableColumn<CYBooksMemberRecord, String> mailColumn;
-    @FXML private TableColumn<CYBooksMemberRecord, Boolean> inOrderColumn;
-    @FXML private TableColumn<CYBooksMemberRecord, String> borrowedBooksColumn;
+    @FXML private TableView<Member> borrowingTableView;
+    @FXML private TableColumn<Member, Integer> memberIdColumn;
+    @FXML private TableColumn<Member, String> lastNameColumn;
+    @FXML private TableColumn<Member, String> nameColumn;
+    @FXML private TableColumn<Member, LocalDate> birthDateColumn;
+    @FXML private TableColumn<Member, String> mailColumn;
+    @FXML private TableColumn<Member, Boolean> inOrderColumn;
+    @FXML private TableColumn<Member, String> borrowedBooksColumn;
     @FXML private TextField searchMember;
 
-    private ObservableList<CYBooksMemberRecord> memberData = FXCollections.observableArrayList();
-    private FilteredList<CYBooksMemberRecord> filteredData = new FilteredList<>(memberData, p -> true);
+    private ObservableList<Member> memberData = FXCollections.observableArrayList();
+    private FilteredList<Member> filteredData = new FilteredList<>(memberData, p -> true);
 
     public void initialize() {
         memberIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -82,7 +80,7 @@ public class CYBooksMemberController {
                     }
                 }
 
-                CYBooksMemberRecord record = new CYBooksMemberRecord(id, firstName, lastName, inOrder, email, birthDate, borrowedBooks);
+                Member record = new Member(id, firstName, lastName, inOrder, email, birthDate, borrowedBooks);
                 memberData.add(record);
             }
         } catch (Exception e) {

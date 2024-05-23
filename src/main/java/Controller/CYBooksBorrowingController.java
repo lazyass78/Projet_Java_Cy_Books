@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Borrowing;
 import Utils.DatabaseUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,21 +40,21 @@ public class CYBooksBorrowingController {
     @FXML private Button BackHomePage;
     @FXML private Button Search;
 
-    @FXML private TableView<CYBooksBorrowingRecord> borrowingTableView;
-    @FXML private TableColumn<CYBooksBorrowingRecord, String> isbnColumn;
-    @FXML private TableColumn<CYBooksBorrowingRecord, String> memberMailColumn;
-    @FXML private TableColumn<CYBooksBorrowingRecord, String> titleColumn;
-    @FXML private TableColumn<CYBooksBorrowingRecord, String> authorColumn;
-    @FXML private TableColumn<CYBooksBorrowingRecord, Integer> yearColumn;
-    @FXML private TableColumn<CYBooksBorrowingRecord, String> editorColumn;
-    @FXML private TableColumn<CYBooksBorrowingRecord, Integer> stockColumn;
-    @FXML private TableColumn<CYBooksBorrowingRecord, String> topicsColumn;
-    @FXML private TableColumn<CYBooksBorrowingRecord, String> borrowingDateColumn;
-    @FXML private TableColumn<CYBooksBorrowingRecord, String> returnDateColumn;
+    @FXML private TableView<Borrowing> borrowingTableView;
+    @FXML private TableColumn<Borrowing, String> isbnColumn;
+    @FXML private TableColumn<Borrowing, String> memberMailColumn;
+    @FXML private TableColumn<Borrowing, String> titleColumn;
+    @FXML private TableColumn<Borrowing, String> authorColumn;
+    @FXML private TableColumn<Borrowing, Integer> yearColumn;
+    @FXML private TableColumn<Borrowing, String> editorColumn;
+    @FXML private TableColumn<Borrowing, Integer> stockColumn;
+    @FXML private TableColumn<Borrowing, String> topicsColumn;
+    @FXML private TableColumn<Borrowing, String> borrowingDateColumn;
+    @FXML private TableColumn<Borrowing, String> returnDateColumn;
 
     @FXML private TextField dataBook;
-    private ObservableList<CYBooksBorrowingRecord> borrowingData = FXCollections.observableArrayList();
-    private FilteredList<CYBooksBorrowingRecord> filteredData;
+    private ObservableList<Borrowing> borrowingData = FXCollections.observableArrayList();
+    private FilteredList<Borrowing> filteredData;
 
 
     @FXML
@@ -126,7 +127,7 @@ public class CYBooksBorrowingController {
                 LocalDate borrowingDate = resultSet.getDate("loan_date").toLocalDate();
                 LocalDate returnDate = resultSet.getDate("return_date").toLocalDate();
 
-                CYBooksBorrowingRecord record = new CYBooksBorrowingRecord(isbn, memberMail,title,author,year, editor, stock,topics,borrowingDate,returnDate);
+                Borrowing record = new Borrowing(isbn, memberMail,title,author,year, editor, stock,topics,borrowingDate,returnDate);
                 borrowingData.add(record);
             }
         } catch (Exception e) {

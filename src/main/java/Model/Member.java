@@ -1,121 +1,80 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Represents a member of the library.
- */
 public class Member {
+    private int id;
+    private String firstName;
     private String lastName;
-    private String name;
-    private Date birthDate;
-    private String mail;
-    private List<Document> borrowedBooks;
-    /**
-     * Constructs a Member object with the specified attributes.
-     *
-     * @param lastName   the last name of the member
-     * @param name       the first name of the member
-     * @param birthDate  the birthdate of the member
-     * @param mail       the email address of the member
-     */
-    public Member(String lastName, String name, Date birthDate, String mail){
-        this.borrowedBooks = new ArrayList<Document>();
+    private boolean inOrder;
+    private String email;
+    private LocalDate birthDate;
+    private List<String> borrowedBooks;
+
+    public Member(int id, String firstName, String lastName, boolean inOrder, String email, LocalDate birthDate, List<String> borrowedBooks) {
+        this.id = id;
+        this.firstName = firstName;
         this.lastName = lastName;
-        this.name = name;
+        this.inOrder = inOrder;
+        this.email = email;
         this.birthDate = birthDate;
-        this.mail = mail;
+        this.borrowedBooks=borrowedBooks;
     }
-    /**
-     * Returns the birthdate of the member.
-     *
-     * @return the birthdate of the member
-     */
-    public Date getBirthDate() {
-        return birthDate;
+
+    public int getId() {
+        return id;
     }
-    /**
-     * Returns the list of borrowed books by the member.
-     *
-     * @return the list of borrowed books by the member
-     */
-    public List<Document> getBorrowedBooks() {
-        return borrowedBooks;
+
+    public void setId(int id) {
+        this.id = id;
     }
-    /**
-     * Returns the last name of the member.
-     *
-     * @return the last name of the member
-     */
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getLastName() {
         return lastName;
     }
-    /**
-     * Returns the email address of the member.
-     *
-     * @return the email address of the member
-     */
-    public String getMail() {
-        return mail;
-    }
-    /**
-     * Returns the first name of the member.
-     *
-     * @return the first name of the member
-     */
-    public String getName() {
-        return name;
-    }
 
-    /**
-     * Sets the birthdate of the member.
-     *
-     * @param birthDate the birthdate of the member
-     */
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
-    /**
-     * Sets the list of borrowed books by the member.
-     *
-     * @param borrowedBooks the list of borrowed books by the member
-     */
-    public void setBorrowedBooks(List<Document> borrowedBooks) {
-        this.borrowedBooks = borrowedBooks;
-    }
-    /**
-     * Sets the last name of the member.
-     *
-     * @param lastName the last name of the member
-     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    /**
-     * Sets the email address of the member.
-     *
-     * @param mail the email address of the member
-     */
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-    /**
-     * Sets the first name of the member.
-     *
-     * @param name the first name of the member
-     */
-    public void setName(String name) {
-        this.name = name;
+
+    public boolean isInOrder() {
+        return inOrder;
     }
 
-    /**
-     * Adds a document to the list of borrowed books by the member.
-     *
-     * @param document the document to be added to the list of borrowed books
-     */
-    public void addBorrowedBooks(Document document) {
-        this.borrowedBooks.add(document);
+    public void setInOrder(boolean inOrder) {
+        this.inOrder = inOrder;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public List<String> getBorrowedBooks() {
+        return borrowedBooks;
+    }
+
+    public void setBorrowedBooks(List<String> borrowedBooks) {
+        this.borrowedBooks = borrowedBooks;
     }
 }
