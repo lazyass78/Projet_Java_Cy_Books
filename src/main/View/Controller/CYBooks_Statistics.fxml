@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksStatisticsController">
+<AnchorPane fx:id="mainContainer" prefHeight="428.0" prefWidth="628.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksStatisticsController">
     <children>
         <BarChart fx:id="barChart" layoutX="14.0" layoutY="14.0" prefHeight="400.0" prefWidth="600.0">
             <xAxis>
@@ -15,9 +14,6 @@
                 <NumberAxis fx:id="yAxis" />
             </yAxis>
         </BarChart>
+      <Button fx:id="returnHome" layoutX="262.0" layoutY="378.0" mnemonicParsing="false" onAction="#returnHome" prefHeight="34.0" prefWidth="87.0" text="Return Home" />
     </children>
 </AnchorPane>
-
-
-
-
