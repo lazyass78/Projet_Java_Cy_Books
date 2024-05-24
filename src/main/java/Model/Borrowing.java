@@ -8,21 +8,17 @@ public class Borrowing {
     private String title;
     private String author;
     private String year;
-    private String editor;
     private int stock;
-    private String topics;
     private LocalDate borrowingDate;
     private LocalDate returnDate;
 
-        public Borrowing(String isbn, String memberMail, String title, String author, String year, String editor, int stock, String topics, LocalDate borrowingDate, LocalDate returnDate) {
+        public Borrowing(String isbn, String memberMail, String title, String author, String year,  int stock, LocalDate borrowingDate, LocalDate returnDate) {
         this.isbn = isbn;
         this.memberMail = memberMail;
         this.title=title;
         this.author = author;
         this.year = year;
-        this.editor = editor;
         this.stock = stock;
-        this.topics = topics;
         this.borrowingDate = borrowingDate;
         this.returnDate=returnDate;
 
@@ -67,28 +63,12 @@ public class Borrowing {
         this.year = year;
     }
 
-    public String getEditor() {
-        return editor;
-    }
-
-    public void setEditor(String editor) {
-        this.editor = editor;
-    }
-
     public int getStock() {
         return stock;
     }
 
     public void setStock(int stock) {
         this.stock = stock;
-    }
-
-    public String getTopics() {
-        return topics;
-    }
-
-    public void setTopics(String topics) {
-        this.topics = topics;
     }
 
     public LocalDate getBorrowingDate() {

@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
@@ -17,7 +16,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -28,7 +26,7 @@ import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CYBooksNewBorrowingController {
+public class CYBooksNewBorrowing2Controller {
 
     @FXML private AnchorPane mainContainer;
     @FXML private TextField memberMail;
@@ -252,7 +250,7 @@ public class CYBooksNewBorrowingController {
     }
 
     @FXML public void CancelBorrowing(ActionEvent actionEvent) {
-        loadView("CYBooks_Borrowing.fxml");
+        loadView("MainAuthor.fxml");
     }
 
     @FXML private void loadView(String fxmlFileName) {

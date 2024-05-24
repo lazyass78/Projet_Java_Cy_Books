@@ -45,9 +45,7 @@ public class CYBooksBorrowingController {
     @FXML private TableColumn<Borrowing, String> titleColumn;
     @FXML private TableColumn<Borrowing, String> authorColumn;
     @FXML private TableColumn<Borrowing, Integer> yearColumn;
-    @FXML private TableColumn<Borrowing, String> editorColumn;
     @FXML private TableColumn<Borrowing, Integer> stockColumn;
-    @FXML private TableColumn<Borrowing, String> topicsColumn;
     @FXML private TableColumn<Borrowing, String> borrowingDateColumn;
     @FXML private TableColumn<Borrowing, LocalDate> returnDateColumn;
 
@@ -63,9 +61,7 @@ public class CYBooksBorrowingController {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
-        editorColumn.setCellValueFactory(new PropertyValueFactory<>("editor"));
         stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        topicsColumn.setCellValueFactory(new PropertyValueFactory<>("topics"));
         borrowingDateColumn.setCellValueFactory(new PropertyValueFactory<>("borrowingDate"));
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
         returnDateColumn.setCellFactory(column -> new TableCell<Borrowing, LocalDate>() {
@@ -142,13 +138,11 @@ public class CYBooksBorrowingController {
                         year = yearElement.getTextContent();
                     }
                 }
-                String editor = "Unknown"; // Remplacer par le champ approprié
                 int stock = resultSet.getInt("quantity_available");
-                String topics = "Unknown"; // Remplacer par le champ approprié
                 LocalDate borrowingDate = resultSet.getDate("loan_date").toLocalDate();
                 LocalDate returnDate = resultSet.getDate("return_date").toLocalDate();
 
-                Borrowing record = new Borrowing(isbn, memberMail,title,author,year, editor, stock,topics,borrowingDate,returnDate);
+                Borrowing record = new Borrowing(isbn, memberMail,title,author,year, stock,borrowingDate,returnDate);
                 borrowingData.add(record);
                 // Met à jour le statut si la date de retour est dépassée
                 if (returnDate.isBefore(LocalDate.now())) {
@@ -182,9 +176,7 @@ public class CYBooksBorrowingController {
                         || record.getIsbn().toLowerCase().contains(lowerCaseFilter)
                         || record.getMemberMail().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(record.getYear()).contains(lowerCaseFilter)
-                        || record.getEditor().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(record.getStock()).contains(lowerCaseFilter)
-                        || record.getTopics().toLowerCase().contains(lowerCaseFilter)
                         || record.getBorrowingDate().toString().contains(lowerCaseFilter)
                         || record.getReturnDate().toString().contains(lowerCaseFilter);
             });
@@ -212,7 +204,7 @@ public class CYBooksBorrowingController {
     }
 
     public void AddBorrowing() {
-        loadView("CYBooks_NewBorrowing.fxml");
+        loadView("CYBooks_NewBorrowing1.fxml");
     }
 
     public void returnMain() {

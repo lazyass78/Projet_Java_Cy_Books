@@ -4,7 +4,6 @@ package Controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -106,11 +105,11 @@ public class MainAuthorController {
 
     @FXML private void loadNewBorrowingView(String isbn) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("CYBooks_NewBorrowing.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CYBooks_NewBorrowing2.fxml"));
             Parent view = loader.load();
 
             // Récupérer le contrôleur cible
-            CYBooksNewBorrowingController controller = loader.getController();
+            CYBooksNewBorrowing2Controller controller = loader.getController();
 
             // Passer les données au contrôleur cible
             controller.setDocumentIsbn(isbn);
