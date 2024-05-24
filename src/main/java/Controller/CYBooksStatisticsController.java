@@ -1,12 +1,20 @@
 package Controller;
 
+import Utils.DatabaseUtil;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.Node;
+
+import java.io.IOException;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,14 +30,16 @@ public class CYBooksStatisticsController {
     @FXML
     private NumberAxis yAxis;
 
-    private static final String URL = "jdbc:mysql://localhost:3306/Library";
-    private static final String USER = "root";
-    private static final String PASSWORD = "cytech0001";
+    @FXML
+    private Button returnHome;
+
+    @FXML private AnchorPane mainContainer;
+
 
     public void initialize() {
         try {
             // Step 1: Connect to the database
-            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            Connection connection = DatabaseUtil.getConnection();
 
             // Step 2: Create a statement
             Statement statement = connection.createStatement();
@@ -63,6 +73,26 @@ public class CYBooksStatisticsController {
         }
     }
 
+    @FXML
+    private void loadView(String fxmlFileName) {
+        try {
+            if (mainContainer == null) {
+                System.err.println("Erreur : mainContainer n'a pas été correctement initialisé.");
+                return;
+            }
+
+            // Charge le fichier FXML de la vue spécifiée
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
+            Parent view = fxmlLoader.load();
+
+            // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            mainContainer.getChildren().clear();
+            mainContainer.getChildren().add(view);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void applyBarColors(XYChart.Series<String, Number> series, Map<String, String> colorMap) {
         for (XYChart.Data<String, Number> data : series.getData()) {
             Node node = data.getNode();
@@ -77,6 +107,10 @@ public class CYBooksStatisticsController {
                 (int)(color.getRed() * 255),
                 (int)(color.getGreen() * 255),
                 (int)(color.getBlue() * 255));
+    }
+
+    @FXML public void returnHome() {
+        loadView("CYBooks_Home.fxml");
     }
 }
 
