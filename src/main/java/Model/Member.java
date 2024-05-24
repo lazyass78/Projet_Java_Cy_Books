@@ -7,15 +7,17 @@ public class Member {
     private int id;
     private String firstName;
     private String lastName;
+    private int numberBorrow;
     private boolean inOrder;
     private String email;
     private LocalDate birthDate;
     private List<String> borrowedBooks;
 
-    public Member(int id, String firstName, String lastName, boolean inOrder, String email, LocalDate birthDate, List<String> borrowedBooks) {
+    public Member(int id, String firstName, String lastName,int numberBorrow, boolean inOrder, String email, LocalDate birthDate, List<String> borrowedBooks) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.numberBorrow = numberBorrow;
         this.inOrder = inOrder;
         this.email = email;
         this.birthDate = birthDate;
@@ -44,6 +46,14 @@ public class Member {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public int getNumberBorrow() {
+        return numberBorrow;
+    }
+
+    public void setNumberBorrow(int numberBorrow) {
+        this.numberBorrow = numberBorrow;
     }
 
     public boolean isInOrder() {

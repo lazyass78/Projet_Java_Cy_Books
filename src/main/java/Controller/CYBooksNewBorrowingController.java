@@ -62,6 +62,7 @@ public class CYBooksNewBorrowingController {
         }
         Connection connection = null;
         try {
+            //à changer
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Library", "root", "cytech0001");
 
             // Check if member exists
@@ -72,7 +73,7 @@ public class CYBooksNewBorrowingController {
 
             // Check if book is not already borrowed
             if (!checkBookNotBorrowed(connection, isbnText)) {
-                showAlert(Alert.AlertType.ERROR, "Book Error", "Book is already borrowed by someone else");
+                showAlert(Alert.AlertType.ERROR, "Book Error", "Book is already borrowed");
                 return;
             }
 
@@ -87,6 +88,12 @@ public class CYBooksNewBorrowingController {
                 showAlert(Alert.AlertType.ERROR, "Id Error", "Id is not valid");
                 return;
             }
+            if (!canUserBorrowMoreBooks(connection, memberMailText)) {
+                showAlert(Alert.AlertType.ERROR, "Limit Reached", "This user has reached the borrowing limit");
+                return;
+            }
+
+            connection.setAutoCommit(false); // Begin transaction
 
             // Save borrowing record
             String query = "INSERT INTO books (isbn, user_id, loan_date, return_date, quantity_available, total_quantity) VALUES (?, (SELECT id FROM users WHERE email = ?), ?, DATE_ADD(?, INTERVAL 2 WEEK), ?, ?)";
@@ -100,16 +107,49 @@ public class CYBooksNewBorrowingController {
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
+                // Update number_borrowing for the user
+                String updateQuery = "UPDATE users SET number_borrowing = number_borrowing + 1 WHERE email = ?";
+                PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+                updateStatement.setString(1, memberMailText);
+                updateStatement.executeUpdate();
+
+                // Check if the book exists in historic and update borrow_count
+                if (checkBookExistsInHistoric(connection, isbnText)) {
+                    String updateHistoricQuery = "UPDATE historic SET borrow_count = borrow_count + 1 WHERE isbn = ?";
+                    PreparedStatement updateHistoricStatement = connection.prepareStatement(updateHistoricQuery);
+                    updateHistoricStatement.setString(1, isbnText);
+                    updateHistoricStatement.executeUpdate();
+                } else {
+                    // Insert new record into historic
+                    String insertHistoricQuery = "INSERT INTO historic (isbn,loan_date, borrow_count) VALUES (?,?, 1)";
+                    PreparedStatement insertHistoricStatement = connection.prepareStatement(insertHistoricQuery);
+                    insertHistoricStatement.setString(1, isbnText);
+                    insertHistoricStatement.setDate(2, java.sql.Date.valueOf(borrowingDateText)); // Provide loan_date
+                    insertHistoricStatement.executeUpdate();
+                }
+
+                connection.commit(); // Commit transaction
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Borrowing registered successfully");
                 loadView("CYBooks_Borrowing.fxml");
+            } else {
+                connection.rollback(); // Rollback transaction on failure
+                showAlert(Alert.AlertType.ERROR, "Database Error", "Failed to register borrowing");
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                if (connection != null) {
+                    connection.rollback(); // Rollback transaction on exception
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             showAlert(Alert.AlertType.ERROR, "Database Error", "Failed to register borrowing");
         } finally {
             try {
                 if (connection != null) {
+                    connection.setAutoCommit(true); // Reset autocommit
                     connection.close();
                 }
             } catch (SQLException e) {
@@ -182,6 +222,25 @@ public class CYBooksNewBorrowingController {
     private boolean isValidEmail(String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();
+    }
+
+    private boolean checkBookExistsInHistoric(Connection connection, String isbn) throws SQLException {
+        String query = "SELECT isbn FROM historic WHERE isbn = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, isbn);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSet.next();
+    }
+    private boolean canUserBorrowMoreBooks(Connection connection, String memberEmail) throws SQLException {
+        String query = "SELECT number_borrowing FROM users WHERE email = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, memberEmail);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            int numberBorrowing = resultSet.getInt("number_borrowing");
+            return numberBorrowing < 3;
+        }
+        return false;
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {

@@ -32,7 +32,7 @@ public class CYBooksMemberController {
     @FXML private Button Add;
     @FXML private Button Delete;
     @FXML private TableView<Member> borrowingTableView;
-    @FXML private TableColumn<Member, Integer> memberIdColumn;
+    @FXML private TableColumn<Member, Integer> numberBorrowColumn;
     @FXML private TableColumn<Member, String> lastNameColumn;
     @FXML private TableColumn<Member, String> nameColumn;
     @FXML private TableColumn<Member, LocalDate> birthDateColumn;
@@ -45,9 +45,9 @@ public class CYBooksMemberController {
     private FilteredList<Member> filteredData = new FilteredList<>(memberData, p -> true);
 
     public void initialize() {
-        memberIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        numberBorrowColumn.setCellValueFactory(new PropertyValueFactory<>("numberBorrow"));
         birthDateColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
         mailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         inOrderColumn.setCellValueFactory(new PropertyValueFactory<>("inOrder"));
@@ -67,6 +67,7 @@ public class CYBooksMemberController {
                 int id = resultSet.getInt("id");
                 String firstName = resultSet.getString("firstname");
                 String lastName = resultSet.getString("lastname");
+                int numberBorrow = resultSet.getInt("number_borrowing");
                 boolean inOrder = resultSet.getBoolean("member_in_good_standing");
                 String email = resultSet.getString("email");
                 LocalDate birthDate = resultSet.getDate("birth_date").toLocalDate();
@@ -80,7 +81,7 @@ public class CYBooksMemberController {
                     }
                 }
 
-                Member record = new Member(id, firstName, lastName, inOrder, email, birthDate, borrowedBooks);
+                Member record = new Member(id, firstName, lastName,numberBorrow, inOrder, email, birthDate, borrowedBooks);
                 memberData.add(record);
             }
         } catch (Exception e) {
@@ -101,6 +102,7 @@ public class CYBooksMemberController {
                         || record.getLastName().toLowerCase().contains(lowerCaseFilter)
                         || record.getEmail().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(record.getId()).contains(lowerCaseFilter)
+                        || String.valueOf(record.getNumberBorrow()).contains(lowerCaseFilter)
                         || record.getBorrowedBooks().toString().toLowerCase().contains(lowerCaseFilter)
                         || record.getBirthDate().toString().contains(lowerCaseFilter)
                         || (record.isInOrder() ? "true" : "false").contains(lowerCaseFilter);
