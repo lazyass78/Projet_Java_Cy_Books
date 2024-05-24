@@ -5,12 +5,9 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.time.LocalDate;
+import javafx.scene.paint.Color;
+import javafx.scene.Node;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,57 +22,63 @@ public class CYBooksStatisticsController {
     @FXML
     private NumberAxis yAxis;
 
-    @FXML
+    private static final String URL = "jdbc:mysql://localhost:3306/Library";
+    private static final String USER = "root";
+    private static final String PASSWORD = "cytech0001";
+
     public void initialize() {
-        if (yAxis != null) {
-            yAxis.setTickUnit(1.0);  // Example value, adjust based on expected data range
-        } else {
-            System.err.println("yAxis is not properly injected.");
-        }
+        try {
+            // Step 1: Connect to the database
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
 
-        // Fetch borrowing data for the last 30 days and populate the bar chart
-        Map<String, Integer> borrowingData = getBorrowingDataForLast30Days();
-        populateBarChart(borrowingData);
-    }
+            // Step 2: Create a statement
+            Statement statement = connection.createStatement();
 
-    private Map<String, Integer> getBorrowingDataForLast30Days() {
-        Map<String, Integer> data = new HashMap<>();
-        String url = "jdbc:mysql://localhost:3306/Library";
-        String user = "root";  // Replace with your actual database username
-        String password = "cytech0001";  // Replace with your actual database password
+            // Step 3: Execute the query to get books borrowed in the last 30 days
+            String query = "SELECT isbn, COUNT(*) as borrow_count FROM historic WHERE loan_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) GROUP BY isbn ORDER BY borrow_count DESC LIMIT 10";
+            ResultSet resultSet = statement.executeQuery(query);
 
-        String query = "SELECT isbn, COUNT(*) as borrow_count " +
-                "FROM books " +
-                "WHERE loan_date >= CURDATE() - INTERVAL 30 DAY " +
-                "GROUP BY isbn";
-
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                String isbn = rs.getString("isbn");
-                int count = rs.getInt("borrow_count");
-                data.put(isbn, count);
+            // Step 4: Process the results and populate the bar chart
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            Map<String, String> colorMap = new HashMap<>();
+            while (resultSet.next()) {
+                String isbn = resultSet.getString("isbn");
+                int borrowCount = resultSet.getInt("borrow_count");
+                series.getData().add(new XYChart.Data<>(isbn, borrowCount));
+                // Generate and store a unique color for each ISBN
+                colorMap.put(isbn, generateRandomColor());
             }
 
-        } catch (Exception e) {
+            // Add the series to the bar chart
+            barChart.getData().add(series);
+
+            // Step 5: Close the connection
+            connection.close();
+
+            // Apply different colors to each bar
+            applyBarColors(series, colorMap);
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return data;
     }
 
-    private void populateBarChart(Map<String, Integer> data) {
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        for (Map.Entry<String, Integer> entry : data.entrySet()) {
-            series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+    private void applyBarColors(XYChart.Series<String, Number> series, Map<String, String> colorMap) {
+        for (XYChart.Data<String, Number> data : series.getData()) {
+            Node node = data.getNode();
+            String color = colorMap.get(data.getXValue());
+            node.setStyle("-fx-bar-fill: " + color + ";");
         }
-        barChart.getData().add(series);
+    }
+
+    private String generateRandomColor() {
+        Color color = Color.color(Math.random(), Math.random(), Math.random());
+        return String.format("#%02X%02X%02X",
+                (int)(color.getRed() * 255),
+                (int)(color.getGreen() * 255),
+                (int)(color.getBlue() * 255));
     }
 }
-
-
 
 
 
