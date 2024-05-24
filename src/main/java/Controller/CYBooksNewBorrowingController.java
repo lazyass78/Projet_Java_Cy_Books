@@ -8,10 +8,25 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CYBooksNewBorrowingController {
 
@@ -21,6 +36,8 @@ public class CYBooksNewBorrowingController {
     @FXML private TextField borrowingDate;
     @FXML private Button SaveBorrowing;
     @FXML private Button CancelBorrowing;
+
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9.]+@(.+)$");
 
     @FXML
     private void initialize() {
@@ -39,7 +56,10 @@ public class CYBooksNewBorrowingController {
             showAlert(Alert.AlertType.ERROR, "Form Error!", "Please fill in all fields");
             return;
         }
-
+        if (!isValidEmail(memberMailText)) {
+            showAlert(Alert.AlertType.ERROR, "Email Error", "Invalid email format");
+            return;
+        }
         Connection connection = null;
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Library", "root", "cytech0001");
@@ -59,6 +79,12 @@ public class CYBooksNewBorrowingController {
             // Check if borrowing date is valid
             if (!isDateValid(borrowingDateText)) {
                 showAlert(Alert.AlertType.ERROR, "Date Error", "Borrowing date is not valid");
+                return;
+            }
+
+            // Check if id is valid
+            if (!checkIdExists(isbnText)) {
+                showAlert(Alert.AlertType.ERROR, "Id Error", "Id is not valid");
                 return;
             }
 
@@ -104,6 +130,36 @@ public class CYBooksNewBorrowingController {
         ResultSet resultSet = preparedStatement.executeQuery();
         return resultSet.next();
     }
+    private boolean checkIdExists(String id){
+        try {
+            String apiUrl = "https://gallica.bnf.fr/SRU?operation=searchRetrieve&version=1.2";
+            String encodedQuery = URLEncoder.encode(id, "UTF-8");
+            String searchQuery = "query=dc.identifier%20all%20" + encodedQuery;
+            String url = apiUrl + "&" + searchQuery;
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(url))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseBody = response.body();
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(new InputSource(new StringReader(responseBody)));
+
+
+            NodeList identifierNodes = doc.getElementsByTagName("dc:identifier");
+            if (identifierNodes.getLength() == 0) {
+                return false;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
     private boolean checkBookNotBorrowed(Connection connection, String isbn) throws SQLException {
         String query = "SELECT isbn FROM books WHERE isbn = ? AND quantity_available = 0";
@@ -121,6 +177,11 @@ public class CYBooksNewBorrowingController {
         } catch (IllegalArgumentException e) {
             return false;
         }
+    }
+
+    private boolean isValidEmail(String email) {
+        Matcher matcher = EMAIL_PATTERN.matcher(email);
+        return matcher.matches();
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {
