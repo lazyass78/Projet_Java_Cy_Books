@@ -13,8 +13,20 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.Node;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
+import java.io.StringReader;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,10 +65,33 @@ public class CYBooksStatisticsController {
             Map<String, String> colorMap = new HashMap<>();
             while (resultSet.next()) {
                 String isbn = resultSet.getString("isbn");
+                String title = "";
                 int borrowCount = resultSet.getInt("borrow_count");
-                series.getData().add(new XYChart.Data<>(isbn, borrowCount));
-                // Generate and store a unique color for each ISBN
-                colorMap.put(isbn, generateRandomColor());
+                String apiUrl = "https://gallica.bnf.fr/SRU?operation=searchRetrieve&version=1.2";
+                String encodedQuery = URLEncoder.encode(isbn, "UTF-8");
+                String searchQuery = "query=dc.identifier%20all%20" + encodedQuery;
+                String url = apiUrl + "&" + searchQuery;
+
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(new URI(url))
+                        .build();
+
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                String responseBody = response.body();
+
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document doc = builder.parse(new InputSource(new StringReader(responseBody)));
+                NodeList titleNodes = doc.getElementsByTagName("dc:title");
+                if (titleNodes.getLength() > 0) {
+                    Element titleElement = (Element) titleNodes.item(0);
+                    title = titleElement.getTextContent();
+                }
+
+                series.getData().add(new XYChart.Data<>(title, borrowCount));
+                // Generate and store a unique color for each title
+                colorMap.put(title, generateRandomColor());
             }
 
             // Add the series to the bar chart
@@ -68,7 +103,8 @@ public class CYBooksStatisticsController {
             // Apply different colors to each bar
             applyBarColors(series, colorMap);
 
-        } catch (SQLException e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
