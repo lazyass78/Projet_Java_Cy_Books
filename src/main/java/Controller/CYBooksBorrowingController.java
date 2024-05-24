@@ -103,6 +103,7 @@ public class CYBooksBorrowingController {
                 // Initialise les variables title et author à null
                 String title = "";
                 String author = "";
+                String year = "";
 
                 if (!isbn.isEmpty()) {
                     String apiUrl = "https://gallica.bnf.fr/SRU?operation=searchRetrieve&version=1.2";
@@ -124,6 +125,7 @@ public class CYBooksBorrowingController {
 
 
                     NodeList titleNodes = doc.getElementsByTagName("dc:title");
+                    NodeList yearNodes = doc.getElementsByTagName("dc:date");
                     if (titleNodes.getLength() > 0) {
                         Element titleElement = (Element) titleNodes.item(0);
                         title = titleElement.getTextContent();
@@ -134,9 +136,12 @@ public class CYBooksBorrowingController {
                         Element authorElement = (Element) authorNodes.item(0);
                         author = authorElement.getTextContent();
                     }
-                }
 
-                int year = 0; // Remplacer par le champ approprié
+                    if (yearNodes.getLength() > 0) {
+                        Element yearElement = (Element) yearNodes.item(0);
+                        year = yearElement.getTextContent();
+                    }
+                }
                 String editor = "Unknown"; // Remplacer par le champ approprié
                 int stock = resultSet.getInt("quantity_available");
                 String topics = "Unknown"; // Remplacer par le champ approprié
