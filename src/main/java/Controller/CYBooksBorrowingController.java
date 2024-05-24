@@ -9,10 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import org.w3c.dom.Document;
@@ -30,6 +27,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -51,7 +49,7 @@ public class CYBooksBorrowingController {
     @FXML private TableColumn<Borrowing, Integer> stockColumn;
     @FXML private TableColumn<Borrowing, String> topicsColumn;
     @FXML private TableColumn<Borrowing, String> borrowingDateColumn;
-    @FXML private TableColumn<Borrowing, String> returnDateColumn;
+    @FXML private TableColumn<Borrowing, LocalDate> returnDateColumn;
 
     @FXML private TextField dataBook;
     private ObservableList<Borrowing> borrowingData = FXCollections.observableArrayList();
@@ -70,6 +68,23 @@ public class CYBooksBorrowingController {
         topicsColumn.setCellValueFactory(new PropertyValueFactory<>("topics"));
         borrowingDateColumn.setCellValueFactory(new PropertyValueFactory<>("borrowingDate"));
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+        returnDateColumn.setCellFactory(column -> new TableCell<Borrowing, LocalDate>() {
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item.toString());
+                    if (item.isBefore(LocalDate.now())) {
+                        setTextFill(javafx.scene.paint.Color.RED);
+                    } else {
+                        setTextFill(javafx.scene.paint.Color.BLACK);
+                    }
+                }
+            }
+        });
         loadBorrowingData();
         setupFiltering();
     }
@@ -130,6 +145,15 @@ public class CYBooksBorrowingController {
 
                 Borrowing record = new Borrowing(isbn, memberMail,title,author,year, editor, stock,topics,borrowingDate,returnDate);
                 borrowingData.add(record);
+                // Met à jour le statut si la date de retour est dépassée
+                if (returnDate.isBefore(LocalDate.now())) {
+                    try (PreparedStatement updateStatement = connection.prepareStatement("UPDATE users SET member_in_good_standing = FALSE WHERE email = ?")) {
+                        updateStatement.setString(1, memberMail);
+                        updateStatement.executeUpdate();
+
+                    }
+                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
