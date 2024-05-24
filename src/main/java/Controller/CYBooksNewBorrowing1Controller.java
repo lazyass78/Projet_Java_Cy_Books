@@ -1,5 +1,6 @@
 package Controller;
 
+import Utils.DatabaseUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,7 +62,7 @@ public class CYBooksNewBorrowing1Controller {
         Connection connection = null;
         try {
             //à changer
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Library", "root", "cytech0001");
+            connection = DatabaseUtil.getConnection();
 
             // Check if member exists
             if (!checkMemberExists(connection, memberMailText)) {
@@ -111,20 +112,12 @@ public class CYBooksNewBorrowing1Controller {
                 updateStatement.setString(1, memberMailText);
                 updateStatement.executeUpdate();
 
-                // Check if the book exists in historic and update borrow_count
-                if (checkBookExistsInHistoric(connection, isbnText)) {
-                    String updateHistoricQuery = "UPDATE historic SET borrow_count = borrow_count + 1 WHERE isbn = ?";
-                    PreparedStatement updateHistoricStatement = connection.prepareStatement(updateHistoricQuery);
-                    updateHistoricStatement.setString(1, isbnText);
-                    updateHistoricStatement.executeUpdate();
-                } else {
-                    // Insert new record into historic
-                    String insertHistoricQuery = "INSERT INTO historic (isbn,loan_date, borrow_count) VALUES (?,?, 1)";
-                    PreparedStatement insertHistoricStatement = connection.prepareStatement(insertHistoricQuery);
-                    insertHistoricStatement.setString(1, isbnText);
-                    insertHistoricStatement.setDate(2, java.sql.Date.valueOf(borrowingDateText)); // Provide loan_date
-                    insertHistoricStatement.executeUpdate();
-                }
+                // Insert new record into historic
+                String insertHistoricQuery = "INSERT INTO historic (isbn, loan_date, borrow_count) VALUES (?, ?, 1)";
+                PreparedStatement insertHistoricStatement = connection.prepareStatement(insertHistoricQuery);
+                insertHistoricStatement.setString(1, isbnText);
+                insertHistoricStatement.setDate(2, java.sql.Date.valueOf(borrowingDateText));
+                insertHistoricStatement.executeUpdate();
 
                 connection.commit(); // Commit transaction
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Borrowing registered successfully");
