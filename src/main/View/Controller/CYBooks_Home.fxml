@@ -28,7 +28,7 @@
             <Image url="@../../../backgroundBNF.jpg" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="204.0" layoutY="5.0" prefHeight="32.0" prefWidth="189.0" text="CY Books" textFill="LIGHTGRAY">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="204.0" layoutY="5.0" prefHeight="32.0" prefWidth="189.0" text="CY Books" textFill="#1ccf2d">
          <font>
             <Font name="System Bold" size="29.0" />
          </font>

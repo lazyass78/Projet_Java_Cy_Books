@@ -11,7 +11,7 @@
 
 <AnchorPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksMemberController">
    <children>
-      <Label layoutX="145.0" layoutY="7.0" prefHeight="43.0" prefWidth="309.0" text="Member management" textFill="LIGHTGRAY">
+      <Label layoutX="145.0" layoutY="7.0" prefHeight="43.0" prefWidth="309.0" text="Member management" textFill="#1ccf2d">
          <font>
             <Font name="System Bold" size="29.0" />
          </font>
