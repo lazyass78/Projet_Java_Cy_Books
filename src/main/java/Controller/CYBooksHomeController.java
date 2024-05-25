@@ -31,7 +31,7 @@ public class CYBooksHomeController {
     }
 
     @FXML public void Page_document(){
-        loadView("CYBooksSearchBook.fxml");
+        loadView("MainAuthor.fxml");
     }
 
     @FXML public void Page_statistics(){

@@ -243,7 +243,7 @@ public class CYBooksNewBorrowing2Controller {
     }
 
     @FXML public void CancelBorrowing(ActionEvent actionEvent) {
-        loadView("CYBooksSearchBook.fxml");
+        loadView("MainAuthor.fxml");
     }
 
     @FXML private void loadView(String fxmlFileName) {

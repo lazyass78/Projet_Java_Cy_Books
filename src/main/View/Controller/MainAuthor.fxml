@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainContainer" prefWidth="1080.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksSearchBookController">
+<BorderPane fx:id="mainContainer" prefWidth="1080.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainAuthorController">
     <top>
         <VBox prefHeight="397.0" prefWidth="3218.0" spacing="10">
             <Label text="Book Search" textFill="WHITE" />
