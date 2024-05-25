@@ -31,7 +31,7 @@ public class CYBooksNewBorrowing2Controller {
 
     @FXML private AnchorPane mainContainer;
     @FXML private TextField memberMail;
-    @FXML private TextField isbnDocument;
+    @FXML private TextField idDocument;
     @FXML private TextField borrowingDate;
     @FXML private Button SaveBorrowing;
     @FXML private Button CancelBorrowing;
@@ -48,10 +48,10 @@ public class CYBooksNewBorrowing2Controller {
 
     @FXML private void SaveNewBorrowing(ActionEvent actionEvent) {
         String memberMailText = memberMail.getText();
-        String isbnText = isbnDocument.getText();
+        String idText = idDocument.getText();
         String borrowingDateText = borrowingDate.getText();
 
-        if (memberMailText.isEmpty() || isbnText.isEmpty() || borrowingDateText.isEmpty()) {
+        if (memberMailText.isEmpty() || idText.isEmpty() || borrowingDateText.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Form Error!", "Please fill in all fields");
             return;
         }
@@ -71,7 +71,7 @@ public class CYBooksNewBorrowing2Controller {
             }
 
             // Check if book is not already borrowed
-            if (!checkBookNotBorrowed(connection, isbnText)) {
+            if (!checkBookNotBorrowed(connection, idText)) {
                 showAlert(Alert.AlertType.ERROR, "Book Error", "Book is already borrowed");
                 return;
             }
@@ -83,7 +83,7 @@ public class CYBooksNewBorrowing2Controller {
             }
 
             // Check if id is valid
-            if (!checkIdExists(isbnText)) {
+            if (!checkIdExists(idText)) {
                 showAlert(Alert.AlertType.ERROR, "Id Error", "Id is not valid");
                 return;
             }
@@ -97,7 +97,7 @@ public class CYBooksNewBorrowing2Controller {
             // Save borrowing record
             String query = "INSERT INTO books (isbn, user_id, loan_date, return_date, quantity_available, total_quantity) VALUES (?, (SELECT id FROM users WHERE email = ?), ?, DATE_ADD(?, INTERVAL 2 WEEK), ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, isbnText);
+            preparedStatement.setString(1, idText);
             preparedStatement.setString(2, memberMailText);
             preparedStatement.setDate(3, java.sql.Date.valueOf(borrowingDateText));
             preparedStatement.setDate(4, java.sql.Date.valueOf(borrowingDateText));
@@ -115,7 +115,7 @@ public class CYBooksNewBorrowing2Controller {
                 // Insert new record into historic
                 String insertHistoricQuery = "INSERT INTO historic (isbn, loan_date, borrow_count) VALUES (?, ?, 1)";
                 PreparedStatement insertHistoricStatement = connection.prepareStatement(insertHistoricQuery);
-                insertHistoricStatement.setString(1, isbnText);
+                insertHistoricStatement.setString(1, idText);
                 insertHistoricStatement.setDate(2, java.sql.Date.valueOf(borrowingDateText));
                 insertHistoricStatement.executeUpdate();
 
@@ -149,8 +149,8 @@ public class CYBooksNewBorrowing2Controller {
         }
     }
 
-    public void setDocumentIsbn(String isbn) {
-        isbnDocument.setText(isbn);
+    public void setDocumentIsbn(String id) {
+        idDocument.setText(id);
     }
 
 
@@ -192,10 +192,10 @@ public class CYBooksNewBorrowing2Controller {
         return true;
     }
 
-    private boolean checkBookNotBorrowed(Connection connection, String isbn) throws SQLException {
+    private boolean checkBookNotBorrowed(Connection connection, String id) throws SQLException {
         String query = "SELECT isbn FROM books WHERE isbn = ? AND quantity_available = 0";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, isbn);
+        preparedStatement.setString(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         return !resultSet.next();
     }
@@ -215,10 +215,10 @@ public class CYBooksNewBorrowing2Controller {
         return matcher.matches();
     }
 
-    private boolean checkBookExistsInHistoric(Connection connection, String isbn) throws SQLException {
+    private boolean checkBookExistsInHistoric(Connection connection, String id) throws SQLException {
         String query = "SELECT isbn FROM historic WHERE isbn = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, isbn);
+        preparedStatement.setString(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         return resultSet.next();
     }
@@ -243,7 +243,7 @@ public class CYBooksNewBorrowing2Controller {
     }
 
     @FXML public void CancelBorrowing(ActionEvent actionEvent) {
-        loadView("MainAuthor.fxml");
+        loadView("CYBooksSearchBook.fxml");
     }
 
     @FXML private void loadView(String fxmlFileName) {

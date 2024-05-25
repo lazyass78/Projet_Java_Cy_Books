@@ -28,9 +28,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class MainAuthorController {
-    @FXML
-    private Button homeButton;
+public class CYBooksSearchBookController {
     @FXML
     private Button moreButton;
     @FXML
@@ -55,17 +53,19 @@ public class MainAuthorController {
     private TextField languageField;
     @FXML
     private TextField titleField;
-    @FXML
-    private VBox bookContainer;
-    @FXML
-    private Label pageInfo;
-
     private ObservableList<Model.Document> bookData = FXCollections.observableArrayList();
 
     private String currentQuery;
     private int currentPage;
     private int totalRecords;
     private final int recordsPerPage = 20;
+
+    /**
+     * This method is called when the button search book is clicked.
+     * Sets the cell value factories for the columns `idColumn`, `titleColumn`, `authorColumn`, and `yearColumn` to link them to the corresponding properties of the items in the table.
+     * Configures the `borrowColumn` to contain buttons for borrowing documents. Each button, when clicked, retrieves the associated document's ID and invokes `loadNewBorrowingView(id)` to handle the borrowing process.
+     * Configures an additional button, `moreButton`, which, when clicked, calls `loadMoreBooks()` to load more book entries.
+     */
 
     @FXML
     public void initialize() {
@@ -80,8 +80,8 @@ public class MainAuthorController {
             {
                 borrowButton.setOnAction(event -> {
                     Model.Document document = getTableView().getItems().get(getIndex());
-                    String isbn = document.getId();
-                    loadNewBorrowingView(isbn);
+                    String id = document.getId();
+                    loadNewBorrowingView(id);
                 });
             }
             {
@@ -103,7 +103,7 @@ public class MainAuthorController {
         searchBooks();
     }
 
-    @FXML private void loadNewBorrowingView(String isbn) {
+    @FXML private void loadNewBorrowingView(String id) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CYBooks_NewBorrowing2.fxml"));
             Parent view = loader.load();
@@ -112,7 +112,7 @@ public class MainAuthorController {
             CYBooksNewBorrowing2Controller controller = loader.getController();
 
             // Passer les données au contrôleur cible
-            controller.setDocumentIsbn(isbn);
+            controller.setDocumentIsbn(id);
 
             // Remplacer le contenu actuel du conteneur principal par le contenu de la nouvelle vue
             mainContainer.getChildren().clear();

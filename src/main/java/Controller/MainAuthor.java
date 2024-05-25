@@ -10,7 +10,7 @@ public class MainAuthor extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("MainAuthor.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("CYBooksSearchBook.fxml"));
         Scene scene = new Scene(root, 400, 400);
         primaryStage.setTitle("Book Search");
         primaryStage.setScene(scene);
