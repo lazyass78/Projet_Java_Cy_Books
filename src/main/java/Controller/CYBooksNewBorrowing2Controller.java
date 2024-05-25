@@ -113,7 +113,7 @@ public class CYBooksNewBorrowing2Controller {
                 updateStatement.executeUpdate();
 
                 // Insert new record into historic
-                String insertHistoricQuery = "INSERT INTO historic (isbn, loan_date, borrow_count) VALUES (?, ?, 1)";
+                String insertHistoricQuery = "INSERT INTO historic (isbn, loan_date) VALUES (?, ?)";
                 PreparedStatement insertHistoricStatement = connection.prepareStatement(insertHistoricQuery);
                 insertHistoricStatement.setString(1, isbnText);
                 insertHistoricStatement.setDate(2, java.sql.Date.valueOf(borrowingDateText));
