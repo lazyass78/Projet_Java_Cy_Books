@@ -11,7 +11,7 @@
 
 <AnchorPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksMemberController">
    <children>
-      <Label layoutX="145.0" layoutY="7.0" prefHeight="43.0" prefWidth="309.0" text="Member management" textFill="#1ccf2d">
+      <Label layoutX="145.0" layoutY="7.0" prefHeight="43.0" prefWidth="309.0" text="Member management" textFill="#d72525">
          <font>
             <Font name="System Bold" size="29.0" />
          </font>
@@ -32,9 +32,8 @@
             <TableColumn fx:id="lastNameColumn" prefWidth="66.4000244140625" text="Last name" />
             <TableColumn fx:id="numberBorrowColumn" prefWidth="73.79998779296875" text="Nb Borrow" />
             <TableColumn fx:id="birthDateColumn" prefWidth="92.0" text="Date of birth" />
-            <TableColumn fx:id="mailColumn" prefWidth="72.0" text="Mail" />
-            <TableColumn fx:id="inOrderColumn" prefWidth="74.39999389648438" text="in Order" />
-            <TableColumn fx:id="borrowedBooksColumn" prefWidth="114.39999999999998" text="Borrowed books" />
+            <TableColumn fx:id="mailColumn" prefWidth="93.60003662109375" text="Mail" />
+            <TableColumn fx:id="borrowedBooksColumn" prefWidth="168.0" text="Borrowed books" />
          </columns>
       </TableView>
    </children>

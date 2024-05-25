@@ -84,7 +84,7 @@ public class CYBooksNewBorrowing1Controller {
 
             // Check if id is valid
             if (!checkIdExists(isbnText)) {
-                showAlert(Alert.AlertType.ERROR, "Id Error", "Id is not valid");
+                showAlert(Alert.AlertType.ERROR, "Id Error", "ISBN is not valid");
                 return;
             }
             if (!canUserBorrowMoreBooks(connection, memberMailText)) {

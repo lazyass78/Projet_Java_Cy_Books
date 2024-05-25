@@ -37,7 +37,7 @@ public class CYBooksMemberController {
     @FXML private TableColumn<Member, String> nameColumn;
     @FXML private TableColumn<Member, LocalDate> birthDateColumn;
     @FXML private TableColumn<Member, String> mailColumn;
-    @FXML private TableColumn<Member, Boolean> inOrderColumn;
+    //@FXML private TableColumn<Member, Boolean> inOrderColumn;
     @FXML private TableColumn<Member, String> borrowedBooksColumn;
     @FXML private TextField searchMember;
 
@@ -50,7 +50,7 @@ public class CYBooksMemberController {
         numberBorrowColumn.setCellValueFactory(new PropertyValueFactory<>("numberBorrow"));
         birthDateColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
         mailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        inOrderColumn.setCellValueFactory(new PropertyValueFactory<>("inOrder"));
+        //inOrderColumn.setCellValueFactory(new PropertyValueFactory<>("inOrder"));
         borrowedBooksColumn.setCellValueFactory(new PropertyValueFactory<>("borrowedBooks"));
         borrowingTableView.setItems(filteredData);
         loadMemberData();
@@ -104,8 +104,7 @@ public class CYBooksMemberController {
                         || String.valueOf(record.getId()).contains(lowerCaseFilter)
                         || String.valueOf(record.getNumberBorrow()).contains(lowerCaseFilter)
                         || record.getBorrowedBooks().toString().toLowerCase().contains(lowerCaseFilter)
-                        || record.getBirthDate().toString().contains(lowerCaseFilter)
-                        || (record.isInOrder() ? "true" : "false").contains(lowerCaseFilter);
+                        || record.getBirthDate().toString().contains(lowerCaseFilter);
             });
         });
     }

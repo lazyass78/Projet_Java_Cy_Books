@@ -96,7 +96,7 @@ public class CYBooksDeleteBorrowing {
 
             if (rowsAffected > 0) {
                 // Update number_borrowing for the user
-                String updateQuery = "UPDATE users SET number_borrowing = number_borrowing -1 WHERE email = ?";
+                String updateQuery = "UPDATE users SET number_borrowing = number_borrowing - 1 WHERE email = ?";
                 PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
                 updateStatement.setString(1, mail);
                 updateStatement.executeUpdate();

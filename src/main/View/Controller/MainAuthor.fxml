@@ -12,7 +12,7 @@
 <BorderPane fx:id="mainContainer" prefWidth="1080.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainAuthorController">
     <top>
         <VBox prefHeight="397.0" prefWidth="3218.0" spacing="10">
-            <Label text="Book Search" textFill="WHITE" />
+            <Label text="Book Search" textFill="#d72525" />
             <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="1080.0" spacing="10">
                 <Button fx:id="homeButton" onAction="#handleHome" text="Return home" />
             </HBox>
