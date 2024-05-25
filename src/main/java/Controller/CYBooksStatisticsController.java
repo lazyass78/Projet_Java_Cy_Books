@@ -144,7 +144,7 @@ public class CYBooksStatisticsController {
             // Add a label at the bottom of each bar
             String labelText = data.getXValue();
             Label label = new Label(labelText);
-            label.setStyle("-fx-text-fill: black; -fx-font-size: 10px;");
+            label.setStyle("-fx-text-fill: white; -fx-font-size: 10px;");
 
             Platform.runLater(() -> {
                 ((Group) node.getParent()).getChildren().add(label);

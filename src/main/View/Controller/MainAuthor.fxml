@@ -8,14 +8,21 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="mainContainer" prefWidth="1080.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainAuthorController">
     <top>
         <VBox prefHeight="397.0" prefWidth="3218.0" spacing="10">
-            <Label text="Book Search" textFill="#d72525" />
-            <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="1080.0" spacing="10">
-                <Button fx:id="homeButton" onAction="#handleHome" text="Return home" />
+            <HBox alignment="CENTER_RIGHT" prefHeight="26.0" prefWidth="982.0" spacing="10">
+            <children>
+                   <Button fx:id="homeButton" onAction="#handleHome" prefHeight="52.0" prefWidth="86.0" text="Return home" />
+            </children>
             </HBox>
+            <Label text="Book Search" textFill="#d72525">
+            <font>
+               <Font name="System Bold" size="29.0" />
+            </font>
+         </Label>
             <TextField fx:id="authorField" promptText="Enter author's name..." />
             <TextField fx:id="yearField" promptText="Publication date" />
             <TextField fx:id="languageField" promptText="Language" />
