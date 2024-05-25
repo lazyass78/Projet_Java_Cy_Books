@@ -8,7 +8,6 @@ module Controller {
     opens Controller to javafx.fxml;
 
     exports Controller;
-    exports Test;
     exports Model;
     opens Model to javafx.fxml;
 
