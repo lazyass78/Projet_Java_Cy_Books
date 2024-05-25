@@ -107,6 +107,9 @@ public class CYBooksNewMemberController {
         name.setPromptText("Lastname");
         lastName.setPromptText("Firstname");
 
+        // Set default date to 10 years ago
+        birthDate.setValue(LocalDate.now().minusYears(10));
+
         // Add listeners to name and last name fields to format input
         addNameValidation(name);
         addNameValidation(lastName);

@@ -7,10 +7,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane  fx:id="mainContainer" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksDeleteBorrowing">
+<AnchorPane fx:id="mainContainer" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksDeleteBorrowing">
    <children>
-      <Label layoutX="196.0" layoutY="24.0" prefHeight="43.0" prefWidth="242.0" text="Delete borrowing" textFill="#4da6ff">
+      <Label layoutX="196.0" layoutY="24.0" prefHeight="43.0" prefWidth="251.0" text="Return borrowing" textFill="#4da6ff">
          <font>
             <Font name="System Bold" size="29.0" />
          </font>
@@ -28,7 +27,7 @@
       </Label>
       <TextField fx:id="isbnDocument" layoutX="333.0" layoutY="120.0" />
       <TextField fx:id="memberMail" layoutX="333.0" layoutY="158.0" />
-      <Button fx:id="Delete" layoutX="387.0" layoutY="353.0" mnemonicParsing="false" onAction="#DeleteBorrowing" text="Delete" />
+      <Button fx:id="Delete" layoutX="387.0" layoutY="353.0" mnemonicParsing="false" onAction="#DeleteBorrowing" text="Return Borrow" />
       <Button fx:id="Cancel" layoutX="216.0" layoutY="353.0" mnemonicParsing="false" onAction="#CancelDelete" text="Cancel" />
    </children>
 </AnchorPane>

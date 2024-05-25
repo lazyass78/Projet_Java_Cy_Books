@@ -29,6 +29,12 @@ public class CYBooksDeleteMember {
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9.]+@(.+)$");
 
+    private static final Pattern NAME_PATTERN = Pattern.compile("^[A-Za-z]+$");
+
+    @FXML
+    public void initialize() {
+        addNameValidation(memberLastName);
+    }
     public void DeleteMember(ActionEvent actionEvent) {
         String mail = memberMail.getText().trim();
         String lastName = memberLastName.getText().trim();
@@ -131,5 +137,17 @@ public class CYBooksDeleteMember {
     private boolean isValidEmail(String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();
+    }
+    private void addNameValidation(TextField textField) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty() && !NAME_PATTERN.matcher(newValue).matches()) {
+                textField.setText(oldValue);
+            } else if (!newValue.isEmpty()) {
+                String formattedValue = newValue.substring(0, 1).toUpperCase() + newValue.substring(1).toLowerCase();
+                if (!formattedValue.equals(newValue)) {
+                    textField.setText(formattedValue);
+                }
+            }
+        });
     }
 }
