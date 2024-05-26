@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  * Controller class for managing the "Delete Member" functionality in the CYBooks application.
  * This controller handles the deletion of a member from the database by verifying their email and last name.
  */
-public class CYBooksDeleteMember {
+public class CYBooksDeleteMemberController {
 
     @FXML private AnchorPane mainContainer;
 

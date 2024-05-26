@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  * Controller class for returning a borrowing in the CYBooks application.
  * Deletes a borrowing record by specifying the ISBN of the borrowed book and the email of the borrower.
  */
-public class CYBooksReturnBorrowing {
+public class CYBooksReturnBorrowingController {
 
     @FXML private AnchorPane mainContainer;
     @FXML private Button Delete;

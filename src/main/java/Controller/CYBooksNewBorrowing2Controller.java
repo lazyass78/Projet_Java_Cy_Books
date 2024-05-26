@@ -300,7 +300,7 @@ public class CYBooksNewBorrowing2Controller {
      * Loads the view for adding a new member.
      */
     @FXML public void CancelBorrowing() {
-        loadView("MainAuthor.fxml");
+        loadView("CYBooks_Search.fxml");
     }
 
     /**

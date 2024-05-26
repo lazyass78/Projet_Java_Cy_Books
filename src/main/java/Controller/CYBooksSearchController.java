@@ -28,7 +28,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class MainAuthorController {
+public class CYBooksSearchController {
     @FXML
     private Button homeButton;
     @FXML

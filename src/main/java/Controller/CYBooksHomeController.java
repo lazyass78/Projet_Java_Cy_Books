@@ -39,7 +39,7 @@ public class CYBooksHomeController {
      * Loads the document management page when the "Document" button is pressed.
      */
     @FXML public void Page_document(){
-        loadView("MainAuthor.fxml");
+        loadView("CYBooks_Search.fxml");
     }
 
     /**
