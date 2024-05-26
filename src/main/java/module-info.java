@@ -9,6 +9,7 @@ module Controller {
 
     exports Controller;
     exports Model;
+    exports Utils;
     opens Model to javafx.fxml;
 
 }

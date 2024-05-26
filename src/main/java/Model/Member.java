@@ -21,7 +21,7 @@ public class Member {
      * @param numberBorrow The number of books borrowed by the member.
      * @param inOrder Indicates whether the member's account is in order.
      * @param email The email address of the member.
-     * @param birthDate The birth date of the member.
+     * @param birthDate The birthdate of the member.
      * @param borrowedBooks The list of books borrowed by the member.
      */
     public Member(int id, String firstName, String lastName,int numberBorrow, boolean inOrder, String email, LocalDate birthDate, List<String> borrowedBooks) {
