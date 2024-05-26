@@ -42,7 +42,6 @@ public class CYBooksBorrowingController {
 
     @FXML private Button NewBorrowing;
     @FXML private Button BackHomePage;
-    @FXML private Button Search;
 
     @FXML private TableView<Borrowing> borrowingTableView;
     @FXML private TableColumn<Borrowing, String> isbnColumn;
@@ -254,6 +253,6 @@ public class CYBooksBorrowingController {
      * This method is called when the "Return borrow" button is clicked.
      */
     public void returnBorrow() {
-        loadView("CYBooks_DeleteBorrowing.fxml");
+        loadView("CYBooks_ReturnBorrowing.fxml");
     }
 }

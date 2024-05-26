@@ -1,5 +1,5 @@
 package Controller;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,11 +20,6 @@ public class CYBooksHomeController {
     @FXML private Button Document;
     @FXML private Button Statistics;
 
-    @FXML private Button SaveBorrowing;
-    @FXML private Button CancelBorrowing;
-
-    @FXML private Button Search;
-    @FXML private Button BackHomePage2;
 
     /**
      * Loads the borrowing management page when the "Borrowing" button is pressed.

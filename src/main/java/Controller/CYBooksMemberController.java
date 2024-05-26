@@ -32,7 +32,6 @@ import java.util.List;
 public class CYBooksMemberController {
     @FXML private AnchorPane mainContainer;
     @FXML private Button BackHomePage2;
-    @FXML private Button Search;
     @FXML private Button Add;
     @FXML private Button Delete;
     @FXML private TableView<Member> borrowingTableView;

@@ -34,7 +34,7 @@ public class CYBooksNewBorrowing2Controller {
     @FXML private TextField isbnDocument;
     @FXML private TextField borrowingDate;
     @FXML private Button SaveBorrowing;
-    @FXML private Button CancelBorrowing;
+
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9.]+@(.+)$");
 
@@ -260,22 +260,6 @@ public class CYBooksNewBorrowing2Controller {
     private boolean isValidEmail(String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();
-    }
-
-    /**
-     * Checks if a book exists in the historic table.
-     *
-     * @param connection the database connection.
-     * @param isbn the book's ISBN.
-     * @return true if the book exists in the historic table, false otherwise.
-     * @throws SQLException if a database access error occurs.
-     */
-    private boolean checkBookExistsInHistoric(Connection connection, String isbn) throws SQLException {
-        String query = "SELECT isbn FROM historic WHERE isbn = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, isbn);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        return resultSet.next();
     }
 
     /**

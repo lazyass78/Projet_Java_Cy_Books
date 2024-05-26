@@ -1,7 +1,6 @@
 package Controller;
 
 import Utils.DatabaseUtil;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -37,7 +36,7 @@ public class CYBooksNewBorrowing1Controller {
     @FXML private TextField isbnDocument;
     @FXML private TextField borrowingDate;
     @FXML private Button SaveBorrowing;
-    @FXML private Button CancelBorrowing;
+
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9.]+@(.+)$");
 
@@ -160,16 +159,6 @@ public class CYBooksNewBorrowing1Controller {
     }
 
     /**
-     * Sets the ISBN of the document in the text field.
-     *
-     * @param isbn the ISBN of the document.
-     */
-    public void setDocumentIsbn(String isbn) {
-        isbnDocument.setText(isbn);
-    }
-
-
-    /**
      * Checks if a member exists in the database.
      *
      * @param connection the database connection.
@@ -262,22 +251,6 @@ public class CYBooksNewBorrowing1Controller {
     private boolean isValidEmail(String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();
-    }
-
-    /**
-     * Checks if a book exists in the historic table.
-     *
-     * @param connection the database connection.
-     * @param isbn the book's ISBN.
-     * @return true if the book exists in the historic table, false otherwise.
-     * @throws SQLException if a database access error occurs.
-     */
-    private boolean checkBookExistsInHistoric(Connection connection, String isbn) throws SQLException {
-        String query = "SELECT isbn FROM historic WHERE isbn = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, isbn);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        return resultSet.next();
     }
 
     /**
