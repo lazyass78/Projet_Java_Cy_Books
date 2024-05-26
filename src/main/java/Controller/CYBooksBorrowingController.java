@@ -34,8 +34,8 @@ import java.time.LocalDate;
 
 
 /***
- * Controller for managing CYBooks_Borrowing.fxml view s in the CYBooks application.
- *
+ * Controller for managing CYBooks_Borrowing.fxml view in the CYBooks application.
+ * Displays the data from the library database
  */
 public class CYBooksBorrowingController {
     @FXML private AnchorPane mainContainer;

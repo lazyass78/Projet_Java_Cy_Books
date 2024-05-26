@@ -27,6 +27,9 @@ import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Controller for managing new book borrowings in the CYBooks application.
+ */
 public class CYBooksNewBorrowing1Controller {
 
     @FXML private AnchorPane mainContainer;
@@ -38,6 +41,10 @@ public class CYBooksNewBorrowing1Controller {
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9.]+@(.+)$");
 
+    /**
+     * Initializes the controller class. This method is automatically called after the FXML file has been loaded.
+     * It sets the borrowing date to the current date and makes the field non-editable.
+     */
     @FXML
     private void initialize() {
         // Préremplir le champ de la date d'emprunt avec la date du jour
@@ -46,7 +53,10 @@ public class CYBooksNewBorrowing1Controller {
         borrowingDate.setStyle("-fx-background-color: #F0F0F0;");
     }
 
-    @FXML private void SaveNewBorrowing(ActionEvent actionEvent) {
+    /**
+     * Handles the action of saving a new borrowing. Validates the input data and saves the borrowing record in the database.
+     */
+    @FXML private void SaveNewBorrowing() {
         String memberMailText = memberMail.getText();
         String isbnText = isbnDocument.getText();
         String borrowingDateText = borrowingDate.getText();
@@ -149,11 +159,24 @@ public class CYBooksNewBorrowing1Controller {
         }
     }
 
+    /**
+     * Sets the ISBN of the document in the text field.
+     *
+     * @param isbn the ISBN of the document.
+     */
     public void setDocumentIsbn(String isbn) {
         isbnDocument.setText(isbn);
     }
 
 
+    /**
+     * Checks if a member exists in the database.
+     *
+     * @param connection the database connection.
+     * @param memberId the member's email.
+     * @return true if the member exists, false otherwise.
+     * @throws SQLException if a database access error occurs.
+     */
     private boolean checkMemberExists(Connection connection, String memberId) throws SQLException {
         String query = "SELECT email FROM users WHERE email  = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -161,6 +184,12 @@ public class CYBooksNewBorrowing1Controller {
         ResultSet resultSet = preparedStatement.executeQuery();
         return resultSet.next();
     }
+    /**
+     * Checks if a book's ISBN is valid using an external API.
+     *
+     * @param id the book's ISBN.
+     * @return true if the ISBN is valid, false otherwise.
+     */
     private boolean checkIdExists(String id){
         try {
             String apiUrl = "https://gallica.bnf.fr/SRU?operation=searchRetrieve&version=1.2";
@@ -192,6 +221,14 @@ public class CYBooksNewBorrowing1Controller {
         return true;
     }
 
+    /**
+     * Checks if a book is not currently borrowed.
+     *
+     * @param connection the database connection.
+     * @param isbn the book's ISBN.
+     * @return true if the book is not borrowed, false otherwise.
+     * @throws SQLException if a database access error occurs.
+     */
     private boolean checkBookNotBorrowed(Connection connection, String isbn) throws SQLException {
         String query = "SELECT isbn FROM books WHERE isbn = ? AND quantity_available = 0";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -200,6 +237,12 @@ public class CYBooksNewBorrowing1Controller {
         return !resultSet.next();
     }
 
+    /**
+     * Validates the borrowing date.
+     *
+     * @param dateStr the date string.
+     * @return true if the date is valid, false otherwise.
+     */
     private boolean isDateValid(String dateStr) {
         try {
             java.sql.Date date = java.sql.Date.valueOf(dateStr);
@@ -210,11 +253,25 @@ public class CYBooksNewBorrowing1Controller {
         }
     }
 
+    /**
+     * Validates the email format.
+     *
+     * @param email the email string.
+     * @return true if the email format is valid, false otherwise.
+     */
     private boolean isValidEmail(String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();
     }
 
+    /**
+     * Checks if a book exists in the historic table.
+     *
+     * @param connection the database connection.
+     * @param isbn the book's ISBN.
+     * @return true if the book exists in the historic table, false otherwise.
+     * @throws SQLException if a database access error occurs.
+     */
     private boolean checkBookExistsInHistoric(Connection connection, String isbn) throws SQLException {
         String query = "SELECT isbn FROM historic WHERE isbn = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -222,6 +279,15 @@ public class CYBooksNewBorrowing1Controller {
         ResultSet resultSet = preparedStatement.executeQuery();
         return resultSet.next();
     }
+
+    /**
+     * Checks if a user can borrow more books.
+     *
+     * @param connection the database connection.
+     * @param memberEmail the member's email.
+     * @return true if the user can borrow more books, false otherwise.
+     * @throws SQLException if a database access error occurs.
+     */
     private boolean canUserBorrowMoreBooks(Connection connection, String memberEmail) throws SQLException {
         String query = "SELECT number_borrowing FROM users WHERE email = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -234,6 +300,13 @@ public class CYBooksNewBorrowing1Controller {
         return false;
     }
 
+    /**
+     * Shows an alert with the specified type, title, and message.
+     *
+     * @param alertType the type of alert.
+     * @param title the title of the alert.
+     * @param message the message of the alert.
+     */
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -242,10 +315,18 @@ public class CYBooksNewBorrowing1Controller {
         alert.showAndWait();
     }
 
-    @FXML public void CancelBorrowing(ActionEvent actionEvent) {
+    /**
+     * Loads the view for adding a new member.
+     */
+    @FXML public void CancelBorrowing() {
         loadView("CYBooks_Borrowing.fxml");
     }
 
+    /**
+     * Loads the specified FXML view into the main container.
+     *
+     * @param fxmlFileName the name of the FXML file to load.
+     */
     @FXML private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {

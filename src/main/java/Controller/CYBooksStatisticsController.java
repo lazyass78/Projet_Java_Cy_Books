@@ -34,6 +34,11 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Controller class responsible for managing the statistics view of CYBooks application.
+ * This controller retrieves data from the database about the most borrowed books in the last 30 days,
+ * displays the information in a bar chart, and provides functionality to return to the home screen.
+ */
 public class CYBooksStatisticsController {
 
     @FXML
@@ -50,6 +55,10 @@ public class CYBooksStatisticsController {
 
     @FXML private AnchorPane mainContainer;
 
+    /**
+     * Initializes the controller by retrieving data from the database,
+     * populating the bar chart, and setting up event handlers.
+     */
     public void initialize() {
         try {
             // Step 1: Connect to the database
@@ -107,6 +116,14 @@ public class CYBooksStatisticsController {
         }
     }
 
+    /**
+     * Truncates the title of a book to the specified maximum length.
+     *
+     * @param title     the title of the book.
+     * @param maxLength the maximum length of the truncated title.
+     * @return the truncated title.
+     */
+
     private String truncateTitle(String title, int maxLength) {
         if (title.length() > maxLength) {
             return title.substring(0, maxLength) + "...";
@@ -115,6 +132,11 @@ public class CYBooksStatisticsController {
         }
     }
 
+    /**
+     * Loads the specified FXML view into the main container.
+     *
+     * @param fxmlFileName the name of the FXML file to load.
+     */
     @FXML
     private void loadView(String fxmlFileName) {
         try {
@@ -135,6 +157,12 @@ public class CYBooksStatisticsController {
         }
     }
 
+    /**
+     * Applies custom colors and labels to the bars of the bar chart.
+     *
+     * @param series   the series of data in the bar chart.
+     * @param colorMap a map containing colors for each bar.
+     */
     private void applyBarColorsAndLabels(XYChart.Series<String, Number> series, Map<String, String> colorMap) {
         for (XYChart.Data<String, Number> data : series.getData()) {
             Node node = data.getNode();
@@ -155,6 +183,11 @@ public class CYBooksStatisticsController {
         }
     }
 
+    /**
+     * Generates a random color in hexadecimal format.
+     *
+     * @return a random color in hexadecimal format.
+     */
     private String generateRandomColor() {
         Color color = Color.color(Math.random(), Math.random(), Math.random());
         return String.format("#%02X%02X%02X",
@@ -163,6 +196,9 @@ public class CYBooksStatisticsController {
                 (int)(color.getBlue() * 255));
     }
 
+    /**
+     * Loads the home screen view.
+     */
     @FXML public void returnHome() {
         loadView("CYBooks_Home.fxml");
     }

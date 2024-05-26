@@ -25,6 +25,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller class for managing the member view page in the CYBooks application.
+ * This controller handles loading and filtering member data and handles navigation between the deleting and adding pages of the application.
+ */
 public class CYBooksMemberController {
     @FXML private AnchorPane mainContainer;
     @FXML private Button BackHomePage2;
@@ -44,6 +48,9 @@ public class CYBooksMemberController {
     private ObservableList<Member> memberData = FXCollections.observableArrayList();
     private FilteredList<Member> filteredData = new FilteredList<>(memberData, p -> true);
 
+    /**
+     * Initializes the controller. Sets up the table columns and loads member data.
+     */
     public void initialize() {
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -57,6 +64,9 @@ public class CYBooksMemberController {
         setupFiltering();
     }
 
+    /**
+     * Loads member data from the database and fills the table view.
+     */
     private void loadMemberData() {
         try (Connection connection = DatabaseUtil.getConnection();
              Statement statement1 = connection.createStatement();
@@ -90,6 +100,10 @@ public class CYBooksMemberController {
 
     }
 
+    /**
+     * Sets up filtering for the borrowing data based on the input text.
+     * Filters the borrowing records displayed in the table view according to the search criteria.
+     */
     private void setupFiltering() {
         searchMember.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(record -> {
@@ -108,6 +122,12 @@ public class CYBooksMemberController {
             });
         });
     }
+
+    /**
+     * Loads the specified FXML view into the main container.
+     *
+     * @param fxmlFileName the name of the FXML file to load.
+     */
     @FXML private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
@@ -115,11 +135,11 @@ public class CYBooksMemberController {
                 return;
             }
 
-            // Charge le fichier FXML de la vue spécifiée
+            // Load the specified FXML view file
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent view = fxmlLoader.load();
 
-            // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            // Replace the current content of the main container with the new view
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(view);
         } catch (IOException e) {
@@ -128,14 +148,23 @@ public class CYBooksMemberController {
     }
 
 
+    /**
+     * Returns to the main home page.
+     */
     public void returnMain() {
         loadView("CYBooks_Home.fxml");
     }
 
+    /**
+     * Loads the view for adding a new member.
+     */
     public void AddMember() {
         loadView("CYBooks_NewMember.fxml");
     }
 
+    /**
+     * Loads the view for deleting a member.
+     */
     public void DeleteMember() {
         loadView("CYBooks_DeleteMember.fxml");
     }

@@ -17,6 +17,9 @@ public class MainAuthor extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Loads the home screen view.
+     */
     public static void main(String[] args) {
         launch(args);
     }

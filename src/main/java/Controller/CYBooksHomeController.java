@@ -7,6 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
+/**
+ * Controller class for managing the main home view of the CYBooks application.
+ * This controller handles navigation between different pages of the application.
+ */
 public class CYBooksHomeController {
 
     @FXML private AnchorPane mainContainer;
@@ -22,30 +26,40 @@ public class CYBooksHomeController {
     @FXML private Button Search;
     @FXML private Button BackHomePage2;
 
+    /**
+     * Loads the borrowing management page when the "Borrowing" button is pressed.
+     */
     @FXML public void Page_borrowing() {
         loadView("CYBooks_Borrowing.fxml");
     }
 
+    /**
+     * Loads the member management page when the "Member" button is pressed.
+     */
     @FXML public void Page_member(){
         loadView("CYBooks_Member.fxml");
     }
 
+    /**
+     * Loads the document management page when the "Document" button is pressed.
+     */
     @FXML public void Page_document(){
         loadView("MainAuthor.fxml");
     }
 
+    /**
+     * Loads the statistics page when the "Statistics" button is pressed.
+     */
     @FXML public void Page_statistics(){
         loadView("CYBooks_Statistics.fxml");
     }
 
-    @FXML public void SaveBorrowing(){
-        loadView("CYBooks_Borrowing.fxml");
-    }
 
-    @FXML public void CancelBorrowing(){
-        loadView("CYBooks_Borrowing.fxml");
-    }
-
+    /**
+     * Loads the specified FXML view into the main container.
+     *
+     * @param fxmlFileName the name of the FXML file to load.
+     */
     @FXML private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
@@ -63,10 +77,5 @@ public class CYBooksHomeController {
         }
     }
 
-    public void SearchMember() {
-    }
 
-    public void returnMain() {
-        loadView("CYBooks_Home.fxml");
-    }
 }

@@ -22,6 +22,9 @@ import java.util.regex.Pattern;
 import javafx.scene.control.Alert.AlertType;
 import javafx.util.StringConverter;
 
+/**
+ * Controller for managing new member registration in the CYBooks application.
+ */
 public class CYBooksNewMemberController {
 
     @FXML private AnchorPane mainContainer;
@@ -38,6 +41,11 @@ public class CYBooksNewMemberController {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9.]+@(.+)$");
     private static final Pattern NAME_PATTERN = Pattern.compile("^[A-Za-z]+$");
 
+    /**
+     * Loads the specified FXML view into the main container.
+     *
+     * @param fxmlFileName the name of the FXML file to load.
+     */
     @FXML
     private void loadView(String fxmlFileName) {
         try {
@@ -58,6 +66,13 @@ public class CYBooksNewMemberController {
         }
     }
 
+    /**
+     * Shows an alert with the specified type, title, and message.
+     *
+     * @param alertType the type of alert.
+     * @param title the title of the alert.
+     * @param message the message of the alert.
+     */
     private void showAlert(AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -65,6 +80,11 @@ public class CYBooksNewMemberController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    /**
+     * Initializes the controller class. This method is automatically called after the FXML file has been loaded.
+     * It sets up the date picker, disables future dates, and ensures correct date format.
+     */
     @FXML
     private void initialize() {
         // Prevent future dates from being selected
@@ -115,6 +135,12 @@ public class CYBooksNewMemberController {
         addNameValidation(lastName);
     }
 
+    /**
+     * Adds a listener to the specified text field for formatting input.
+     *
+     * @param textField the text field to add the listener to.
+     */
+
     private void addNameValidation(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty() && !NAME_PATTERN.matcher(newValue).matches()) {
@@ -127,7 +153,12 @@ public class CYBooksNewMemberController {
             }
         });
     }
-    @FXML public void SaveNewMember(ActionEvent actionEvent) throws SQLException {
+
+    /**
+     * Handles the action of saving a new member registration.
+     * @throws SQLException if a database access error occurs.
+     */
+    @FXML public void SaveNewMember() throws SQLException {
             String lastNameText = lastName.getText();
             String firstNameText = name.getText();
             LocalDate birthDateValue = birthDate.getValue();
@@ -175,6 +206,12 @@ public class CYBooksNewMemberController {
             }
     }
 
+    /**
+     * Checks if the specified email is unique in the database.
+     *
+     * @param email the email to check.
+     * @return true if the email is unique, false otherwise.
+     */
     private boolean isEmailUnique(String email) {
         Connection connection = null;
         try {
@@ -199,11 +236,21 @@ public class CYBooksNewMemberController {
         }
         return false;
     }
+
+    /**
+     * Checks if the specified email address is in the correct format.
+     *
+     * @param email the email address to be checked.
+     * @return true if the email address is valid, false otherwise.
+     */
     private boolean isValidEmail(String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();
     }
 
+    /**
+     * Cancels the operation of registering a new member and loads the member view.
+     */
     public void CancelMember() {
         loadView("CYBooks_Member.fxml");
     }

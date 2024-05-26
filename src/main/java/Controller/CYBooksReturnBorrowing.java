@@ -18,6 +18,10 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Controller class for returning a borrowing in the CYBooks application.
+ * Deletes a borrowing record by specifying the ISBN of the borrowed book and the email of the borrower.
+ */
 public class CYBooksReturnBorrowing {
 
     @FXML private AnchorPane mainContainer;
@@ -29,10 +33,19 @@ public class CYBooksReturnBorrowing {
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9.]+@(.+)$");
 
-    public void CancelDelete(ActionEvent actionEvent) {
+    /**
+     * Cancels the operation of deleting a borrowing record and returns to the borrowing view.
+     * Invoked when the 'Cancel' button is clicked.
+     */
+    public void CancelDelete() {
         loadView("CYBooks_Borrowing.fxml");
     }
 
+    /**
+     * Loads the specified FXML view into the main container.
+     *
+     * @param fxmlFileName the filename of the FXML view to be loaded.
+     */
     @FXML
     private void loadView(String fxmlFileName) {
         try {
@@ -53,6 +66,10 @@ public class CYBooksReturnBorrowing {
         }
     }
 
+    /**
+     * Deletes the borrowing record associated with the specified ISBN and user email.
+     * Invoked when the 'Return Borrow' button is clicked.
+     */
     public void DeleteBorrowing() {
         String isbn = isbnDocument.getText().trim();
         String mail = memberMail.getText().trim();
@@ -112,6 +129,13 @@ public class CYBooksReturnBorrowing {
         }
     }
 
+    /**
+     * Shows an alert with the specified type, title, and message.
+     *
+     * @param alertType the type of alert.
+     * @param title the title of the alert.
+     * @param message the message of the alert.
+     */
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -120,6 +144,11 @@ public class CYBooksReturnBorrowing {
         alert.showAndWait();
     }
 
+    /**
+     * Displays an error message in an alert dialog with the specified message.
+     *
+     * @param message the error message to be displayed.
+     */
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -128,6 +157,11 @@ public class CYBooksReturnBorrowing {
         alert.showAndWait();
     }
 
+    /**
+     * Displays a success message in an alert dialog with the specified message.
+     *
+     * @param message the success message to be displayed.
+     */
     private void showSuccess(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
@@ -136,6 +170,12 @@ public class CYBooksReturnBorrowing {
         alert.showAndWait();
     }
 
+    /**
+     * Checks if the given email address matches the predefined email pattern.
+     *
+     * @param email the email address to be validated.
+     * @return true if the email address matches the pattern, false otherwise.
+     */
     private boolean isValidEmail(String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();

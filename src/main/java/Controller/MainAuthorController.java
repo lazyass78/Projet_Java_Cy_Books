@@ -67,6 +67,10 @@ public class MainAuthorController {
     private int totalRecords;
     private final int recordsPerPage = 20;
 
+    /**
+     * Initializes the controller.
+     * This method is called when the FXML file is loaded. It sets up the table columns,configures the Borrow button column in the TableView, and performs an initial book search.
+     */
     @FXML
     public void initialize() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -103,6 +107,11 @@ public class MainAuthorController {
         searchBooks();
     }
 
+    /**
+     * Loads the new borrowing view based on the selected document's ISBN.
+     *
+     * @param isbn the ISBN of the document to borrow.
+     */
     @FXML private void loadNewBorrowingView(String isbn) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CYBooks_NewBorrowing2.fxml"));
@@ -123,6 +132,9 @@ public class MainAuthorController {
     }
 
 
+    /**
+     * Handles the search operation based on user input.
+     */
     @FXML
     private void handleSearch() {
         bookData.clear();
@@ -130,6 +142,9 @@ public class MainAuthorController {
         searchBooks();
     }
 
+    /**
+     * Loads more books for pagination.
+     */
     @FXML
     private void loadMoreBooks() {
         if (currentPage * recordsPerPage < totalRecords) {
@@ -138,6 +153,11 @@ public class MainAuthorController {
         }
     }
 
+    /**
+     * Loads the specified FXML view into the main container.
+     *
+     * @param fxmlFileName the file name of the FXML view to load.
+     */
     @FXML private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
@@ -157,6 +177,9 @@ public class MainAuthorController {
         }
     }
 
+    /**
+     * Performs a search for books based on user input criteria.
+     */
     private void searchBooks() {
         String author = authorField.getText().trim();
         String year = yearField.getText().trim();
