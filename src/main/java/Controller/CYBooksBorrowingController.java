@@ -113,11 +113,9 @@ public class CYBooksBorrowingController {
 
             while (resultSet.next()) {
                 String memberMail = resultSet.getString("email");
-
-                // Vous pouvez ajouter d'autres champs si nécessaire
                 String isbn = resultSet.getString("isbn");
 
-                // Initialise les variables title et author à null
+                // Initialise the title, author and the year variables to null
                 String title = "";
                 String author = "";
                 String year = "";
@@ -147,7 +145,7 @@ public class CYBooksBorrowingController {
                         Element titleElement = (Element) titleNodes.item(0);
                         title = titleElement.getTextContent();
                     }
-                    // Vous pouvez ajouter d'autres champs si nécessaire
+
                     NodeList authorNodes = doc.getElementsByTagName("dc:creator");
                     if (authorNodes.getLength() > 0) {
                         Element authorElement = (Element) authorNodes.item(0);
@@ -165,7 +163,7 @@ public class CYBooksBorrowingController {
 
                 Borrowing record = new Borrowing(isbn, memberMail,title,author,year, stock,borrowingDate,returnDate);
                 borrowingData.add(record);
-                // Met à jour le statut si la date de retour est dépassée
+                // Updates the status if the return date has passed
                 if (returnDate.isBefore(LocalDate.now())) {
                     try (PreparedStatement updateStatement = connection.prepareStatement("UPDATE users SET member_in_good_standing = FALSE WHERE email = ?")) {
                         updateStatement.setString(1, memberMail);
@@ -216,11 +214,11 @@ public class CYBooksBorrowingController {
     private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
-                System.err.println("Erreur : mainContainer has not been initialised correctly.");
+                System.err.println("Error : mainContainer has not been initialised correctly.");
                 return;
             }
 
-            // Load the specified FXML file
+            // Charge le fichier FXML de la vue spécifiée
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent view = fxmlLoader.load();
 

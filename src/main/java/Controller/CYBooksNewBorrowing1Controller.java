@@ -46,7 +46,7 @@ public class CYBooksNewBorrowing1Controller {
      */
     @FXML
     private void initialize() {
-        // Préremplir le champ de la date d'emprunt avec la date du jour
+        // Pre-fill the borrowing date field with today's date
         borrowingDate.setText(LocalDate.now().toString());
         borrowingDate.setEditable(false);  // to block editing
         borrowingDate.setStyle("-fx-background-color: #F0F0F0;");

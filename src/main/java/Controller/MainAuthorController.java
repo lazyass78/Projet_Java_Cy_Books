@@ -117,13 +117,13 @@ public class MainAuthorController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CYBooks_NewBorrowing2.fxml"));
             Parent view = loader.load();
 
-            // Récupérer le contrôleur cible
+            // Recover the target controller
             CYBooksNewBorrowing2Controller controller = loader.getController();
 
-            // Passer les données au contrôleur cible
+            // Passing data to the target controller
             controller.setDocumentIsbn(isbn);
 
-            // Remplacer le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            // Replace the current content of the main container with the content of the new view
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(view);
         } catch (IOException e) {
@@ -165,11 +165,11 @@ public class MainAuthorController {
                 return;
             }
 
-            // Charge le fichier FXML de la vue spécifiée
+            // Loads the FXML file for the specified view
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent view = fxmlLoader.load();
 
-            // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            // Replace the current content of the main container with the content of the new view
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(view);
         } catch (IOException e) {

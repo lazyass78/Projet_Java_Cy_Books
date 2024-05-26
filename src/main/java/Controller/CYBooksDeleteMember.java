@@ -52,7 +52,7 @@ public class CYBooksDeleteMember {
         String mail = memberMail.getText().trim();
         String lastName = memberLastName.getText().trim();
 
-        // Vérifier que les deux champs sont renseignés
+        // Check that both fields are filled in
         if (mail.isEmpty() || lastName.isEmpty()) {
             showError("Both fields must be filled out.");
             return;
@@ -64,7 +64,7 @@ public class CYBooksDeleteMember {
         }
 
         try (Connection connection = DatabaseUtil.getConnection()) {
-            // Vérifier l'existence de l'utilisateur et correspondance du prénom
+            // Check that the user exists and that the last name matches
             String selectQuery = "SELECT lastname FROM users WHERE email = ?";
             PreparedStatement selectStmt = connection.prepareStatement(selectQuery);
             selectStmt.setString(1, mail);
@@ -81,7 +81,7 @@ public class CYBooksDeleteMember {
                 return;
             }
 
-            // Supprimer l'utilisateur
+            // Delete user
             String deleteQuery = "DELETE FROM users WHERE email = ?";
             PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
             deleteStmt.setString(1, mail);
@@ -116,15 +116,15 @@ public class CYBooksDeleteMember {
     @FXML private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
-                System.err.println("Erreur : mainContainer n'a pas été correctement initialisé.");
+                System.err.println("Error : mainContainer has not been initialised correctly.");
                 return;
             }
 
-            // Charge le fichier FXML de la vue spécifiée
+            // Loads the FXML file for the specified view
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent view = fxmlLoader.load();
 
-            // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            // Replace the current content of the main container with the new view
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(view);
         } catch (IOException e) {

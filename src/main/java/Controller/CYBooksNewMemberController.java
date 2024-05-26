@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
@@ -49,15 +48,15 @@ public class CYBooksNewMemberController {
     private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
-                System.err.println("Erreur : mainContainer n'a pas été correctement initialisé.");
+                System.err.println("Error: mainContainer has not been properly initialized.");
                 return;
             }
 
-            // Charge le fichier FXML de la vue spécifiée
+            // Load the FXML file for the specified view
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent view = fxmlLoader.load();
 
-            // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            // Replaces the current contents of the main container with the contents of the new view
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(view);
         } catch (IOException e) {
@@ -125,6 +124,8 @@ public class CYBooksNewMemberController {
         // Set placeholders for name and last name
         name.setPromptText("Lastname");
         lastName.setPromptText("Firstname");
+        mail.setPromptText("member@cy-books.fr");
+
 
         // Set default date to 10 years ago
         birthDate.setValue(LocalDate.now().minusYears(10));

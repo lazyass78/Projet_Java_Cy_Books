@@ -1,7 +1,6 @@
 package Controller;
 
 import Utils.DatabaseUtil;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -54,11 +53,11 @@ public class CYBooksReturnBorrowing {
                 return;
             }
 
-            // Charge le fichier FXML de la vue spécifiée
+            // Loads the FXML file for the specified view
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent view = fxmlLoader.load();
 
-            // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            // Replaces the current contents of the main container with the contents of the new view
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(view);
         } catch (IOException e) {
@@ -74,7 +73,7 @@ public class CYBooksReturnBorrowing {
         String isbn = isbnDocument.getText().trim();
         String mail = memberMail.getText().trim();
 
-        // Vérifier que les deux champs sont renseignés
+        // Check that both fields are filled in
         if (mail.isEmpty() || isbn.isEmpty()) {
             showError("Both fields must be filled out.");
             return;
@@ -87,7 +86,7 @@ public class CYBooksReturnBorrowing {
 
 
         try (Connection connection = DatabaseUtil.getConnection()) {
-            // Vérifier l'existence de l'utilisateur et correspondance du prénom
+            // Check that the user exists and that the first name matches
             String selectQuery = "SELECT isbn FROM books JOIN users ON user_id = id WHERE email = ? AND isbn = ?";
             PreparedStatement selectStmt = connection.prepareStatement(selectQuery);
             selectStmt.setString(1, mail);
@@ -105,7 +104,7 @@ public class CYBooksReturnBorrowing {
                 return;
             }
 
-            // Supprimer l'utilisateur
+            // Delete user
             String deleteQuery = "DELETE FROM books WHERE isbn = ?";
             PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
             deleteStmt.setString(1, isbn);
