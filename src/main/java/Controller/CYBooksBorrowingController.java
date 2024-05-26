@@ -5,7 +5,6 @@ import Utils.DatabaseUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,6 +31,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 
+
+/***
+ * Controller for handling book borrowing functionalities in the CYBooks application.
+ */
 public class CYBooksBorrowingController {
     @FXML private AnchorPane mainContainer;
 
@@ -53,7 +56,12 @@ public class CYBooksBorrowingController {
     private ObservableList<Borrowing> borrowingData = FXCollections.observableArrayList();
     private FilteredList<Borrowing> filteredData;
 
-
+    /**
+     * Initializes the borrowing table view.
+     * Sets up cell value factories for each column to map the Borrowing object properties.
+     * Sets up a custom cell factory for the return date column to display return dates with custom formatting and colors.
+     * Loads borrowing data into the table view and sets up filtering for the table.
+     */
     @FXML
     public void initialize() {
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
@@ -65,6 +73,15 @@ public class CYBooksBorrowingController {
         borrowingDateColumn.setCellValueFactory(new PropertyValueFactory<>("borrowingDate"));
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
         returnDateColumn.setCellFactory(column -> new TableCell<Borrowing, LocalDate>() {
+            /**
+             * Updates the item in the cell with the given LocalDate.
+             * If the item is null or the cell is empty, clears the text and style of the cell.
+             * Otherwise, sets the text of the cell to the string representation of the LocalDate.
+             * If the LocalDate is before the current date, sets the text color to red; otherwise, sets it to black.
+             *
+             * @param item The LocalDate to be displayed in the cell.
+             * @param empty A boolean indicating whether the cell is empty.
+             */
             @Override
             protected void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
@@ -187,7 +204,7 @@ public class CYBooksBorrowingController {
     private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
-                System.err.println("Erreur : mainContainer n'a pas été correctement initialisé.");
+                System.err.println("Erreur : mainContainer has not been initialised correctly.");
                 return;
             }
 
@@ -211,7 +228,7 @@ public class CYBooksBorrowingController {
         loadView("CYBooks_Home.fxml");
     }
 
-    public void deleteBorrow() {
+    public void returnBorrow() {
         loadView("CYBooks_DeleteBorrowing.fxml");
     }
 }

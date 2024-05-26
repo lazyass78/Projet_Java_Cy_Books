@@ -38,6 +38,6 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="returnBorrow" layoutX="254.0" layoutY="410.0" mnemonicParsing="false" onAction="#deleteBorrow" text="Return borrow" />
+      <Button fx:id="returnBorrow" layoutX="254.0" layoutY="410.0" mnemonicParsing="false" onAction="#returnBorrow" text="Return borrow" />
    </children>
 </AnchorPane>
