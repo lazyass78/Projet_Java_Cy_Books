@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CYBooksDeleteBorrowing {
+public class CYBooksReturnBorrowing {
 
     @FXML private AnchorPane mainContainer;
     @FXML private Button Delete;

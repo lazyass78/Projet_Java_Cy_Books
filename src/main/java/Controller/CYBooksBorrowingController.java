@@ -32,8 +32,10 @@ import java.sql.Statement;
 import java.time.LocalDate;
 
 
+
 /***
- * Controller for handling book borrowing functionalities in the CYBooks application.
+ * Controller for managing CYBooks_Borrowing.fxml view s in the CYBooks application.
+ *
  */
 public class CYBooksBorrowingController {
     @FXML private AnchorPane mainContainer;
@@ -78,7 +80,6 @@ public class CYBooksBorrowingController {
              * If the item is null or the cell is empty, clears the text and style of the cell.
              * Otherwise, sets the text of the cell to the string representation of the LocalDate.
              * If the LocalDate is before the current date, sets the text color to red; otherwise, sets it to black.
-             *
              * @param item The LocalDate to be displayed in the cell.
              * @param empty A boolean indicating whether the cell is empty.
              */
@@ -102,6 +103,10 @@ public class CYBooksBorrowingController {
         setupFiltering();
     }
 
+    /**
+     * Loads the borrowing data from the database and populates the table view.
+     * Fetches additional information from an external API for each borrowing record.
+     */
     private void loadBorrowingData() {
         try (Connection connection = DatabaseUtil.getConnection();
              Statement statement = connection.createStatement();
@@ -177,6 +182,11 @@ public class CYBooksBorrowingController {
 
         borrowingTableView.setItems(borrowingData);
     }
+
+    /**
+     * Sets up filtering for the borrowing data based on the input text.
+     * Filters the borrowing records displayed in the table view according to the search criteria.
+     */
     private void setupFiltering() {
         filteredData = new FilteredList<>(borrowingData, p -> true);
         borrowingTableView.setItems(filteredData);
@@ -200,7 +210,10 @@ public class CYBooksBorrowingController {
         });
     }
 
-
+    /**
+     * Loads the specified FXML view into the main container.
+     * @param fxmlFileName the name of the FXML file to load
+     */
     private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
@@ -208,11 +221,11 @@ public class CYBooksBorrowingController {
                 return;
             }
 
-            // Charge le fichier FXML de la vue spécifiée
+            // Load the specified FXML file
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent view = fxmlLoader.load();
 
-            // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            // Replace the current content of the main container with the new view
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(view);
         } catch (IOException e) {
@@ -220,14 +233,26 @@ public class CYBooksBorrowingController {
         }
     }
 
+    /**
+     * Loads the New Borrowing view.
+     * This method is called when the "New borrow" button is clicked.
+     */
     public void AddBorrowing() {
         loadView("CYBooks_NewBorrowing1.fxml");
     }
 
+    /**
+     * Loads the main home page.
+     * This method is called when the "Return home" button is clicked.
+     */
     public void returnMain() {
         loadView("CYBooks_Home.fxml");
     }
 
+    /**
+     * Loads the Return Borrowing view.
+     * This method is called when the "Return borrow" button is clicked.
+     */
     public void returnBorrow() {
         loadView("CYBooks_DeleteBorrowing.fxml");
     }
