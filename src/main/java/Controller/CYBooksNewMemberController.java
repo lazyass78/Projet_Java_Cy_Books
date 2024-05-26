@@ -122,8 +122,8 @@ public class CYBooksNewMemberController {
             }
         });
         // Set placeholders for name and last name
-        name.setPromptText("Lastname");
-        lastName.setPromptText("Firstname");
+        name.setPromptText("Firstname");
+        lastName.setPromptText("Lastname");
         mail.setPromptText("member@cy-books.fr");
 
 
