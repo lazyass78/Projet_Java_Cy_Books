@@ -8,8 +8,8 @@ module Controller {
     opens Controller to javafx.fxml;
 
     exports Controller;
-    exports Test;
     exports Model;
+    exports Utils;
     opens Model to javafx.fxml;
 
 }

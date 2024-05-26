@@ -1,7 +1,6 @@
 package Controller;
 
 import Utils.DatabaseUtil;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
@@ -22,6 +20,9 @@ import java.util.regex.Pattern;
 import javafx.scene.control.Alert.AlertType;
 import javafx.util.StringConverter;
 
+/**
+ * Controller for managing new member registration in the CYBooks application.
+ */
 public class CYBooksNewMemberController {
 
     @FXML private AnchorPane mainContainer;
@@ -38,19 +39,24 @@ public class CYBooksNewMemberController {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9.]+@(.+)$");
     private static final Pattern NAME_PATTERN = Pattern.compile("^[A-Za-z]+$");
 
+    /**
+     * Loads the specified FXML view into the main container.
+     *
+     * @param fxmlFileName the name of the FXML file to load.
+     */
     @FXML
     private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
-                System.err.println("Erreur : mainContainer n'a pas été correctement initialisé.");
+                System.err.println("Error: mainContainer has not been properly initialized.");
                 return;
             }
 
-            // Charge le fichier FXML de la vue spécifiée
+            // Load the FXML file for the specified view
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent view = fxmlLoader.load();
 
-            // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            // Replaces the current contents of the main container with the contents of the new view
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(view);
         } catch (IOException e) {
@@ -58,6 +64,13 @@ public class CYBooksNewMemberController {
         }
     }
 
+    /**
+     * Shows an alert with the specified type, title, and message.
+     *
+     * @param alertType the type of alert.
+     * @param title the title of the alert.
+     * @param message the message of the alert.
+     */
     private void showAlert(AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -65,6 +78,11 @@ public class CYBooksNewMemberController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    /**
+     * Initializes the controller class. This method is automatically called after the FXML file has been loaded.
+     * It sets up the date picker, disables future dates, and ensures correct date format.
+     */
     @FXML
     private void initialize() {
         // Prevent future dates from being selected
@@ -104,8 +122,10 @@ public class CYBooksNewMemberController {
             }
         });
         // Set placeholders for name and last name
-        name.setPromptText("Lastname");
-        lastName.setPromptText("Firstname");
+        name.setPromptText("Firstname");
+        lastName.setPromptText("Lastname");
+        mail.setPromptText("member@cy-books.fr");
+
 
         // Set default date to 10 years ago
         birthDate.setValue(LocalDate.now().minusYears(10));
@@ -114,6 +134,12 @@ public class CYBooksNewMemberController {
         addNameValidation(name);
         addNameValidation(lastName);
     }
+
+    /**
+     * Adds a listener to the specified text field for formatting input.
+     *
+     * @param textField the text field to add the listener to.
+     */
 
     private void addNameValidation(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -127,7 +153,12 @@ public class CYBooksNewMemberController {
             }
         });
     }
-    @FXML public void SaveNewMember(ActionEvent actionEvent) throws SQLException {
+
+    /**
+     * Handles the action of saving a new member registration.
+     * @throws SQLException if a database access error occurs.
+     */
+    @FXML public void SaveNewMember() throws SQLException {
             String lastNameText = lastName.getText();
             String firstNameText = name.getText();
             LocalDate birthDateValue = birthDate.getValue();
@@ -175,6 +206,12 @@ public class CYBooksNewMemberController {
             }
     }
 
+    /**
+     * Checks if the specified email is unique in the database.
+     *
+     * @param email the email to check.
+     * @return true if the email is unique, false otherwise.
+     */
     private boolean isEmailUnique(String email) {
         Connection connection = null;
         try {
@@ -199,11 +236,21 @@ public class CYBooksNewMemberController {
         }
         return false;
     }
+
+    /**
+     * Checks if the specified email address is in the correct format.
+     *
+     * @param email the email address to be checked.
+     * @return true if the email address is valid, false otherwise.
+     */
     private boolean isValidEmail(String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();
     }
 
+    /**
+     * Cancels the operation of registering a new member and loads the member view.
+     */
     public void CancelMember() {
         loadView("CYBooks_Member.fxml");
     }

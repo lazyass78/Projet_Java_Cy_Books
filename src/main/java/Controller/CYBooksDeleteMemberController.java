@@ -1,6 +1,5 @@
 package Controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +17,11 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CYBooksDeleteMember {
+/**
+ * Controller class for managing the "Delete Member" functionality in the CYBooks application.
+ * This controller handles the deletion of a member from the database by verifying their email and last name.
+ */
+public class CYBooksDeleteMemberController {
 
     @FXML private AnchorPane mainContainer;
 
@@ -31,15 +34,25 @@ public class CYBooksDeleteMember {
 
     private static final Pattern NAME_PATTERN = Pattern.compile("^[A-Za-z]+$");
 
+    /**
+     * Initializes the controller class. This method is automatically called after the fxml file has been loaded.
+     * Adds validation for the last name input field.
+     */
     @FXML
     public void initialize() {
         addNameValidation(memberLastName);
     }
-    public void DeleteMember(ActionEvent actionEvent) {
+
+    /**
+     * Handles the deletion of a member when the "Delete" button is pressed.
+     * Verifies the email and last name of the member, checks their existence in the database,
+     * and deletes the member if the verification is successful.
+     */
+    public void DeleteMember() {
         String mail = memberMail.getText().trim();
         String lastName = memberLastName.getText().trim();
 
-        // Vérifier que les deux champs sont renseignés
+        // Check that both fields are filled in
         if (mail.isEmpty() || lastName.isEmpty()) {
             showError("Both fields must be filled out.");
             return;
@@ -51,7 +64,7 @@ public class CYBooksDeleteMember {
         }
 
         try (Connection connection = DatabaseUtil.getConnection()) {
-            // Vérifier l'existence de l'utilisateur et correspondance du prénom
+            // Check that the user exists and that the last name matches
             String selectQuery = "SELECT lastname FROM users WHERE email = ?";
             PreparedStatement selectStmt = connection.prepareStatement(selectQuery);
             selectStmt.setString(1, mail);
@@ -68,7 +81,7 @@ public class CYBooksDeleteMember {
                 return;
             }
 
-            // Supprimer l'utilisateur
+            // Delete user
             String deleteQuery = "DELETE FROM users WHERE email = ?";
             PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
             deleteStmt.setString(1, mail);
@@ -87,22 +100,31 @@ public class CYBooksDeleteMember {
         }
     }
 
+    /**
+     * Cancels the deletion process and returns to the member view.
+     * This method is called when the "Cancel" button is pressed.
+     */
     public void CancelDelete() {
         loadView("CYBooks_Member.fxml");
     }
 
+    /**
+     * Loads the specified FXML view into the main container.
+     *
+     * @param fxmlFileName the name of the FXML file to load.
+     */
     @FXML private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
-                System.err.println("Erreur : mainContainer n'a pas été correctement initialisé.");
+                System.err.println("Error : mainContainer has not been initialised correctly.");
                 return;
             }
 
-            // Charge le fichier FXML de la vue spécifiée
+            // Loads the FXML file for the specified view
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent view = fxmlLoader.load();
 
-            // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            // Replace the current content of the main container with the new view
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(view);
         } catch (IOException e) {
@@ -110,6 +132,13 @@ public class CYBooksDeleteMember {
         }
     }
 
+    /**
+     * Shows an alert dialog with the specified title and message.
+     *
+     * @param alertType the type of alert to be shown.
+     * @param title the title of the alert.
+     * @param message the message to be displayed in the alert.
+     */
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -118,6 +147,11 @@ public class CYBooksDeleteMember {
         alert.showAndWait();
     }
 
+    /**
+     * Shows an error alert dialog with the specified message.
+     *
+     * @param message the error message to be displayed.
+     */
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -126,6 +160,11 @@ public class CYBooksDeleteMember {
         alert.showAndWait();
     }
 
+    /**
+     * Shows a success alert dialog with the specified message.
+     *
+     * @param message the success message to be displayed.
+     */
     private void showSuccess(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
@@ -134,10 +173,23 @@ public class CYBooksDeleteMember {
         alert.showAndWait();
     }
 
+    /**
+     * Validates the format of the given email address.
+     *
+     * @param email the email address to be validated.
+     * @return true if the email address is valid, false otherwise.
+     */
     private boolean isValidEmail(String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();
     }
+
+    /**
+     * Adds validation to the specified TextField to ensure that it contains a valid name.
+     * The name must only contain alphabetic characters and will be automatically formatted.
+     *
+     * @param textField the TextField to add validation to.
+     */
     private void addNameValidation(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty() && !NAME_PATTERN.matcher(newValue).matches()) {

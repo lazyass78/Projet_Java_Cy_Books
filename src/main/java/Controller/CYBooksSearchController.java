@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -27,7 +28,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class MainAuthorController {
+public class CYBooksSearchController {
+    @FXML
+    private Button homeButton;
     @FXML
     private Button moreButton;
     @FXML
@@ -52,6 +55,11 @@ public class MainAuthorController {
     private TextField languageField;
     @FXML
     private TextField titleField;
+    @FXML
+    private VBox bookContainer;
+    @FXML
+    private Label pageInfo;
+
     private ObservableList<Model.Document> bookData = FXCollections.observableArrayList();
 
     private String currentQuery;
@@ -60,12 +68,9 @@ public class MainAuthorController {
     private final int recordsPerPage = 20;
 
     /**
-     * This method is called when the button search book is clicked.
-     * Sets the cell value factories for the columns `idColumn`, `titleColumn`, `authorColumn`, and `yearColumn` to link them to the corresponding properties of the items in the table.
-     * Configures the `borrowColumn` to contain buttons for borrowing documents. Each button, when clicked, retrieves the associated document's ID and invokes `loadNewBorrowingView(id)` to handle the borrowing process.
-     * Configures an additional button, `moreButton`, which, when clicked, calls `loadMoreBooks()` to load more book entries.
+     * Initializes the controller.
+     * This method is called when the FXML file is loaded. It sets up the table columns,configures the Borrow button column in the TableView, and performs an initial book search.
      */
-
     @FXML
     public void initialize() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -79,8 +84,8 @@ public class MainAuthorController {
             {
                 borrowButton.setOnAction(event -> {
                     Model.Document document = getTableView().getItems().get(getIndex());
-                    String id = document.getId();
-                    loadNewBorrowingView(id);
+                    String isbn = document.getId();
+                    loadNewBorrowingView(isbn);
                 });
             }
             {
@@ -102,18 +107,23 @@ public class MainAuthorController {
         searchBooks();
     }
 
-    @FXML private void loadNewBorrowingView(String id) {
+    /**
+     * Loads the new borrowing view based on the selected document's ISBN.
+     *
+     * @param isbn the ISBN of the document to borrow.
+     */
+    @FXML private void loadNewBorrowingView(String isbn) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CYBooks_NewBorrowing2.fxml"));
             Parent view = loader.load();
 
-            // Récupérer le contrôleur cible
+            // Recover the target controller
             CYBooksNewBorrowing2Controller controller = loader.getController();
 
-            // Passer les données au contrôleur cible
-            controller.setDocumentIsbn(id);
+            // Passing data to the target controller
+            controller.setDocumentIsbn(isbn);
 
-            // Remplacer le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            // Replace the current content of the main container with the content of the new view
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(view);
         } catch (IOException e) {
@@ -122,6 +132,9 @@ public class MainAuthorController {
     }
 
 
+    /**
+     * Handles the search operation based on user input.
+     */
     @FXML
     private void handleSearch() {
         bookData.clear();
@@ -129,6 +142,9 @@ public class MainAuthorController {
         searchBooks();
     }
 
+    /**
+     * Loads more books for pagination.
+     */
     @FXML
     private void loadMoreBooks() {
         if (currentPage * recordsPerPage < totalRecords) {
@@ -137,6 +153,11 @@ public class MainAuthorController {
         }
     }
 
+    /**
+     * Loads the specified FXML view into the main container.
+     *
+     * @param fxmlFileName the file name of the FXML view to load.
+     */
     @FXML private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
@@ -144,11 +165,11 @@ public class MainAuthorController {
                 return;
             }
 
-            // Charge le fichier FXML de la vue spécifiée
+            // Loads the FXML file for the specified view
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent view = fxmlLoader.load();
 
-            // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            // Replace the current content of the main container with the content of the new view
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(view);
         } catch (IOException e) {
@@ -156,6 +177,9 @@ public class MainAuthorController {
         }
     }
 
+    /**
+     * Performs a search for books based on user input criteria.
+     */
     private void searchBooks() {
         String author = authorField.getText().trim();
         String year = yearField.getText().trim();

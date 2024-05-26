@@ -7,9 +7,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainContainer" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksDeleteBorrowing">
+<AnchorPane fx:id="mainContainer" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksReturnBorrowingController">
    <children>
-      <Label layoutX="196.0" layoutY="24.0" prefHeight="43.0" prefWidth="251.0" text="Return borrowing" textFill="LIGHTGRAY">
+      <Label layoutX="196.0" layoutY="24.0" prefHeight="43.0" prefWidth="251.0" text="Return borrowing" textFill="#d72525">
          <font>
             <Font name="System Bold" size="29.0" />
          </font>

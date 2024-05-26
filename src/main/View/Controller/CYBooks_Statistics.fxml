@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainContainer" prefHeight="428.0" prefWidth="628.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksStatisticsController">
+<AnchorPane fx:id="mainContainer" prefHeight="530.0" prefWidth="628.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksStatisticsController">
     <children>
-        <BarChart fx:id="barChart" layoutX="14.0" layoutY="14.0" prefHeight="400.0" prefWidth="600.0">
+      <Label layoutX="37.0" text="Most borrowed books in the last 30 days" textFill="#d72525">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+        <BarChart fx:id="barChart" layoutX="15.0" layoutY="61.0" prefHeight="400.0" prefWidth="600.0">
             <xAxis>
-                <CategoryAxis fx:id="xAxis" />
+                <CategoryAxis tickLabelFill="WHITE" fx:id="xAxis" />
             </xAxis>
             <yAxis>
-                <NumberAxis fx:id="yAxis" />
+                <NumberAxis fx:id="yAxis" tickLabelFill="WHITE" />
             </yAxis>
         </BarChart>
-      <Button fx:id="returnHome" layoutX="262.0" layoutY="378.0" mnemonicParsing="false" onAction="#returnHome" prefHeight="34.0" prefWidth="87.0" text="Return Home" />
+      <Button fx:id="returnHome" layoutX="271.0" layoutY="426.0" mnemonicParsing="false" onAction="#returnHome" prefHeight="34.0" prefWidth="87.0" text="Return Home" />
+      <Line endX="528.5999755859375" endY="0.1999969482421875" layoutX="101.0" layoutY="43.0" startX="-100.0" />
     </children>
 </AnchorPane>

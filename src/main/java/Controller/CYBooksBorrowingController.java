@@ -5,7 +5,6 @@ import Utils.DatabaseUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,12 +31,17 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 
+
+
+/***
+ * Controller for managing CYBooks_Borrowing.fxml view in the CYBooks application.
+ * Displays the data from the library database
+ */
 public class CYBooksBorrowingController {
     @FXML private AnchorPane mainContainer;
 
     @FXML private Button NewBorrowing;
     @FXML private Button BackHomePage;
-    @FXML private Button Search;
 
     @FXML private TableView<Borrowing> borrowingTableView;
     @FXML private TableColumn<Borrowing, String> isbnColumn;
@@ -53,7 +57,12 @@ public class CYBooksBorrowingController {
     private ObservableList<Borrowing> borrowingData = FXCollections.observableArrayList();
     private FilteredList<Borrowing> filteredData;
 
-
+    /**
+     * Initializes the borrowing table view.
+     * Sets up cell value factories for each column to map the Borrowing object properties.
+     * Sets up a custom cell factory for the return date column to display return dates with custom formatting and colors.
+     * Loads borrowing data into the table view and sets up filtering for the table.
+     */
     @FXML
     public void initialize() {
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
@@ -65,6 +74,14 @@ public class CYBooksBorrowingController {
         borrowingDateColumn.setCellValueFactory(new PropertyValueFactory<>("borrowingDate"));
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
         returnDateColumn.setCellFactory(column -> new TableCell<Borrowing, LocalDate>() {
+            /**
+             * Updates the item in the cell with the given LocalDate.
+             * If the item is null or the cell is empty, clears the text and style of the cell.
+             * Otherwise, sets the text of the cell to the string representation of the LocalDate.
+             * If the LocalDate is before the current date, sets the text color to red; otherwise, sets it to black.
+             * @param item The LocalDate to be displayed in the cell.
+             * @param empty A boolean indicating whether the cell is empty.
+             */
             @Override
             protected void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
@@ -85,6 +102,10 @@ public class CYBooksBorrowingController {
         setupFiltering();
     }
 
+    /**
+     * Loads the borrowing data from the database and populates the table view.
+     * Fetches additional information from an external API for each borrowing record.
+     */
     private void loadBorrowingData() {
         try (Connection connection = DatabaseUtil.getConnection();
              Statement statement = connection.createStatement();
@@ -92,11 +113,9 @@ public class CYBooksBorrowingController {
 
             while (resultSet.next()) {
                 String memberMail = resultSet.getString("email");
-
-                // Vous pouvez ajouter d'autres champs si nécessaire
                 String isbn = resultSet.getString("isbn");
 
-                // Initialise les variables title et author à null
+                // Initialise the title, author and the year variables to null
                 String title = "";
                 String author = "";
                 String year = "";
@@ -126,7 +145,7 @@ public class CYBooksBorrowingController {
                         Element titleElement = (Element) titleNodes.item(0);
                         title = titleElement.getTextContent();
                     }
-                    // Vous pouvez ajouter d'autres champs si nécessaire
+
                     NodeList authorNodes = doc.getElementsByTagName("dc:creator");
                     if (authorNodes.getLength() > 0) {
                         Element authorElement = (Element) authorNodes.item(0);
@@ -144,7 +163,7 @@ public class CYBooksBorrowingController {
 
                 Borrowing record = new Borrowing(isbn, memberMail,title,author,year, stock,borrowingDate,returnDate);
                 borrowingData.add(record);
-                // Met à jour le statut si la date de retour est dépassée
+                // Updates the status if the return date has passed
                 if (returnDate.isBefore(LocalDate.now())) {
                     try (PreparedStatement updateStatement = connection.prepareStatement("UPDATE users SET member_in_good_standing = FALSE WHERE email = ?")) {
                         updateStatement.setString(1, memberMail);
@@ -160,6 +179,11 @@ public class CYBooksBorrowingController {
 
         borrowingTableView.setItems(borrowingData);
     }
+
+    /**
+     * Sets up filtering for the borrowing data based on the input text.
+     * Filters the borrowing records displayed in the table view according to the search criteria.
+     */
     private void setupFiltering() {
         filteredData = new FilteredList<>(borrowingData, p -> true);
         borrowingTableView.setItems(filteredData);
@@ -183,11 +207,14 @@ public class CYBooksBorrowingController {
         });
     }
 
-
+    /**
+     * Loads the specified FXML view into the main container.
+     * @param fxmlFileName the name of the FXML file to load
+     */
     private void loadView(String fxmlFileName) {
         try {
             if (mainContainer == null) {
-                System.err.println("Erreur : mainContainer n'a pas été correctement initialisé.");
+                System.err.println("Error : mainContainer has not been initialised correctly.");
                 return;
             }
 
@@ -195,7 +222,7 @@ public class CYBooksBorrowingController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent view = fxmlLoader.load();
 
-            // Remplace le contenu actuel du conteneur principal par le contenu de la nouvelle vue
+            // Replace the current content of the main container with the new view
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(view);
         } catch (IOException e) {
@@ -203,15 +230,27 @@ public class CYBooksBorrowingController {
         }
     }
 
+    /**
+     * Loads the New Borrowing view.
+     * This method is called when the "New borrow" button is clicked.
+     */
     public void AddBorrowing() {
         loadView("CYBooks_NewBorrowing1.fxml");
     }
 
+    /**
+     * Loads the main home page.
+     * This method is called when the "Return home" button is clicked.
+     */
     public void returnMain() {
         loadView("CYBooks_Home.fxml");
     }
 
-    public void deleteBorrow() {
-        loadView("CYBooks_DeleteBorrowing.fxml");
+    /**
+     * Loads the Return Borrowing view.
+     * This method is called when the "Return borrow" button is clicked.
+     */
+    public void returnBorrow() {
+        loadView("CYBooks_ReturnBorrowing.fxml");
     }
 }

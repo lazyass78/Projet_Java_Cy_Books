@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import java.util.List;
 
 /**
- * A document from the library, it's an abstract class because we are going to make more precise document, like a novel ...
+ * A document/book from the library
  */
 public class Document {
     private String title;
@@ -58,6 +58,38 @@ public class Document {
      */
     public String getId() {
         return this.id;
+    }
+
+    /**
+     * Sets the title of the object.
+     * @param title The title to set.
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Sets the author of the object.
+     * @param author The author to set.
+     */
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    /**
+     * Sets the year of the object.
+     * @param year The year to set.
+     */
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    /**
+     * Sets the ID of the object.
+     * @param id The ID to set.
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 
 }

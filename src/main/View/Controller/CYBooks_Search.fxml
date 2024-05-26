@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane fx:id="mainContainer" prefWidth="1080.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainAuthorController">
+<BorderPane fx:id="mainContainer" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CYBooksSearchController">
     <top>
         <VBox prefHeight="397.0" prefWidth="3218.0" spacing="10">
-            <Label text="Book Search" textFill="WHITE" />
-            <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="1080.0" spacing="10">
-                <Button fx:id="homeButton" onAction="#handleHome" text="Return home" />
+            <HBox alignment="CENTER_RIGHT" prefHeight="26.0" prefWidth="982.0" spacing="10">
+            <children>
+                   <Button fx:id="homeButton" onAction="#handleHome" prefHeight="52.0" prefWidth="86.0" text="Return home" />
+            </children>
             </HBox>
+            <Label text="Book Search" textFill="#d72525">
+            <font>
+               <Font name="System Bold" size="29.0" />
+            </font>
+         </Label>
             <TextField fx:id="authorField" promptText="Enter author's name..." />
             <TextField fx:id="yearField" promptText="Publication date" />
             <TextField fx:id="languageField" promptText="Language" />
@@ -24,7 +25,7 @@
             <Label text="Search Results:" textFill="WHITE" />
          <TableView fx:id="documentTable" minHeight="-Infinity" minWidth="-Infinity">
            <columns>
-             <TableColumn fx:id="idColumn" prefWidth="85.60000306367874" text="Id" />
+             <TableColumn fx:id="idColumn" prefWidth="85.60000306367874" text="ISBN" />
              <TableColumn fx:id="titleColumn" prefWidth="532.7999954223633" text="Title" />
                <TableColumn fx:id="authorColumn" minWidth="0.0" prefWidth="227.20001220703125" text="Author" />
                <TableColumn fx:id="yearColumn" prefWidth="117.60003662109375" text="Date" />
